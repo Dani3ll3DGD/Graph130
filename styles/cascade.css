@@ -74,3 +74,26 @@ footer p {
     color:#44a5b5;
     padding:4px;
 }
+.sidebar {
+    color: #44a5b5;
+
+}
+figure {
+    margin: 0px;
+}
+figcaption {
+    font-size: 10px;
+}
+.image-right {
+    float: right;
+}
+.image-left {
+    float: left;
+    margin-right: 7px;
+}
+h1,h2,h3 {
+    font-family: 'Special Elite', cursive;
+}
+p, li {
+    font-family:'Roboto Slab', serif;
+}
