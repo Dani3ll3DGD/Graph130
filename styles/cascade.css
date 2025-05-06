@@ -52,6 +52,7 @@ footer {
     color: white;
     padding:9px;
     background-color: rgba(68, 165, 181,0.8);
+    clear: both;
 }
 footer p {
     font-size: 10px;
@@ -60,4 +61,16 @@ footer p {
     width: 960px;
     background-color: rgba(255, 255, 255, 0.7);
     margin: auto;
+}
+.content {
+    padding:10px;
+    width:630px;
+    float: left;
+}
+.sidebar{
+    float:left;
+    width: 300px;
+    background-color: rgba(255, 255, 255, .4);
+    color:#44a5b5;
+    padding:4px;
 }
