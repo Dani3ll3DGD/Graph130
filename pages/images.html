@@ -3,36 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sci-Fi Magazine - Page 1</title>
-  <link rel="stylesheet" href="magazine.css" />
+  <title>Scanned Article Pages</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Contents</h1>
+  <header class="top-bar">
+    <div class="socials">🔗 Socials</div>
+    <div class="contact-info">+440 012 3654 896 | support@colorlib.com</div>
   </header>
-  <nav>
-    <a href="page1.html">Page 1</a>
-    <a href="page2.html">Page 2</a>
-    <a href="page3.html">Page 3</a>
-    <a href="scans.html">Original Scans</a>
+
+  <header class="main-header">
+    <div class="logo">📖 Magazine</div>
+    <div class="ad-banner">728 x 90px ad goes here</div>
+  </header>
+
+  <nav class="nav-menu">
+    <ul>
+      <li><a href="index.html">Page 1</a></li>
+      <li><a href="page2.html">Page 2</a></li>
+      <li><a href="page3.html">Page 3</a></li>
+      
+    </ul>
   </nav>
-  <main>
+
+  <main class="content" style="grid-template-columns: 1fr;">
     <section>
-      <h2>Films</h2>
-      <p><strong>10</strong> Star Wars: The Force Awakens</p>
-      <p><strong>20</strong> Mad Max: Fury Road</p>
-      <p><strong>26</strong> The Hunger Games: Mockingjay Part 2</p>
-      <p><strong>34</strong> Ant-Man</p>
-    </section>
-    <section>
-      <img src="../images/star-wars.jpg" alt="Star Wars" />
-    </section>
-    <section>
-      <img src="../images/mad-max.jpg" alt="Mad Max" />
+      <h2>Scanned Article Pages</h2>
+      <p>Below are the original scanned pages from the magazine article:</p>
+      <img src="../images/chris-saran-X4Dv9ftAhvQ-unsplash.jpg" alt="Chris saran" style="width:100%; margin-bottom:20px;" />
+      <img src="../images/forestdark.jpg" alt="Forest Dark" style="width:100%; margin-bottom:20px;" />
+      <img src="../images/book6.jpg" alt="Book" style="width:100%;" />
     </section>
   </main>
-  <footer>
-    <p>&copy; 2025 Sci-Fi Magazine</p>
+
+  <footer class="footer">
+    <p>&copy; 2025 Magazine Project</p>
   </footer>
 </body>
 </html>
