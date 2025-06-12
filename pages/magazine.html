@@ -3,71 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Magazine Layout</title>
-  <link rel="stylesheet" href="magazine.css">
+  <title>Magazine Article</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <header class="top-bar">
-    <div class="social">
-      <a href="#">FB</a>
-      <a href="#">TW</a>
-      <a href="#">BE</a>
-    </div>
-    <div class="contact">
-      <span>+440 012 3654 896</span>
-      <span>support@colorlib.com</span>
-    </div>
+    <div class="socials">🔗 Socials</div>
+    <div class="contact-info">+440 012 3654 896 | support@colorlib.com</div>
   </header>
 
-  <div class="logo-ad">
-    <div class="logo">Magazine</div>
-    <div class="ad">728 x 90px ad goes here</div>
-  </div>
+  <header class="main-header">
+    <div class="logo">📖 Magazine</div>
+    <div class="ad-banner">728 x 90px ad goes here</div>
+  </header>
 
-  <nav class="main-nav">
-    <a href="#">Home</a>
-    <a href="#">Archive</a>
-    <a href="#">Category</a>
-    <a href="#">Post Types</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-    <input type="text" placeholder="Search">
+  <nav class="nav-menu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#">Archive</a></li>
+      <li><a href="#">Category</a></li>
+      <li><a href="#">Post Types</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="images.html">Scanned Pages</a></li>
+    </ul>
   </nav>
 
-  <main class="featured">
-    <section class="main-feature">
-      <span class="category">Food Habit</span>
-      <h2>A Discount Toner Cartridge Is Better Than Ever.</h2>
-      <div class="meta">Mark Wiens | 03 April, 2018 | 06 Comments</div>
+  <main class="content">
+    <section class="featured-article">
+      <article>
+        <span class="tag">Food Habit</span>
+        <h2>A Discount Toner Cartridge Is Better Than Ever.</h2>
+        <div class="meta">Mark Wiens • 03 April, 2018 • 06 Comments</div>
+      </article>
     </section>
 
-    <section class="side-features">
-      <div class="feature-box">
-        <span class="category">Food Habit</span>
+    <aside class="side-articles">
+      <article>
+        <span class="tag">Food Habit</span>
         <h3>A Discount Toner Cartridge Is Better Than Ever.</h3>
-        <div class="meta">Mark Wiens | 03 April, 2018 | 06 Comments</div>
-      </div>
-      <div class="feature-box">
-        <span class="category">Food Habit</span>
+        <div class="meta">Mark Wiens • 03 April, 2018 • 06 Comments</div>
+      </article>
+      <article>
+        <span class="tag">Food Habit</span>
         <h3>A Discount Toner Cartridge Is Better</h3>
-        <div class="meta">Mark Wiens | 03 April, 2018 | 06 Comments</div>
-      </div>
+        <div class="meta">Mark Wiens • 03 April, 2018 • 06 Comments</div>
+      </article>
+    </aside>
+
+    <section class="breaking-news">
+      <strong>Breaking News:</strong> Astronomy Binoculars A Great Alternative
+    </section>
+
+    <section class="article-previews">
+      <article>
+        <img src="https://via.placeholder.com/150" alt="article preview">
+        <div>
+          <h3>A Discount Toner Cartridge Is Better Than Ever.</h3>
+          <div class="meta">Mark Wiens • 03 April, 2018 • 06 Comments</div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+      </article>
     </section>
   </main>
 
-  <div class="breaking">Breaking News: Astronomy Binoculars A Great Alternative</div>
+  <footer class="footer">
+    <p>&copy; 2025 Magazine Project</p>
+  </footer>
 
-  <section class="content-grid">
-    <article>
-      <img src="https://via.placeholder.com/300x200" alt="">
-      <h3>A Discount Toner Cartridge Is Better Than Ever.</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-    </article>
-    <article>
-      <img src="https://via.placeholder.com/300x200" alt="">
-      <h3>Another Featured Article Title</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-    </article>
-  </section>
 </body>
 </html>
