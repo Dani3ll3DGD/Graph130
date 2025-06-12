@@ -3,36 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sci-Fi Magazine - Page 3</title>
-  <link rel="stylesheet" href="magazine.css" />
+  <title>Article Page 3</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Contents</h1>
+  <header class="top-bar">
+    <div class="socials">🔗 Socials</div>
+    <div class="contact-info">+440 012 3654 896 | support@colorlib.com</div>
   </header>
-  <nav>
-    <a href="page1.html">Page 1</a>
-    <a href="page2.html">Page 2</a>
-    <a href="page3.html">Page 3</a>
-    <a href="scans.html">Original Scans</a>
+
+  <header class="main-header">
+    <div class="logo">📖 Magazine</div>
+    <div class="ad-banner">728 x 90px ad goes here</div>
+  </header>
+
+  <nav class="nav-menu">
+    <ul>
+      <li><a href="index.html">Page 1</a></li>
+      <li><a href="page2.html">Page 2</a></li>
+      <li><a href="page3.html">Page 3</a></li>
+      <li><a href="images.html">Scanned Pages</a></li>
+    </ul>
   </nav>
-  <main>
-    <section>
-      <h2>Television</h2>
-      <p><strong>74</strong> Arrow/Flash</p>
-      <p><strong>82</strong> Humans</p>
-      <p><strong>86</strong> Agent Carter</p>
-      <p><strong>92</strong> Mr. Norrell</p>
+
+  <main class="content">
+    <section class="featured-article">
+      <article>
+        <span class="tag">Lifestyle</span>
+        <h2>Lorem ipsum dolor sit amet</h2>
+        <div class="meta">Sam Green • 05 April, 2018 • 04 Comments</div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. In hac habitasse...</p>
+      </article>
     </section>
-    <section>
-      <img src="images/flash.jpg" alt="Flash" />
+
+    <aside class="side-articles">
+      <article>
+        <span class="tag">Lifestyle</span>
+        <h3>Lorem ipsum dolor sit amet consectetur</h3>
+        <div class="meta">Sam Green • 05 April, 2018</div>
+      </article>
+      <article>
+        <span class="tag">Lifestyle</span>
+        <h3>Lorem ipsum dolor sit amet consectetur</h3>
+        <div class="meta">Sam Green • 05 April, 2018</div>
+      </article>
+    </aside>
+
+    <section class="breaking-news">
+      <strong>Breaking News:</strong> Lorem ipsum dolor sit amet consectetur adipiscing
     </section>
-    <section>
-      <img src="images/humans.jpg" alt="Humans" />
+
+    <section class="article-previews">
+      <article>
+        <img src="https://via.placeholder.com/150" alt="lifestyle image">
+        <div>
+          <h3>Creating Your Own Zen Space at Home</h3>
+          <div class="meta">Sam Green • 05 April, 2018</div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+      </article>
     </section>
   </main>
-  <footer>
-    <p>&copy; 2025 Sci-Fi Magazine</p>
+
+  <footer class="footer">
+    <p>&copy; 2025 Magazine Project</p>
   </footer>
 </body>
 </html>
+
