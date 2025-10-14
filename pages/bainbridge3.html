@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Flyer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .left-column {
+            padding: 40px;
+            background: white;
+        }
+
+        .right-column {
+            background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%);
+            padding: 40px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .content-text {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #87CEEB 0%, #63B8E8 100%);
+            padding: 30px;
+            border-radius: 8px;
+            color: #333;
+        }
+
+        .info-box h2 {
+            color: #C75B9B;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .info-box h3 {
+            color: #2B7A9B;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .collection-item {
+            margin-bottom: 25px;
+        }
+
+        .collection-item h4 {
+            color: #4682B4;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .collection-item p {
+            color: #333;
+            margin: 3px 0;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            font-style: italic;
+            color: #333;
+        }
+
+        .ice-cream-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ice-cream-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .image-placeholder {
+            height: 150px;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFA07A 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .ice-cream-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .ice-cream-logo h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .ice-cream-logo .cool {
+            color: #C75B9B;
+            font-style: italic;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .ice-cream-logo .ice-cream {
+            color: #4DB8AC;
+            font-weight: bold;
+        }
+
+        .ice-cream-logo .froyo {
+            color: #4DB8AC;
+            font-weight: bold;
+        }
+
+        .ice-cream-logo .tagline {
+            color: #C75B9B;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .ice-cream-logo .locations {
+            color: #333;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .business-info {
+            background: #4DB8AC;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .business-info h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .business-info p {
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .locations-box {
+            background: #C75B9B;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .locations-box h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .location {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .location strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .footer-logo {
+            text-align: center;
+            margin-top: 20px;
+            color: #4DB8AC;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .website {
+            text-align: center;
+            color: #C75B9B;
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: BI Flashdrive -->
+        <div class="left-column">
+            <div class="hero-image">
+                [Teen with Dog Photo]
+            </div>
+            
+            <div class="content-text">
+                <p>In the United States we drop more than 11 million tons of clothing into landfills each year. Eventually 85% of all textiles get thrown out, amounting about 81 pounds of textile waste per person annually. And, according to the U.S. Environmental Protection Agency, as a nation we dump between 300 and 400 million electronic items per year, which leaves plenty of room for improvement through programs such as BI Flashdrive.</p>
+                
+                <p style="margin-top: 15px;">"We like the
