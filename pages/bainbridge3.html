@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Flyer</title>
+    <title>BI Flashdrive & Island Cool</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #e0e0e0 0%, #f5f5f5 100%);
             padding: 20px;
         }
 
@@ -22,199 +22,201 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0;
+            gap: 20px;
             background: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
-        .left-column {
+        .left-section {
             padding: 40px;
-            background: white;
-        }
-
-        .right-column {
-            background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%);
-            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
         .hero-image {
             width: 100%;
-            height: 300px;
+            height: 400px;
             background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
-            border-radius: 8px;
-            margin-bottom: 30px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
+            font-size: 24px;
+            text-align: center;
+            padding: 20px;
         }
 
-        .content-text {
-            line-height: 1.6;
+        .description {
+            font-size: 15px;
+            line-height: 1.8;
             color: #333;
-            margin-bottom: 30px;
             text-align: justify;
         }
 
-        .info-box {
-            background: linear-gradient(135deg, #87CEEB 0%, #63B8E8 100%);
+        .highlight-box {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
             padding: 30px;
-            border-radius: 8px;
-            color: #333;
+            border-radius: 10px;
+            border-left: 5px solid #00acc1;
         }
 
-        .info-box h2 {
-            color: #C75B9B;
+        .highlight-box h2 {
+            color: #d81b60;
             font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box h3 {
+            color: #0277bd;
+            font-size: 20px;
             margin-bottom: 5px;
         }
 
-        .info-box h3 {
-            color: #2B7A9B;
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-
         .collection-item {
-            margin-bottom: 25px;
+            margin: 20px 0;
         }
 
         .collection-item h4 {
-            color: #4682B4;
+            color: #5c6bc0;
             font-size: 18px;
             margin-bottom: 5px;
         }
 
         .collection-item p {
             color: #333;
-            margin: 3px 0;
             font-size: 14px;
+            margin: 3px 0;
         }
 
         .contact-info {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(255,255,255,0.3);
             font-style: italic;
-            color: #333;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
         }
 
-        .ice-cream-header {
-            text-align: center;
-            margin-bottom: 30px;
+        .right-section {
+            background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
         }
 
-        .ice-cream-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .image-placeholder {
-            height: 150px;
-            background: linear-gradient(135deg, #FFB6C1 0%, #FFA07A 100%);
-            border-radius: 8px;
+        .right-hero {
+            height: 350px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ffa07a 50%, #ffb347 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 22px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .ice-cream-content {
+            padding: 40px;
+            background: white;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section h1 {
+            font-size: 48px;
+            margin-bottom: 5px;
+        }
+
+        .logo-section .cool {
+            color: #d81b60;
+            font-style: italic;
+        }
+
+        .logo-section .ice-cream {
+            color: #26c6da;
+            font-weight: bold;
+        }
+
+        .logo-section .froyo {
+            color: #d81b60;
+        }
+
+        .tagline {
+            color: #d81b60;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .locations-count {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .location-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .location-image {
+            height: 150px;
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
             font-size: 14px;
         }
 
-        .ice-cream-logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .ice-cream-logo h1 {
-            font-size: 48px;
-            margin: 0;
-        }
-
-        .ice-cream-logo .cool {
-            color: #C75B9B;
-            font-style: italic;
-            font-family: 'Brush Script MT', cursive;
-        }
-
-        .ice-cream-logo .ice-cream {
-            color: #4DB8AC;
-            font-weight: bold;
-        }
-
-        .ice-cream-logo .froyo {
-            color: #4DB8AC;
-            font-weight: bold;
-        }
-
-        .ice-cream-logo .tagline {
-            color: #C75B9B;
-            font-size: 18px;
-            margin-top: 10px;
-        }
-
-        .ice-cream-logo .locations {
-            color: #333;
-            font-size: 16px;
-            margin-top: 5px;
-        }
-
-        .business-info {
-            background: #4DB8AC;
+        .family-business {
+            background: linear-gradient(135deg, #26c6da 0%, #00acc1 100%);
             color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
         }
 
-        .business-info h3 {
+        .family-business h3 {
             font-size: 22px;
             margin-bottom: 15px;
         }
 
-        .business-info p {
-            line-height: 1.6;
+        .family-business p {
             font-size: 14px;
+            line-height: 1.7;
         }
 
-        .locations-box {
-            background: #C75B9B;
+        .locations-list {
+            background: linear-gradient(135deg, #ec407a 0%, #d81b60 100%);
             color: white;
-            padding: 25px;
-            border-radius: 8px;
+            padding: 30px;
+            border-radius: 10px;
         }
 
-        .locations-box h4 {
-            font-size: 18px;
+        .locations-list h3 {
+            font-size: 20px;
             margin-bottom: 15px;
         }
 
-        .location {
-            margin-bottom: 15px;
+        .location-item {
+            margin: 10px 0;
             font-size: 14px;
-        }
-
-        .location strong {
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        .footer-logo {
-            text-align: center;
-            margin-top: 20px;
-            color: #4DB8AC;
-            font-size: 32px;
-            font-weight: bold;
         }
 
         .website {
             text-align: center;
-            color: #C75B9B;
             font-size: 18px;
-            margin-top: 10px;
             font-weight: bold;
+            color: #333;
+            margin-top: 20px;
         }
 
         @media (max-width: 768px) {
@@ -226,27 +228,25 @@
 </head>
 <body>
     <div class="container">
-        <!-- Left Column: BI Flashdrive -->
-        <div class="left-column">
+        <div class="left-section">
             <div class="hero-image">
-                [Teen with Dog Photo]
-            </div>
-            
-            <div class="content-text">
-                <p>In the United States we drop more than 11 million tons of clothing into landfills each year. Eventually 85% of all textiles get thrown out, amounting about 81 pounds of textile waste per person annually. And, according to the U.S. Environmental Protection Agency, as a nation we dump between 300 and 400 million electronic items per year, which leaves plenty of room for improvement through programs such as BI Flashdrive.</p>
-                
-                <p style="margin-top: 15px;">"We like the snowball approach—encouraging people to let their neighbors, HOAs and community groups know when a Flashdrive is happening," McGowan said. "We have found this approach seems to build community, link people together around taking care of each other and the environment and gets things done in a day."</p>
+                <div>Person with Dog & Camera<br>Blue Door Background</div>
             </div>
 
-            <div class="info-box">
+            <div class="description">
+                In the United States we drop more than 11 million tons of clothing into landfills each year. Eventually 85% of all textiles get thrown out, totaling about 81 pounds of textile waste per person annually. And, according to the U.S. Environmental Protection Agency, as a nation we dump between 300 and 400 million electronic items per year, which leaves plenty of room for improvement through programs such as BI Flashdrive.
+                <br><br>
+                "We like the snowball approach—encouraging people to let their neighbors, HOAs and community groups know when a Flashdrive is happening," McGovern said. "We have found this approach seems to build community, link people together around taking care of each other and the environment and gets things done in a day."
+            </div>
+
+            <div class="highlight-box">
                 <h2>Upcoming spring 2025</h2>
                 <h3>BI Flashdrive Collections:</h3>
 
                 <div class="collection-item">
                     <h4>April: Books</h4>
                     <p><strong>Donated to:</strong> Spread the Word Nevada</p>
-                    <p>www.zappos.com/about/zappos-for-good/</p>
-                    <p>spread-the-word-nevada</p>
+                    <p>www.zappos.com/about/zappos-for-good/spread-the-word-nevada</p>
                 </div>
 
                 <div class="collection-item">
@@ -268,16 +268,47 @@
             </div>
         </div>
 
-        <!-- Right Column: Ice Cream & Froyo -->
-        <div class="right-column">
-            <div class="ice-cream-images">
-                <div class="image-placeholder">[Friends Photo]</div>
-                <div class="image-placeholder">[Friends Photo]</div>
+        <div class="right-section">
+            <div class="right-hero">
+                <div>Happy Friends Enjoying Together</div>
             </div>
 
-            <div class="ice-cream-logo">
-                <h1>
-                    <span class="cool">Cool</span><br>
-                    <span class="ice-cream">ICE CREAM</span><br>
-                    <span class="froyo">& FROYO</span>
-                </h1>
+            <div class="ice-cream-content">
+                <div class="logo-section">
+                    <h1>
+                        <span class="cool">Cool</span><br>
+                        <span class="ice-cream">ICE CREAM</span><br>
+                        <span class="froyo">& FROYO</span>
+                    </h1>
+                    <p class="tagline">The Sweetest Spots on<br>the Kitsap Peninsula</p>
+                    <p class="locations-count">4 Delicious Locations</p>
+                </div>
+
+                <div class="location-images">
+                    <div class="location-image">Interior View 1</div>
+                    <div class="location-image">Interior View 2</div>
+                    <div class="location-image">Interior View 3</div>
+                    <div class="location-image">Menu Board</div>
+                </div>
+
+                <div class="family-business">
+                    <h3>Locally owned family business.</h3>
+                    <p>Our family-owned establishment has four Kitsap locations, serving delicious ice cream from local creameries and frozen yogurt. Living on the Kitsap Peninsula, we are proud to be your neighbors, parents, and fellow community members. Stop in at any of our locations for friendly service and a fun time. We also host birthday parties at our frozen yogurt location.</p>
+                </div>
+
+                <div class="locations-list">
+                    <h3>🍦 ICE CREAM LOCATIONS:</h3>
+                    <div class="location-item">📍 139 Madrone Lane, Bainbridge Island</div>
+                    <div class="location-item">📍 11250 NE State Hwy 104, Kingston</div>
+                    <div class="location-item">📍 8901 Front Street, Poulsbo</div>
+                    
+                    <h3 style="margin-top: 20px;">🍦 ORIGINAL FROYO LOCATION:</h3>
+                    <div class="location-item">📍 4662 Lynwood Center Rd NE Suite 130, Bainbridge Island</div>
+                </div>
+
+                <div class="website">ISLAND-COOL.COM</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
