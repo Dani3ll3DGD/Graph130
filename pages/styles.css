@@ -57,8 +57,8 @@ body {
     color: #9ca3af;
 }
 
-.img state-box {
-    width: 60px;
+img.state-box {
+    width: auto;
     height: 80px;
     background: #e5e7eb;
     border-radius: 4px;
@@ -69,6 +69,8 @@ body {
     font-family: Arial, sans-serif;
     font-weight: 600;
 }
+
+
 
 /* Main Container */
 .main-container {
@@ -89,14 +91,19 @@ body {
 }
 
 .hero-caption {
-    position: absolute;
-    bottom: 0;
+    /* position: absolute; */
+    /* bottom: 0;
     left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+    right: 0; */
+background-image:
+  linear-gradient(to top, rgba(255,100,50, 0.6), transparent),
+  url(../images/Bainbridge-from-above-940x600.jpg);
+background-blend-mode: multiply;
+background-size: cover;
+min-height: 500px;
     padding: 2rem;
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 0.875rem;
     display: flex;
     align-items: center;
@@ -188,11 +195,21 @@ body {
 }
 
 .photo-bakery {
-    background: linear-gradient(135deg, #f9a8d4 0%, #a78bfa 100%);
+    /* background: linear-gradient(135deg, #f9a8d4 0%, #a78bfa 100%); */
+    background-image:
+  linear-gradient(135deg, #f9a8d4 0%, #a78bfa 100%, transparent),
+  url(../images/cupcake.jpg);
+background-blend-mode: color-burn;
+background-size: cover;
 }
 
 .photo-ferry {
-    background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%);
+    /* background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%); */
+    background-image:
+  linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%, transparent),
+  url(../images/ferry.jpg);
+background-blend-mode: color-burn;
+background-size: cover;
 }
 
 .photo-caption {
@@ -278,7 +295,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .header-container {
-        flex-direction: column;
+        flex-direction: row;
         gap: 1rem;
         text-align: center;
     }
