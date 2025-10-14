@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background-color: #f5f5f0;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.header {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 36px;
+    color: #666;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.hero-text h1 {
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 0.9;
+    margin-bottom: 20px;
+}
+
+.hero-text h1 .reduce,
+.hero-text h1 .use {
+    color: #a8b5bf;
+}
+
+.hero-text h1 .share {
+    color: #4a7ba7;
+    font-style: italic;
+}
+
+.hero-text h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 30px 0 10px 0;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.hero-image {
+    position: relative;
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.byline {
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.byline .author {
+    color: #c94e4e;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.content-left img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.content-right {
+    font-size: 16px;
+}
+
+.content-right p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.content-left p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.quote {
+    font-style: italic;
+    color: #555;
+    padding: 10px 0;
+}
+
+.highlight {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .hero,
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-text h1 {
+        font-size: 48px;
+    }
+
+    .header {
+        font-size: 28px;
+    }
+}
