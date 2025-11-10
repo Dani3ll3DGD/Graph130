@@ -24,7 +24,7 @@
         </div>
     </header>
     <style>
-        * {
+          * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -34,6 +34,59 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(to bottom, #e0e0e0 0%, #f5f5f5 100%);
             padding: 20px;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            background: white;
+            padding: 20px 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            text-align: left;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .logo-get {
+            color: #d81b60;
+        }
+
+        .logo-away {
+            color: #26c6da;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+        }
+
+        img.state-box {
+            width: auto;
+            height: 80px;
+            border-radius: 4px;
+            object-fit: cover;
         }
 
         .container {
@@ -56,29 +109,16 @@
         .hero-image {
             width: 100%;
             height: 400px;
-            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            text-align: center;
-            padding: 20px;
+            overflow: hidden;
         }
 
-                img.state-box {
-            width: auto;
-            height: 80px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-family: Arial, sans-serif;
-            font-weight: 600;
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
+
         .description {
             font-size: 15px;
             line-height: 1.8;
@@ -137,14 +177,13 @@
 
         .right-hero {
             height: 350px;
-            background: linear-gradient(135deg, #ff6b9d 0%, #ffa07a 50%, #ffb347 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 22px;
-            text-align: center;
-            padding: 20px;
+            overflow: hidden;
+        }
+
+        .right-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .ice-cream-content {
@@ -152,31 +191,31 @@
             background: white;
         }
 
-        .logo-section {
+        .logo-section-ice {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .logo-section h1 {
+        .logo-section-ice h1 {
             font-size: 48px;
             margin-bottom: 5px;
         }
 
-        .logo-section .cool {
+        .logo-section-ice .cool {
             color: #d81b60;
             font-style: italic;
         }
 
-        .logo-section .ice-cream {
+        .logo-section-ice .ice-cream {
             color: #26c6da;
             font-weight: bold;
         }
 
-        .logo-section .froyo {
+        .logo-section-ice .froyo {
             color: #d81b60;
         }
 
-        .tagline {
+        .ice-tagline {
             color: #d81b60;
             font-size: 20px;
             font-weight: bold;
@@ -198,13 +237,14 @@
 
         .location-image {
             height: 150px;
-            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .location-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .family-business {
