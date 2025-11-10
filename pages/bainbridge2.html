@@ -23,6 +23,58 @@
             height: 12px;
         }
 
+        .header {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px 50px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            text-align: left;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .logo-get {
+            color: #d81b60;
+        }
+
+        .logo-away {
+            color: #26c6da;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+        }
+
+        img.state-box {
+            width: auto;
+            height: 80px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -210,6 +262,25 @@
 </head>
 <body>
     <div class="page-header"></div>
+    
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <span class="logo-get">get</span><span class="logo-away">away</span>
+                </h1>
+                <p class="tagline">explore the pacific northwest</p>
+            </div>
+            <div class="location">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <img class="state-box" src="images/washingtonstate.jpg" alt="Washington State">
+            </div>
+        </div>
+    </header>
     
     <div class="container">
         <div class="left-column">
