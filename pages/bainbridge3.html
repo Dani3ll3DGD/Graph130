@@ -4,27 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BI Flashdrive & Island Cool</title>
-
-     <!-- Header Section -->
-    <header class="header">
-        <div class="header-container">
-            <div class="logo-section">
-                <h1 class="logo">
-                    <span class="logo-get">get</span><span class="logo-away">away</span>
-                </h1>
-                <p class="tagline">explore the pacific northwest</p>
-            </div>
-            <div class="location">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <img class="state-box" src="images/washingtonstate.jpg">
-            </div>
-        </div>
-    </header>
     <style>
-          * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -236,7 +217,7 @@
         }
 
         .location-image {
-            height: 150px;
+            height: 150px; /* ← ADJUST THIS to change interior picture height */
             border-radius: 8px;
             overflow: hidden;
         }
@@ -298,10 +279,29 @@
     </style>
 </head>
 <body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <span class="logo-get">get</span><span class="logo-away">away</span>
+                </h1>
+                <p class="tagline">explore the pacific northwest</p>
+            </div>
+            <div class="location">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <img class="state-box" src="images/washingtonstate.jpg" alt="Washington State">
+            </div>
+        </div>
+    </header>
+
     <div class="container">
         <div class="left-section">
             <div class="hero-image">
-                <img src="../images/ilyuza-mingazova-duuiIvcQMwU-unsplash.jpg" alt="Dog with people">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop" alt="Dog with people outdoors">
             </div>
 
             <div class="description">
@@ -341,28 +341,33 @@
 
         <div class="right-section">
             <div class="right-hero">
-                <img src="../images/toa-heftiba-OYYcadaidGI-unsplash.jpg" alt="Friends enjoying icecream">
+                <img src="../images/toa-heftiba-OYYcadaidGI-unsplash.jpg" alt="Happy friends enjoying ice cream together">
             </div>
 
             <div class="ice-cream-content">
-                <div class="logo-section">
+                <div class="logo-section-ice">
                     <h1>
                         <span class="cool">Cool</span><br>
                         <span class="ice-cream">ICE CREAM</span><br>
                         <span class="froyo">& FROYO</span>
                     </h1>
-                    <p class="tagline">The Sweetest Spots on<br>the Kitsap Peninsula</p>
+                    <p class="ice-tagline">The Sweetest Spots on<br>the Kitsap Peninsula</p>
                     <p class="locations-count">4 Delicious Locations</p>
                 </div>
 
                 <div class="location-images">
-                    <div class="location-image">Interior View 1</div>
-                    <img src="../images/zach-camp-hEooRezPf_Q-unsplash.jpg" alt="enjoying ice cream">
-                    <div class="location-image">Interior View 2</div>
-                    <img src="../images/jeswin-thomas-0vNWXpHSoe4-unsplash.jpg" alt="cone bowl">
-                    <div class="location-image">Interior View 3</div>
-                    <img src="../images/jeswin-thomas-x2iJB6i4u0A-unsplash.jpg" alt="ice cream bowl">
-                    <div class="location-image">Menu Board</div>
+                    <div class="location-image">
+                        <img src="../images/jeswin-thomas-0vNWXpHSoe4-unsplash.jpg" alt="ice cream">
+                    </div>
+                    <div class="location-image">
+                        <img src="../images/jeswin-thomas-x2iJB6i4u0A-unsplash.jpg" alt="ice cream 2">
+                    </div>
+                    <div class="location-image">
+                        <img src="../images/zach-camp-hEooRezPf_Q-unsplash.jpg" alt="ice cream 3">
+                    </div>
+                    <div class="location-image">
+                        <img src="../images/alp-allen-altiner-gdUSE2gJx14-unsplash.jpg" alt="Ice cream menu board">
+                    </div>
                 </div>
 
                 <div class="family-business">
