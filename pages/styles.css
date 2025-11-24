@@ -13,6 +13,10 @@ body {
     min-height: 100vh;
 }
 
+.pure-menu-horizontal{
+            text-align: center;
+        }
+
 /* Header Styles */
 .header {
     background: white;

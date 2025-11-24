@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BI Flashdrive & Island Cool</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+
+
     <style>
         * {
             margin: 0;
@@ -17,6 +20,9 @@
             padding: 20px;
         }
 
+        .pure-menu-horizontal{
+            text-align: center;
+        }
         .header {
             max-width: 1200px;
             margin: 0 auto 20px;
@@ -281,14 +287,28 @@
 <body>
     <!-- Header Section -->
     <header class="header">
-        <div class="header-container">
-            <div class="logo-section">
+        <div class="header-container .pure-g">
+            <div class="logo-section .pure-u-1-5">
                 <h1 class="logo">
                     <span class="logo-get">get</span><span class="logo-away">away</span>
                 </h1>
                 <p class="tagline">explore the pacific northwest</p>
             </div>
-            <div class="location">
+            <div class="pure-menu pure-menu-horizontal .pure-u-3-5">
+                <!-- <a href="#" class="pure-menu-heading pure-menu-link">BRAND</a> -->
+                 <ul class="pure-menu-list">
+                    <li class="pure-menu-item">
+                        <a href="bainbridge.html" class="pure-menu-link">Home</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="bainbridge2.html" class="pure-menu-link">Local Donation</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="bainbridge3.html" class="pure-menu-link"> Brainbridge Ice-cream</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="location .pure-u-1-5">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                     <circle cx="12" cy="10" r="3"></circle>
