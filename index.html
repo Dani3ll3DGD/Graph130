@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Broadway Beverage – Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --brown: #5a3a1a;
+      --gold: #c8952a;
+      --cream: #fdf6e9;
+      --green: #4a7c3f;
+      --light-green: #6aab5e;
+      --tan: #f2e0bc;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--brown); }
+
+    /* NAV */
+    nav {
+      background: var(--brown);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 48px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    .logo span { color: var(--white); font-weight: 400; font-size: 0.85rem; display: block; letter-spacing: 3px; }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav ul a {
+      color: #e8d5b0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+    nav ul a:hover, nav ul a.active { color: var(--gold); }
+    .nav-cta {
+      background: var(--green);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 20px;
+    }
+    .nav-cta:hover { background: var(--light-green); color: var(--white) !important; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 520px;
+      background: linear-gradient(135deg, #3d1f06 0%, #7a4820 40%, #a0662a 70%, #c8952a 100%);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80') center/cover no-repeat;
+      opacity: 0.18;
+    }
+    .hero-content {
+      position: relative;
+      max-width: 600px;
+      padding: 80px 80px;
+      z-index: 2;
+      animation: fadeUp 0.8s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero-content h1 em { color: var(--gold); font-style: italic; }
+    .hero-content p {
+      color: #f0d9b5;
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--green);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 16px rgba(74,124,63,0.4);
+    }
+    .btn-primary:hover { background: var(--light-green); transform: translateY(-2px); }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: var(--tan);
+    }
+    .feature {
+      padding: 44px 32px;
+      text-align: center;
+      border-right: 1px solid #e4c98a;
+      transition: background 0.2s;
+    }
+    .feature:last-child { border-right: none; }
+    .feature:hover { background: #f8edcc; }
+    .feature-icon {
+      width: 64px; height: 64px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .feature-icon svg { width: 32px; height: 32px; fill: var(--white); }
+    .feature h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--brown);
+      margin-bottom: 10px;
+    }
+    .feature p { font-size: 0.9rem; color: #7a5c30; line-height: 1.6; }
+
+    /* SECTION TITLE */
+    .section-title {
+      text-align: center;
+      padding: 64px 24px 16px;
+    }
+    .section-title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--brown);
+    }
+    .section-title p { color: #9a7040; margin-top: 10px; font-size: 1rem; }
+    .divider {
+      width: 60px; height: 3px;
+      background: var(--gold);
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    /* WHY US */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      padding: 0 48px;
+    }
+    .why-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(90,58,26,0.08);
+      border: 1px solid #eaddbc;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .why-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(90,58,26,0.14); }
+    .why-card .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      font-weight: 900;
+    }
+    .why-card h4 { font-size: 1rem; font-weight: 700; color: var(--brown); margin: 8px 0 6px; }
+    .why-card p { font-size: 0.88rem; color: #9a7040; line-height: 1.6; }
+
+    /* CTA STRIP */
+    .cta-strip {
+      background: var(--green);
+      padding: 60px 48px;
+      text-align: center;
+    }
+    .cta-strip h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .cta-strip p { color: #c8efbd; margin-bottom: 28px; }
+    .btn-outline {
+      display: inline-block;
+      border: 2px solid var(--white);
+      color: var(--white);
+      padding: 12px 32px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { background: var(--white); color: var(--green); }
+
+    /* FOOTER */
+    footer {
+      background: var(--brown);
+      color: #c8a870;
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.88rem;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
+      .hero-content { padding: 60px 24px; }
+      .features { grid-template-columns: 1fr; }
+      .feature { border-right: none; border-bottom: 1px solid #e4c98a; }
+      .why-grid { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Broadway Beverage<span>Everett, WA</span></div>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Convenience &amp; Quality<br/><em>in Every Stop</em></h1>
+    <p>Your neighborhood beverage destination in Everett, WA</p>
+    <a href="menu.html" class="btn-primary">View Our Selection</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <div class="feature-icon">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM5.2 4l1.6 8h10.4l1.8-6H7.8"/></svg>
+    </div>
+    <h3>Grab &amp; Go</h3>
+    <p>Quick snacks and cold drinks ready any time.</p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <h3>Top Brands</h3>
+    <p>Coca-Cola, Pepsi, energy drinks, and a welcoming atmosphere.</p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm14 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <h3>Friendly Service</h3>
+    <p>Local, welcoming, community-focused brand.</p>
+  </div>
+</section>
+
+<div class="section-title">
+  <h2>Why Shop With Us?</h2>
+  <p>We make your quick stop worth it every time.</p>
+  <div class="divider"></div>
+</div>
+
+<div class="why-grid">
+  <div class="why-card">
+    <div class="num">01</div>
+    <h4>Always Stocked</h4>
+    <p>Fresh beverages and snacks restocked daily so you never miss your favorite.</p>
+  </div>
+  <div class="why-card">
+    <div class="num">02</div>
+    <h4>Local & Community</h4>
+    <p>Proudly serving Everett, WA. We know our neighbors by name.</p>
+  </div>
+  <div class="why-card">
+    <div class="num">03</div>
+    <h4>Fast & Easy</h4>
+    <p>In and out in minutes. No long lines, no fuss — just what you need.</p>
+  </div>
+  <div class="why-card">
+    <div class="num">04</div>
+    <h4>Best Brands</h4>
+    <p>Coca-Cola, Sprite, Pepsi, Monster, Lay's and more — always available.</p>
+  </div>
+</div>
+
+<div class="cta-strip">
+  <h2>Come See What's on the Shelves</h2>
+  <p>Browse our full selection of beverages, snacks, and grab-and-go items.</p>
+  <a href="menu.html" class="btn-outline">Explore Our Menu</a>
+</div>
+
+<footer id="contact">
+  <p><strong style="color:#f0d080;font-family:'Playfair Display',serif;font-size:1.1rem;">Broadway Beverage</strong></p>
+  <p style="margin-top:8px;">Everett, WA &nbsp;|&nbsp; <a href="tel:+14255550100">(425) 555-0100</a> &nbsp;|&nbsp; <a href="mailto:hello@broadwaybeverage.com">hello@broadwaybeverage.com</a></p>
+  <p style="margin-top:12px;color:#8a6a40;">&copy; 2025 Broadway Beverage. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
