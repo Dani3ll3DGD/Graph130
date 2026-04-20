@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>VIBRATIONS — Artist Collective</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		/* =============================================
+		   CSS VARIABLES & RESET
+		   ============================================= */
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+		html { scroll-behavior: smooth; }
+
+		body {
+			background: var(--ink);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
+
+		/* =============================================
+		   NOISE TEXTURE OVERLAY
+		   ============================================= */
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+			pointer-events: none;
+			z-index: 9999;
+			opacity: 0.5;
+		}
+
+		/* =============================================
+		   NAVIGATION
+		   ============================================= */
+		nav {
+			position: fixed;
+			top: 0; left: 0; right: 0;
+			z-index: 100;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 3rem;
+			mix-blend-mode: difference;
+		}
+
+		.nav-logo {
+			font-family: 'Sigmar', sans-serif;
+			font-size: 2rem;
+			letter-spacing: 0.1em;
+			color: var(--cream);
+			text-decoration: none;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 2.5rem;
+			list-style: none;
+		}
+
+		.nav-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			transition: opacity 0.2s;
+		}
+
+		.nav-links a:hover { opacity: 0.5; }
+
+		/* =============================================
+		   HERO SECTION
+		   ============================================= */
+		#hero {
+			min-height: 100vh;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-left {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 8rem 3rem 5rem;
+			position: relative;
+			z-index: 2;
+		}
+
+		.hero-tag {
+			font-size: 0.65rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: var(--acid-yellow);
+			margin-bottom: 1.5rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.3s forwards;
+		}
+
+		.hero-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(5rem, 12vw, 11rem);
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+			margin-bottom: 2rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.5s forwards;
+		}
+
+		.hero-title span {
+			display: block;
+		}
+
+		.hero-title .accent {
+			color: var(--acid-yellow);
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+		}
+
+		.hero-subtitle {
+			font-size: 0.8rem;
+			line-height: 1.8;
+			max-width: 38ch;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.7s forwards;
+			color: rgba(245,240,232,0.6);
+		}
+
+		.hero-cta {
+			margin-top: 3rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.9s forwards;
+		}
+
+		.btn-primary {
+			display: inline-block;
+			padding: 1rem 2.5rem;
+			background: var(--acid-yellow);
+			color: var(--ink);
+			text-decoration: none;
+			font-family: 'Space Mono', monospace;
+			font-size: 0.7rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			font-weight: 700;
+			transition: transform 0.2s, background 0.2s;
+		}
+
+		.btn-primary:hover {
+			background: var(--coral);
+			color: var(--cream);
+			transform: translate(-3px, -3px);
+		}
+
+		.hero-right {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-color-blocks {
+			position: absolute;
+			inset: 0;
+			display: grid;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+
+		.color-block {
+			opacity: 0;
+			transform: translateX(100%);
+		}
+
+		.color-block:nth-child(1) { background: var(--coral); animation: slideIn 0.7s 0.2s forwards; }
+		.color-block:nth-child(2) { background: var(--cerulean); animation: slideIn 0.7s 0.4s forwards; }
+		.color-block:nth-child(3) { background: var(--violet); animation: slideIn 0.7s 0.6s forwards; }
+
+		.hero-right-text {
+			position: absolute;
+			bottom: 5rem;
+			right: 3rem;
+			text-align: right;
+			z-index: 2;
+			mix-blend-mode: difference;
+		}
+
+		.hero-counter {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 6rem;
+			line-height: 1;
+			color: var(--cream);
+		}
+
+		.hero-counter-label {
+			font-size: 0.65rem;
+			letter-spacing: 0.25em;
+			text-transform: uppercase;
+			color: var(--cream);
+			opacity: 0.7;
+		}
+
+		/* =============================================
+		   MARQUEE STRIP
+		   ============================================= */
+		.marquee-strip {
+			background: var(--acid-yellow);
+			color: var(--ink);
+			padding: 0.9rem 0;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.marquee-inner {
+			display: inline-block;
+			animation: marquee 20s linear infinite;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.4rem;
+			letter-spacing: 0.05em;
+		}
+
+		.marquee-inner span {
+			margin: 0 3rem;
+		}
+
+		.marquee-inner .dot {
+			color: var(--coral);
+			margin: 0 1rem;
+		}
+
+		/* =============================================
+		   FEATURED ARTIST - SPOTLIGHT
+		   ============================================= */
+		.section-label {
+			font-size: 0.6rem;
+			letter-spacing: 0.35em;
+			text-transform: uppercase;
+			color: var(--acid-yellow);
+			margin-bottom: 1rem;
+		}
+
+		.spotlight {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			min-height: 85vh;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.spotlight.reverse { direction: rtl; }
+		.spotlight.reverse > * { direction: ltr; }
+
+		.spotlight-image {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.spotlight-image-bg {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Poppins', sans-serif;
+			font-size: 20vw;
+			font-weight: 900;
+			user-select: none;
+			transition: transform 0.5s ease;
+		}
+
+		.spotlight-image:hover .spotlight-image-bg {
+			transform: scale(1.05) rotate(-2deg);
+		}
+
+		.artist-1 .spotlight-image-bg { background: var(--coral); color: rgba(0,0,0,0.15); }
+		.artist-2 .spotlight-image-bg { background: var(--cerulean); color: rgba(255,255,255,0.1); }
+		.artist-3 .spotlight-image-bg { background: var(--mint); color: rgba(0,0,0,0.12); }
+		.artist-4 .spotlight-image-bg { background: var(--violet); color: rgba(255,255,255,0.1); }
+
+		.spotlight-image-overlay {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 3rem;
+			background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);
+		}
+
+		.artist-num {
+			font-family: 'Sigmar', sans-serif;
+			font-size: 5rem;
+			line-height: 1;
+			color: rgba(255,255,255,0.2);
+			position: absolute;
+			top: 2rem;
+			right: 2.5rem;
+		}
+
+		.spotlight-content {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 5rem 4rem;
+		}
+
+		.artist-name {
+			font-family: 'DM Serif Display', serif;
+			font-size: clamp(2.5rem, 4vw, 4.5rem);
+			line-height: 1.1;
+			margin-bottom: 0.5rem;
+		}
+
+		.artist-discipline {
+			font-size: 0.65rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			margin-bottom: 2rem;
+			opacity: 0.5;
+		}
+
+		.artist-bio {
+			font-size: 0.82rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.65);
+			max-width: 42ch;
+			margin-bottom: 2.5rem;
+		}
+
+		.artist-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-bottom: 2.5rem;
+		}
+
+		.tag {
+			padding: 0.35rem 0.9rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			font-size: 0.6rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			transition: all 0.2s;
+		}
+
+		.tag:hover {
+			border-color: var(--acid-yellow);
+			color: var(--acid-yellow);
+		}
+
+		.artist-1 .tag:hover { border-color: var(--coral); color: var(--coral); }
+		.artist-2 .tag:hover { border-color: var(--cerulean); color: var(--cerulean); }
+		.artist-3 .tag:hover { border-color: var(--mint); color: var(--mint); }
+		.artist-4 .tag:hover { border-color: var(--violet); color: var(--violet); }
+
+		.btn-outline {
+			display: inline-block;
+			padding: 0.85rem 2rem;
+			border: 1px solid var(--cream);
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			transition: all 0.2s;
+			align-self: flex-start;
+		}
+
+		.btn-outline:hover {
+			background: var(--cream);
+			color: var(--ink);
+		}
+
+		/* =============================================
+		   GALLERY GRID
+		   ============================================= */
+		#gallery {
+			padding: 8rem 3rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.gallery-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			margin-bottom: 4rem;
+		}
+
+		.gallery-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(3rem, 6vw, 6rem);
+			line-height: 1;
+		}
+
+		.gallery-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			grid-template-rows: auto;
+			gap: 1rem;
+		}
+
+		.gallery-item {
+			position: relative;
+			overflow: hidden;
+			cursor: pointer;
+			aspect-ratio: 1;
+		}
+
+		.gallery-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
+		.gallery-item.tall { grid-row: span 2; aspect-ratio: 1/2; }
+
+		.gallery-item-bg {
+			position: absolute;
+			inset: 0;
+			transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 8rem;
+			color: rgba(255,255,255,0.08);
+			user-select: none;
+		}
+
+		.gallery-item:hover .gallery-item-bg { transform: scale(1.08); }
+
+		.g1 { background: linear-gradient(135deg, var(--coral), var(--rose)); }
+		.g2 { background: linear-gradient(135deg, var(--cerulean), var(--teal)); }
+		.g3 { background: linear-gradient(135deg, var(--violet), var(--cerulean)); }
+		.g4 { background: linear-gradient(135deg, var(--mint), var(--cerulean)); }
+		.g5 { background: linear-gradient(135deg, var(--orange), var(--coral)); }
+		.g6 { background: linear-gradient(135deg, var(--acid-yellow), var(--mint)); }
+		.g7 { background: linear-gradient(135deg, var(--rose), var(--violet)); }
+		.g8 { background: linear-gradient(135deg, var(--teal), var(--mint)); }
+		.g9 { background: linear-gradient(135deg, var(--violet), var(--rose)); }
+		.g10 { background: linear-gradient(135deg, var(--cerulean), var(--violet)); }
+		.g11 { background: linear-gradient(135deg, var(--coral), var(--orange)); }
+
+		.gallery-item-info {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 1.5rem;
+			background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+
+		.gallery-item:hover .gallery-item-info { opacity: 1; }
+
+		.gallery-item-title {
+			font-family: 'DM Serif Display', serif;
+			font-size: 1.2rem;
+			margin-bottom: 0.2rem;
+		}
+
+		.gallery-item-artist {
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.7;
+		}
+
+		/* =============================================
+		   STATS BAR
+		   ============================================= */
+		.stats-bar {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			border-top: 1px solid rgba(245,240,232,0.1);
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.stat-item {
+			padding: 4rem 3rem;
+			border-right: 1px solid rgba(245,240,232,0.1);
+			position: relative;
+			overflow: hidden;
+			transition: background 0.3s;
+		}
+
+		.stat-item:last-child { border-right: none; }
+
+		.stat-item:hover { background: rgba(245,240,232,0.04); }
+
+		.stat-number {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 5rem;
+			line-height: 1;
+			color: var(--acid-yellow);
+			margin-bottom: 0.5rem;
+		}
+
+		.stat-label {
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.5;
+		}
+
+		/* =============================================
+		   DISCIPLINES SECTION
+		   ============================================= */
+		#disciplines {
+			padding: 8rem 3rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.disciplines-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1px;
+			background: rgba(245,240,232,0.08);
+			margin-top: 4rem;
+		}
+
+		.discipline-card {
+			background: var(--ink);
+			padding: 3rem;
+			position: relative;
+			overflow: hidden;
+			transition: background 0.3s;
+		}
+
+		.discipline-card::before {
+			content: '';
+			position: absolute;
+			top: 0; left: 0;
+			width: 100%;
+			height: 3px;
+			transform: scaleX(0);
+			transform-origin: left;
+			transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.discipline-card:nth-child(1)::before { background: var(--coral); }
+		.discipline-card:nth-child(2)::before { background: var(--cerulean); }
+		.discipline-card:nth-child(3)::before { background: var(--mint); }
+		.discipline-card:nth-child(4)::before { background: var(--violet); }
+		.discipline-card:nth-child(5)::before { background: var(--rose); }
+		.discipline-card:nth-child(6)::before { background: var(--orange); }
+
+		.discipline-card:hover::before { transform: scaleX(1); }
+		.discipline-card:hover { background: rgba(245,240,232,0.03); }
+
+		.discipline-icon {
+			font-size: 2.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.discipline-name {
+			font-family: 'DM Serif Display', serif;
+			font-size: 1.8rem;
+			margin-bottom: 0.75rem;
+		}
+
+		.discipline-count {
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-bottom: 1rem;
+		}
+
+		.discipline-desc {
+			font-size: 0.78rem;
+			line-height: 1.8;
+			color: rgba(245,240,232,0.5);
+		}
+
+		/* =============================================
+		   CONTACT SECTION
+		   ============================================= */
+		#contact {
+			padding: 8rem 3rem;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 8rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.contact-left h2 {
+			font-family: 'Sigmar', sans-serif;
+			font-size: clamp(3rem, 6vw, 6rem);
+			line-height: 1;
+			margin-bottom: 2rem;
+		}
+
+		.contact-left h2 em {
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+			color: var(--acid-yellow);
+		}
+
+		.contact-left p {
+			font-size: 0.82rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.55);
+			max-width: 38ch;
+		}
+
+		.contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+		.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+		.form-group label {
+			font-size: 0.6rem;
+			letter-spacing: 0.25em;
+			text-transform: uppercase;
+			opacity: 0.5;
+		}
+
+		.form-group input,
+		.form-group textarea,
+		.form-group select {
+			background: rgba(245,240,232,0.04);
+			border: 1px solid rgba(245,240,232,0.12);
+			color: var(--cream);
+			font-family: 'Sigmar', monospace;
+			font-size: 0.82rem;
+			padding: 0.9rem 1rem;
+			outline: none;
+			transition: border-color 0.2s;
+			appearance: none;
+		}
+
+		.form-group input:focus,
+		.form-group textarea:focus,
+		.form-group select:focus {
+			border-color: var(--acid-yellow);
+		}
+
+		.form-group textarea { resize: vertical; min-height: 120px; }
+
+		.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+		.form-submit {
+			padding: 1rem 2.5rem;
+			background: var(--acid-yellow);
+			color: var(--ink);
+			border: none;
+			font-family: 'SIGMAR', monospace;
+			font-size: 0.7rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			font-weight: 700;
+			cursor: crosshair;
+			transition: all 0.2s;
+			align-self: flex-start;
+		}
+
+		.form-submit:hover {
+			background: var(--coral);
+			color: var(--cream);
+			transform: translate(-3px, -3px);
+			box-shadow: 3px 3px 0 var(--cream);
+		}
+
+		/* =============================================
+		   FOOTER
+		   ============================================= */
+		footer {
+			border-top: 1px solid rgba(245,240,232,0.1);
+			padding: 3rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.footer-logo {
+			font-family: 'POPPINS', sans-serif;
+			font-size: 1.8rem;
+			letter-spacing: 0.1em;
+		}
+
+		.footer-links {
+			display: flex;
+			gap: 2rem;
+			list-style: none;
+		}
+
+		.footer-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			transition: opacity 0.2s;
+		}
+
+		.footer-links a:hover { opacity: 1; }
+
+		.footer-copy {
+			font-size: 0.65rem;
+			opacity: 0.3;
+			letter-spacing: 0.05em;
+		}
+
+		/* =============================================
+		   SCROLL INDICATOR
+		   ============================================= */
+		.scroll-indicator {
+			position: fixed;
+			right: 2rem;
+			top: 50%;
+			transform: translateY(-50%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+			z-index: 50;
+		}
+
+		.scroll-dot {
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background: rgba(245,240,232,0.3);
+			transition: background 0.3s, transform 0.3s;
+		}
+
+		.scroll-dot.active {
+			background: var(--acid-yellow);
+			transform: scale(1.5);
+		}
+
+		/* =============================================
+		   ANIMATIONS
+		   ============================================= */
+		@keyframes fadeUp {
+			from { opacity: 0; transform: translateY(30px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@keyframes slideIn {
+			from { opacity: 0; transform: translateX(100%); }
+			to { opacity: 1; transform: translateX(0); }
+		}
+
+		@keyframes marquee {
+			from { transform: translateX(0); }
+			to { transform: translateX(-50%); }
+		}
+
+		.reveal {
+			opacity: 0;
+			transform: translateY(40px);
+			transition: opacity 0.8s, transform 0.8s;
+		}
+
+		.reveal.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		/* =============================================
+		   CUSTOM CURSOR
+		   ============================================= */
+		.cursor {
+			position: fixed;
+			width: 12px;
+			height: 12px;
+			background: var(--acid-yellow);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+			mix-blend-mode: exclusion;
+		}
+
+		.cursor.expanded {
+			width: 40px;
+			height: 40px;
+		}
+
+		/* =============================================
+		   RESPONSIVE
+		   ============================================= */
+		@media (max-width: 900px) {
+			#hero { grid-template-columns: 1fr; min-height: auto; }
+			.hero-right { min-height: 40vh; }
+			.hero-left { padding: 7rem 2rem 3rem; }
+			.spotlight { grid-template-columns: 1fr; }
+			.spotlight-image { min-height: 40vh; }
+			.spotlight.reverse { direction: ltr; }
+			.gallery-grid { grid-template-columns: repeat(2, 1fr); }
+			.gallery-item.wide { grid-column: span 2; }
+			.gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
+			.stats-bar { grid-template-columns: 1fr 1fr; }
+			.stat-item { border-right: none; border-bottom: 1px solid rgba(245,240,232,0.1); }
+			.disciplines-grid { grid-template-columns: 1fr 1fr; }
+			#contact { grid-template-columns: 1fr; gap: 4rem; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			.scroll-indicator { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+	</style>
+</head>
+<body>
+
+	<!-- Custom cursor -->
+	<div class="cursor" id="cursor"></div>
+
+	<!-- Scroll indicators -->
+	<div class="scroll-indicator">
+		<div class="scroll-dot active" data-section="hero"></div>
+		<div class="scroll-dot" data-section="artists"></div>
+		<div class="scroll-dot" data-section="gallery"></div>
+		<div class="scroll-dot" data-section="disciplines"></div>
+		<div class="scroll-dot" data-section="contact"></div>
+	</div>
+
+	<!-- Navigation -->
+	<nav>
+		<a href="#hero" class="nav-logo">VIBRATIONS</a>
+		<ul class="nav-links">
+			<li><a href="#artists">Artists</a></li>
+			<li><a href="#gallery">Gallery</a></li>
+			<li><a href="#disciplines">Disciplines</a></li>
+			<li><a href="#contact">Contact</a></li>
+		</ul>
+	</nav>
+
+	<!-- ==========================================
+	     HERO
+	     ========================================== -->
+	<section id="hero">
+		<div class="hero-left">
+			<p class="hero-tag">— The Artist Collective</p>
+			<h1 class="hero-title">
+				<span>WHERE</span>
+				<span class="accent">ART</span>
+				<span>LIVES</span>
+			</h1>
+			<p class="hero-subtitle">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+			</p>
+			<div class="hero-cta">
+				<a href="#artists" class="btn-primary">Explore Artists</a>
+			</div>
+		</div>
+
+		<div class="hero-right">
+			<div class="hero-color-blocks">
+				<div class="color-block"></div>
+				<div class="color-block"></div>
+				<div class="color-block"></div>
+			</div>
+			<div class="hero-right-text">
+				<div class="hero-counter">48</div>
+				<div class="hero-counter-label">Artists Featured</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Marquee strip -->
+	<div class="marquee-strip">
+		<div class="marquee-inner">
+			<span>Illustration</span><span class="dot">◆</span>
+			<span>Photography</span><span class="dot">◆</span>
+			<span>Motion Design</span><span class="dot">◆</span>
+			<span>Typography</span><span class="dot">◆</span>
+			<span>3D Art</span><span class="dot">◆</span>
+			<span>Painting</span><span class="dot">◆</span>
+			<span>Sculpture</span><span class="dot">◆</span>
+			<span>Digital Art</span><span class="dot">◆</span>
+			<span>Graphic Design</span><span class="dot">◆</span>
+			<span>Illustration</span><span class="dot">◆</span>
+			<span>Photography</span><span class="dot">◆</span>
+			<span>Motion Design</span><span class="dot">◆</span>
+			<span>Typography</span><span class="dot">◆</span>
+			<span>3D Art</span><span class="dot">◆</span>
+			<span>Painting</span><span class="dot">◆</span>
+			<span>Sculpture</span><span class="dot">◆</span>
+			<span>Digital Art</span><span class="dot">◆</span>
+			<span>Graphic Design</span><span class="dot">◆</span>
+		</div>
+	</div>
+
+	<!-- ==========================================
+	     ARTISTS SPOTLIGHT
+	     ========================================== -->
+	<div id="artists">
+
+		<!-- Artist 1 -->
+		<section class="spotlight artist-1 reveal">
+			<div class="spotlight-image">
+				<div class="spotlight-image-bg">M</div>
+				<div class="spotlight-image-overlay">
+					<div class="artist-num">01</div>
+				</div>
+			</div>
+			<div class="spotlight-content">
+				<p class="section-label">Featured Artist</p>
+				<h2 class="artist-name">PLACE NAME</h2>
+				<p class="artist-discipline">Illustrator & Printmaker </p>
+				<p class="artist-bio">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				</p>
+				<div class="artist-tags">
+					<span class="tag">Illustration</span>
+					<span class="tag">Risograph</span>
+					<span class="tag">Printmaking</span>
+					<span class="tag">Editorial</span>
+				</div>
+				<a href="#" class="btn-outline">View Portfolio</a>
+			</div>
+		</section>
+
+		<!-- Artist 2 -->
+		<section class="spotlight reverse artist-2 reveal">
+			<div class="spotlight-image">
+				<div class="spotlight-image-bg">J</div>
+				<div class="spotlight-image-overlay">
+					<div class="artist-num">02</div>
+				</div>
+			</div>
+			<div class="spotlight-content">
+				<p class="section-label">Featured Artist</p>
+				<h2 class="artist-name">PLACE NAME</h2>
+				<p class="artist-discipline">Motion Designer & 3D Artist </p>
+				<p class="artist-bio">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				</p>
+				<div class="artist-tags">
+					<span class="tag">Motion Design</span>
+					<span class="tag">3D Art</span>
+					<span class="tag">Blender</span>
+					<span class="tag">After Effects</span>
+				</div>
+				<a href="#" class="btn-outline">View Portfolio</a>
+			</div>
+		</section>
+
+		<!-- Artist 3 -->
+		<section class="spotlight artist-3 reveal">
+			<div class="spotlight-image">
+				<div class="spotlight-image-bg">S</div>
+				<div class="spotlight-image-overlay">
+					<div class="artist-num">03</div>
+				</div>
+			</div>
+			<div class="spotlight-content">
+				<p class="section-label">Featured Artist</p>
+				<h2 class="artist-name">PLACE NAME</h2>
+				<p class="artist-discipline">Photographer & Visual Artist </p>
+				<p class="artist-bio">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				</p>
+				<div class="artist-tags">
+					<span class="tag">Photography</span>
+					<span class="tag">Documentary</span>
+					<span class="tag">Film</span>
+					<span class="tag">Installation</span>
+				</div>
+				<a href="#" class="btn-outline">View Portfolio</a>
+			</div>
+		</section>
+
+		<!-- Artist 4 -->
+		<section class="spotlight reverse artist-4 reveal">
+			<div class="spotlight-image">
+				<div class="spotlight-image-bg">K</div>
+				<div class="spotlight-image-overlay">
+					<div class="artist-num">04</div>
+				</div>
+			</div>
+			<div class="spotlight-content">
+				<p class="section-label">Featured Artist</p>
+				<h2 class="artist-name">PLACE NAME</h2>
+				<p class="artist-discipline">Type Designer & Graphic Artist </p>
+				<p class="artist-bio">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				</p>
+				<div class="artist-tags">
+					<span class="tag">Typography</span>
+					<span class="tag">Type Design</span>
+					<span class="tag">Branding</span>
+					<span class="tag">Identity</span>
+				</div>
+				<a href="#" class="btn-outline">View Portfolio</a>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- ==========================================
+	     STATS
+	     ========================================== -->
+	<div class="stats-bar reveal">
+		<div class="stat-item">
+			<div class="stat-number">48</div>
+			<div class="stat-label">Artists Featured</div>
+		</div>
+		<div class="stat-item">
+			<div class="stat-number">##</div>
+			<div class="stat-label">PLACEMENT</div>
+		</div>
+		<div class="stat-item">
+			<div class="stat-number">50+</div>
+			<div class="stat-label">Works in Gallery</div>
+		</div>
+		<div class="stat-item">
+			<div class="stat-number">##</div>
+			<div class="stat-label">PLACEMENT</div>
+		</div>
+	</div>
+
+	<!-- ==========================================
+	     GALLERY
+	     ========================================== -->
+	<section id="gallery">
+		<div class="gallery-header reveal">
+			<div>
+				<p class="section-label">Curated Works</p>
+				<h2 class="gallery-title">THE<br>GALLERY</h2>
+			</div>
+			<a href="#" class="btn-outline">View All Works →</a>
+		</div>
+
+		<div class="gallery-grid reveal">
+			<div class="gallery-item wide">
+				<div class="gallery-item-bg g1">◈</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item tall">
+				<div class="gallery-item-bg g3">◉</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g2">✦</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g6">◬</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g5">⬡</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g7">◎</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item wide">
+				<div class="gallery-item-bg g4">⟁</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g9">❋</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g10">◈</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g11">✧</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+			<div class="gallery-item">
+				<div class="gallery-item-bg g8">◉</div>
+				<div class="gallery-item-info">
+					<div class="gallery-item-title">TITLE</div>
+					<div class="gallery-item-artist">PLACE NAME</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ==========================================
+	     DISCIPLINES
+	     ========================================== -->
+	<section id="disciplines">
+		<div class="reveal">
+			<p class="section-label">What We Showcase</p>
+			<h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,6vw,6rem); line-height:1;">DISCIPLINES</h2>
+		</div>
+
+		<div class="disciplines-grid reveal">
+			<div class="discipline-card">
+				<div class="discipline-icon">✏️</div>
+				<h3 class="discipline-name">Illustration</h3>
+				<p class="discipline-count">## Artists</p>
+				<p class="discipline-desc">From editorial ink drawings to digital concept art, our illustrators push the medium into extraordinary new territory.</p>
+			</div>
+			<div class="discipline-card">
+				<div class="discipline-icon">📷</div>
+				<h3 class="discipline-name">Photography</h3>
+				<p class="discipline-count">## Artists</p>
+				<p class="discipline-desc">Documentary, fine art, fashion — our photographers capture the world with unflinching clarity and unexpected beauty.</p>
+			</div>
+			<div class="discipline-card">
+				<div class="discipline-icon">🎬</div>
+				<h3 class="discipline-name">Motion Design</h3>
+				<p class="discipline-count">## Artists</p>
+				<p class="discipline-desc">Title sequences, brand films, data storytelling — motion artists who bring ideas to life through time and movement.</p>
+			</div>
+			<div class="discipline-card">
+				<div class="discipline-icon">🔤</div>
+				<h3 class="discipline-name">Typography</h3>
+				<p class="discipline-count">## Artists</p>
+				<p class="discipline-desc">Type designers and lettering artists forging new visual languages from the fundamental building blocks of communication.</p>
+			</div>
+			<div class="discipline-card">
+				<div class="discipline-icon">🧊</div>
+				<h3 class="discipline-name">3D & Generative</h3>
+				<p class="discipline-count">## Artists</p>
+				<p class="discipline-desc">Artists working at the frontier of computation, using code, simulation, and 3D tools to generate entirely new visual worlds.</p>
+			</div>
+			<div class="discipline-card">
+				<div class="discipline-icon">🖌️</div>
+				<h3 class="discipline-name">Painting & Print</h3>
+				<p class="discipline-count">## Artists</p>
+				<p class="discipline-desc">Physical mark-making in an increasingly digital world — painters, printmakers, and mixed media artists whose hands shape matter.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- ==========================================
+	     CONTACT
+	     ========================================== -->
+	<section id="contact">
+		<div class="contact-left reveal">
+			<p class="section-label">Join the Collective</p>
+			<h2>GET IN<br><em>TOUCH</em></h2>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+			</p>
+		</div>
+		<div class="reveal">
+			<div class="contact-form">
+				<div class="form-row">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" id="name" placeholder="Your name" />
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" id="email" placeholder="your@email.com" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="discipline">Discipline</label>
+					<select id="discipline">
+						<option value="" disabled selected>Select your medium</option>
+						<option>Illustration</option>
+						<option>Photography</option>
+						<option>Motion Design</option>
+						<option>Typography</option>
+						<option>3D / Generative Art</option>
+						<option>Painting & Print</option>
+						<option>Other</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="portfolio">Portfolio URL</label>
+					<input type="url" id="portfolio" placeholder="https://yoursite.com" />
+				</div>
+				<div class="form-group">
+					<label for="message">Message</label>
+					<textarea id="message" placeholder="Tell us about your work and what brings you here..."></textarea>
+				</div>
+				<button class="form-submit" type="button">Send Message →</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- ==========================================
+	     FOOTER
+	     ========================================== -->
+	<footer>
+		<div class="footer-logo">VIBRATIONS</div>
+		<ul class="footer-links">
+			<li><a href="#">Artists</a></li>
+			<li><a href="#">Gallery</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Submit Work</a></li>
+			<li><a href="#">Instagram</a></li>
+		</ul>
+		<p class="footer-copy">© 2026 PRISM Collective. All rights reserved.</p>
+	</footer>
+
+	<!-- ==========================================
+	     SCRIPTS
+	     ========================================== -->
+	<script>
+		// Custom cursor
+		const cursor = document.getElementById('cursor');
+		document.addEventListener('mousemove', e => {
+			cursor.style.left = e.clientX + 'px';
+			cursor.style.top = e.clientY + 'px';
+		});
+		document.querySelectorAll('a, button, .gallery-item, .discipline-card').forEach(el => {
+			el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+			el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+		});
+
+		// Scroll reveal
+		const reveals = document.querySelectorAll('.reveal');
+		const observer = new IntersectionObserver(entries => {
+			entries.forEach(e => {
+				if (e.isIntersecting) e.target.classList.add('visible');
+			});
+		}, { threshold: 0.1 });
+		reveals.forEach(el => observer.observe(el));
+
+		// Scroll dots
+		const sections = ['hero', 'artists', 'gallery', 'disciplines', 'contact'];
+		const dots = document.querySelectorAll('.scroll-dot');
+		const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
+
+		window.addEventListener('scroll', () => {
+			const scrollY = window.scrollY + window.innerHeight / 2;
+			let active = 0;
+			sectionEls.forEach((el, i) => {
+				if (el && el.offsetTop <= scrollY) active = i;
+			});
+			dots.forEach((d, i) => d.classList.toggle('active', i === active));
+		});
+	</script>
+
+</body>
+</html>
