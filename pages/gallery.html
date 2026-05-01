@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Gallery — VIBRATIONS Collective</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+		body {
+			background: var(--ink);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+			pointer-events: none;
+			z-index: 9999;
+			opacity: 0.5;
+		}
+
+		nav {
+			position: fixed;
+			top: 0; left: 0; right: 0;
+			z-index: 100;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 3rem;
+			mix-blend-mode: difference;
+		}
+
+		.nav-logo {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 2rem;
+			letter-spacing: 0.1em;
+			color: var(--cream);
+			text-decoration: none;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 2.5rem;
+			list-style: none;
+		}
+
+		.nav-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			transition: opacity 0.2s;
+		}
+		.nav-links a:hover, .nav-links a.active { opacity: 0.5; }
+
+		.cursor {
+			position: fixed;
+			width: 12px;
+			height: 12px;
+			background: var(--acid-yellow);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+			mix-blend-mode: exclusion;
+		}
+		.cursor.expanded { width: 40px; height: 40px; }
+
+		/* PAGE HEADER */
+		.page-header {
+			padding: 12rem 3rem 5rem;
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.page-header-inner {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+			align-items: flex-end;
+			position: relative;
+			z-index: 2;
+		}
+
+		.header-bg-text {
+			position: absolute;
+			top: 50%;
+			right: -2rem;
+			transform: translateY(-50%);
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 25vw;
+			color: rgba(245,240,232,0.03);
+			line-height: 1;
+			pointer-events: none;
+			user-select: none;
+		}
+
+		.page-tag {
+			font-size: 0.65rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: var(--acid-yellow);
+			margin-bottom: 1.5rem;
+		}
+
+		.page-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(5rem, 10vw, 10rem);
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+		}
+
+		.page-title em {
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+			color: var(--acid-yellow);
+		}
+
+		.page-desc {
+			font-size: 0.82rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.55);
+			max-width: 42ch;
+		}
+
+		/* FILTER BAR */
+		.filter-bar {
+			padding: 2rem 3rem;
+			display: flex;
+			gap: 0.75rem;
+			flex-wrap: wrap;
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+			align-items: center;
+			position: sticky;
+			top: 68px;
+			background: var(--ink);
+			z-index: 50;
+		}
+
+		.filter-label {
+			font-size: 0.6rem;
+			letter-spacing: 0.25em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-right: 0.5rem;
+		}
+
+		.filter-btn {
+			padding: 0.4rem 1rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			background: none;
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			font-size: 0.6rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			cursor: crosshair;
+			transition: all 0.2s;
+		}
+
+		.filter-btn:hover, .filter-btn.active {
+			background: var(--acid-yellow);
+			border-color: var(--acid-yellow);
+			color: var(--ink);
+		}
+
+		.view-toggle {
+			margin-left: auto;
+			display: flex;
+			gap: 0.5rem;
+		}
+
+		.view-btn {
+			padding: 0.4rem 0.75rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			background: none;
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			font-size: 0.7rem;
+			cursor: crosshair;
+			transition: all 0.2s;
+		}
+		.view-btn.active { background: rgba(245,240,232,0.1); }
+		.view-btn:hover { background: rgba(245,240,232,0.08); }
+
+		/* GALLERY MASONRY */
+		.gallery-section {
+			padding: 3rem;
+		}
+
+		.gallery-masonry {
+			columns: 3;
+			column-gap: 1rem;
+		}
+
+		.gallery-masonry.two-col { columns: 2; }
+		.gallery-masonry.four-col { columns: 4; }
+
+		.gallery-piece {
+			break-inside: avoid;
+			margin-bottom: 1rem;
+			position: relative;
+			overflow: hidden;
+			cursor: crosshair;
+		}
+
+		.gallery-piece-bg {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 8rem;
+			color: rgba(255,255,255,0.08);
+			transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			user-select: none;
+		}
+
+		.gallery-piece:hover .gallery-piece-bg { transform: scale(1.05); }
+
+		.h-sm { height: 240px; }
+		.h-md { height: 340px; }
+		.h-lg { height: 460px; }
+		.h-xl { height: 560px; }
+
+		.g1 { background: linear-gradient(135deg, var(--coral), var(--rose)); }
+		.g2 { background: linear-gradient(135deg, var(--cerulean), var(--teal)); }
+		.g3 { background: linear-gradient(135deg, var(--violet), var(--cerulean)); }
+		.g4 { background: linear-gradient(135deg, var(--mint), var(--cerulean)); }
+		.g5 { background: linear-gradient(135deg, var(--orange), var(--coral)); }
+		.g6 { background: linear-gradient(135deg, var(--acid-yellow), var(--mint)); }
+		.g7 { background: linear-gradient(135deg, var(--rose), var(--violet)); }
+		.g8 { background: linear-gradient(135deg, var(--teal), var(--mint)); }
+		.g9 { background: linear-gradient(135deg, var(--violet), var(--rose)); }
+		.g10 { background: linear-gradient(135deg, var(--cerulean), var(--violet)); }
+		.g11 { background: linear-gradient(135deg, var(--coral), var(--orange)); }
+		.g12 { background: linear-gradient(135deg, var(--mint), var(--acid-yellow)); }
+		.g13 { background: linear-gradient(135deg, var(--rose), var(--coral)); }
+		.g14 { background: linear-gradient(135deg, var(--violet), var(--teal)); }
+		.g15 { background: linear-gradient(135deg, var(--orange), var(--rose)); }
+
+		.gallery-piece-overlay {
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
+			opacity: 0;
+			transition: opacity 0.3s;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 1.5rem;
+		}
+
+		.gallery-piece:hover .gallery-piece-overlay { opacity: 1; }
+
+		.piece-title {
+			font-family: 'DM Serif Display', serif;
+			font-size: 1.4rem;
+			margin-bottom: 0.3rem;
+			line-height: 1.2;
+		}
+
+		.piece-artist {
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.7;
+			margin-bottom: 0.5rem;
+		}
+
+		.piece-meta {
+			font-size: 0.55rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			opacity: 0.5;
+		}
+
+		.piece-tag {
+			display: inline-block;
+			padding: 0.2rem 0.6rem;
+			border: 1px solid rgba(245,240,232,0.4);
+			font-size: 0.5rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			margin-top: 0.75rem;
+		}
+
+		/* LIGHTBOX */
+		.lightbox {
+			display: none;
+			position: fixed;
+			inset: 0;
+			background: rgba(10,10,15,0.95);
+			z-index: 9000;
+			align-items: center;
+			justify-content: center;
+			padding: 2rem;
+		}
+
+		.lightbox.open { display: flex; }
+
+		.lightbox-inner {
+			display: grid;
+			grid-template-columns: 1fr 380px;
+			gap: 3rem;
+			max-width: 1100px;
+			width: 100%;
+		}
+
+		.lightbox-visual {
+			height: 70vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 15rem;
+			color: rgba(255,255,255,0.1);
+		}
+
+		.lightbox-info {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 1.5rem;
+			padding: 2rem 0;
+		}
+
+		.lightbox-num {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 5rem;
+			color: rgba(245,240,232,0.08);
+			line-height: 1;
+		}
+
+		.lightbox-title {
+			font-family: 'DM Serif Display', serif;
+			font-size: 3rem;
+			line-height: 1.1;
+		}
+
+		.lightbox-artist {
+			font-size: 0.65rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: var(--acid-yellow);
+		}
+
+		.lightbox-desc {
+			font-size: 0.78rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.55);
+		}
+
+		.lightbox-close {
+			position: absolute;
+			top: 2rem;
+			right: 2rem;
+			background: none;
+			border: 1px solid rgba(245,240,232,0.3);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			padding: 0.5rem 1rem;
+			cursor: crosshair;
+			transition: all 0.2s;
+		}
+
+		.lightbox-close:hover { background: var(--cream); color: var(--ink); }
+
+		/* MARQUEE */
+		.marquee-strip {
+			background: var(--acid-yellow);
+			color: var(--ink);
+			padding: 0.9rem 0;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.marquee-inner {
+			display: inline-block;
+			animation: marquee 20s linear infinite;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.4rem;
+			letter-spacing: 0.05em;
+		}
+
+		.marquee-inner span { margin: 0 3rem; }
+		.marquee-inner .dot { color: var(--coral); margin: 0 1rem; }
+
+		/* FOOTER */
+		footer {
+			border-top: 1px solid rgba(245,240,232,0.1);
+			padding: 3rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; }
+		.footer-links { display: flex; gap: 2rem; list-style: none; }
+		.footer-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			transition: opacity 0.2s;
+		}
+		.footer-links a:hover { opacity: 1; }
+		.footer-copy { font-size: 0.65rem; opacity: 0.3; letter-spacing: 0.05em; }
+
+		@keyframes fadeUp {
+			from { opacity: 0; transform: translateY(30px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@keyframes marquee {
+			from { transform: translateX(0); }
+			to { transform: translateX(-50%); }
+		}
+
+		.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		.page-header { animation: fadeUp 0.8s 0.2s both; }
+
+		.gallery-piece.hidden { display: none; }
+
+		@media (max-width: 900px) {
+			.gallery-masonry { columns: 2; }
+			.page-header-inner { grid-template-columns: 1fr; }
+			.lightbox-inner { grid-template-columns: 1fr; }
+			.lightbox-visual { height: 40vh; font-size: 8rem; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+	</style>
+</head>
+<body>
+
+	<div class="cursor" id="cursor"></div>
+
+	<!-- LIGHTBOX -->
+	<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+		<button class="lightbox-close" onclick="closeLightbox()">✕ Close</button>
+		<div class="lightbox-inner">
+			<div class="lightbox-visual" id="lbVisual"></div>
+			<div class="lightbox-info">
+				<div class="lightbox-num" id="lbNum"></div>
+				<div>
+					<p class="lightbox-artist" id="lbArtist"></p>
+					<h2 class="lightbox-title" id="lbTitle"></h2>
+				</div>
+				<p class="lightbox-desc" id="lbDesc"></p>
+			</div>
+		</div>
+	</div>
+
+	<nav>
+		<a href="../index.html" class="nav-logo">VIBRATIONS</a>
+		<ul class="nav-links">
+			<li><a href="../artists/index.html">Artists</a></li>
+			<li><a href="index.html" class="active">Gallery</a></li>
+			<li><a href="../disciplines/index.html">Disciplines</a></li>
+			<li><a href="../about/index.html">About</a></li>
+			<li><a href="../index.html#contact">Contact</a></li>
+		</ul>
+	</nav>
+
+	<header class="page-header">
+		<div class="header-bg-text">G</div>
+		<div class="page-header-inner">
+			<div>
+				<p class="page-tag">— Curated Works</p>
+				<h1 class="page-title">THE<br><em>GALLERY</em></h1>
+			</div>
+			<p class="page-desc">Over 50 works spanning illustration, photography, motion, typography, 3D art, and painting — selected for their bold vision and uncompromising craft.</p>
+		</div>
+	</header>
+
+	<div class="filter-bar">
+		<span class="filter-label">Medium:</span>
+		<button class="filter-btn active" onclick="filterGallery('all', this)">All Works</button>
+		<button class="filter-btn" onclick="filterGallery('illustration', this)">Illustration</button>
+		<button class="filter-btn" onclick="filterGallery('photography', this)">Photography</button>
+		<button class="filter-btn" onclick="filterGallery('motion', this)">Motion</button>
+		<button class="filter-btn" onclick="filterGallery('typography', this)">Typography</button>
+		<button class="filter-btn" onclick="filterGallery('3d', this)">3D Art</button>
+		<button class="filter-btn" onclick="filterGallery('painting', this)">Painting</button>
+		<div class="view-toggle">
+			<button class="view-btn active" onclick="setView(3, this)" title="3 columns">⠿</button>
+			<button class="view-btn" onclick="setView(2, this)" title="2 columns">⠶</button>
+			<button class="view-btn" onclick="setView(4, this)" title="4 columns">⣿</button>
+		</div>
+	</div>
+
+	<div class="marquee-strip">
+		<div class="marquee-inner">
+			<span>Crimson Frequency</span><span class="dot">◆</span>
+			<span>Violet Static</span><span class="dot">◆</span>
+			<span>Blue Meridian</span><span class="dot">◆</span>
+			<span>Acid Garden</span><span class="dot">◆</span>
+			<span>Ember Wave</span><span class="dot">◆</span>
+			<span>Rose Cipher</span><span class="dot">◆</span>
+			<span>Mint Threshold</span><span class="dot">◆</span>
+			<span>Crimson Frequency</span><span class="dot">◆</span>
+			<span>Violet Static</span><span class="dot">◆</span>
+			<span>Blue Meridian</span><span class="dot">◆</span>
+			<span>Acid Garden</span><span class="dot">◆</span>
+			<span>Ember Wave</span><span class="dot">◆</span>
+			<span>Rose Cipher</span><span class="dot">◆</span>
+			<span>Mint Threshold</span><span class="dot">◆</span>
+		</div>
+	</div>
+
+	<div class="gallery-section">
+		<div class="gallery-masonry" id="galleryGrid">
+
+			<div class="gallery-piece reveal" data-medium="illustration"
+				onclick="openLightbox('◈','01','Mara Soleil','Crimson Frequency','Illustration · Risograph · 2024','A meditation on warmth and noise, printed in five passes on a Risograph A2. The red layer was intentionally misregistered to create an analogue sense of drift. Part of the ongoing Frequency series.')">
+				<div class="gallery-piece-bg g1 h-xl">◈</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Mara Soleil</p>
+					<h3 class="piece-title">Crimson Frequency</h3>
+					<p class="piece-meta">Illustration · 2024</p>
+					<span class="piece-tag">Risograph</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="3d motion"
+				onclick="openLightbox('◉','02','Jin Raku','Violet Static','3D Art · Cinema 4D · 2025','A frozen moment from the Violet Static animation loop — rendered in Cinema 4D at 8K. The chrome spheres reference memory bubbles, each reflecting a distorted cityscape.')">
+				<div class="gallery-piece-bg g3 h-md">◉</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Jin Raku</p>
+					<h3 class="piece-title">Violet Static</h3>
+					<p class="piece-meta">3D Art · 2025</p>
+					<span class="piece-tag">Cinema 4D</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="photography"
+				onclick="openLightbox('✦','03','Sofía Vane','Blue Meridian','Photography · Film · 2024','Shot on 4x5 large format film during a month-long residency on the São Paulo periphery. The subject is Sofía\'s grandmother, resting in the afternoon light of the house she has lived in for 60 years.')">
+				<div class="gallery-piece-bg g2 h-lg">✦</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Sofía Vane</p>
+					<h3 class="piece-title">Blue Meridian</h3>
+					<p class="piece-meta">Photography · 2024</p>
+					<span class="piece-tag">Film</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="typography"
+				onclick="openLightbox('◬','04','Kael Drift','Acid Garden','Typography · Type Design · 2025','The first specimen poster for Verdura, Kael\'s variable typeface rooted in botanical illustration. The letterforms grow organically across the weight axis from hairline to ultra-black.')">
+				<div class="gallery-piece-bg g6 h-sm">◬</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Kael Drift</p>
+					<h3 class="piece-title">Acid Garden</h3>
+					<p class="piece-meta">Typography · 2025</p>
+					<span class="piece-tag">Type Design</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="illustration"
+				onclick="openLightbox('⬡','05','Mara Soleil','Ember Wave','Illustration · Digital · 2025','Part of a series commissioned by Wired Magazine for an issue on energy futures. Digital gouache technique developed to mimic the warmth of analogue media at print resolution.')">
+				<div class="gallery-piece-bg g5 h-md">⬡</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Mara Soleil</p>
+					<h3 class="piece-title">Ember Wave</h3>
+					<p class="piece-meta">Illustration · 2025</p>
+					<span class="piece-tag">Editorial</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="3d"
+				onclick="openLightbox('◎','06','Jin Raku','Rose Cipher','3D Art · Blender · 2025','Commissioned as a cover image for an unreleased Spotify-exclusive album. The roses are constructed from procedural noise geometry and rendered with a custom glass-distortion shader.')">
+				<div class="gallery-piece-bg g7 h-xl">◎</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Jin Raku</p>
+					<h3 class="piece-title">Rose Cipher</h3>
+					<p class="piece-meta">3D Art · 2025</p>
+					<span class="piece-tag">Blender</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="photography"
+				onclick="openLightbox('⟁','07','Sofía Vane','Mint Threshold','Photography · Installation · 2024','A diptych from the exhibition Thresholds, shown at Fondazione Prada, Milan. The photographs capture doorways across 11 cities, each a portal between two irreconcilable states.')">
+				<div class="gallery-piece-bg g4 h-lg">⟁</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Sofía Vane</p>
+					<h3 class="piece-title">Mint Threshold</h3>
+					<p class="piece-meta">Photography · 2024</p>
+					<span class="piece-tag">Installation</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="typography"
+				onclick="openLightbox('❋','08','Kael Drift','Deep Signal','Graphic Design · Identity · 2025','Brand identity mark for an independent record label. The logotype is set in Kael\'s proprietary Brutus typeface and uses halftone printing to create a layered, textural depth.')">
+				<div class="gallery-piece-bg g9 h-sm">❋</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Kael Drift</p>
+					<h3 class="piece-title">Deep Signal</h3>
+					<p class="piece-meta">Graphic Design · 2025</p>
+					<span class="piece-tag">Identity</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="illustration"
+				onclick="openLightbox('◈','09','Mara Soleil','Cerulean Myth','Illustration · Printmaking · 2024','Linocut print exploring the mythology of the ocean in Nordic folklore. The blues were achieved through a complex reduction process, carving and printing the same block seven times.')">
+				<div class="gallery-piece-bg g10 h-lg">◈</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Mara Soleil</p>
+					<h3 class="piece-title">Cerulean Myth</h3>
+					<p class="piece-meta">Illustration · 2024</p>
+					<span class="piece-tag">Linocut</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="3d motion"
+				onclick="openLightbox('✧','10','Jin Raku','Fire Archive','Motion Design · After Effects · 2024','Title card from the Fire Archive short film. The typography was hand-drawn, then reconstructed in 3D and set alight using real particle simulations captured in Houdini.')">
+				<div class="gallery-piece-bg g11 h-md">✧</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Jin Raku</p>
+					<h3 class="piece-title">Fire Archive</h3>
+					<p class="piece-meta">Motion Design · 2024</p>
+					<span class="piece-tag">Houdini</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="photography"
+				onclick="openLightbox('◉','11','Sofía Vane','Teal Memory','Photography · Digital · 2025','From the series The Algorithm\'s Garden — manipulated scans of 35mm negatives that have been processed through a custom diffusion model trained on family snapshots from the 1980s.')">
+				<div class="gallery-piece-bg g8 h-xl">◉</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Sofía Vane</p>
+					<h3 class="piece-title">Teal Memory</h3>
+					<p class="piece-meta">Photography · 2025</p>
+					<span class="piece-tag">AI-Assisted</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="painting"
+				onclick="openLightbox('✦','12','Aiko Nara','Ghost Flora','Painting · Oil · 2024','A 200×300cm oil painting on raw linen. The floral motifs are drawn from traditional Ikebana composition, but rendered at a scale that transforms decoration into architecture.')">
+				<div class="gallery-piece-bg g12 h-md">✦</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Aiko Nara</p>
+					<h3 class="piece-title">Ghost Flora</h3>
+					<p class="piece-meta">Painting · 2024</p>
+					<span class="piece-tag">Oil on Linen</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="illustration typography"
+				onclick="openLightbox('◬','13','Priya Mohan','Nagari Noise','Lettering · Mural · 2025','A 12-metre mural on the facade of a Mumbai cultural centre. The letterforms fuse Devanagari script with Latin grotesque letterforms, creating a new hybrid vernacular.')">
+				<div class="gallery-piece-bg g13 h-lg">◬</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Priya Mohan</p>
+					<h3 class="piece-title">Nagari Noise</h3>
+					<p class="piece-meta">Lettering · 2025</p>
+					<span class="piece-tag">Mural</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="3d"
+				onclick="openLightbox('⬡','14','Dario Vex','Dissolve No.7','3D Art · Sculpture · 2024','Digital sculpture from the Dissolve series, exploring the moment an object ceases to be recognisable as itself. Exhibited as a 2-metre-high aluminium print at Salone del Mobile.')">
+				<div class="gallery-piece-bg g14 h-sm">⬡</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Dario Vex</p>
+					<h3 class="piece-title">Dissolve No.7</h3>
+					<p class="piece-meta">3D Art · 2024</p>
+					<span class="piece-tag">Generative</span>
+				</div>
+			</div>
+
+			<div class="gallery-piece reveal" data-medium="painting"
+				onclick="openLightbox('◎','15','Zara Okonkwo','Arrival','Painting · Mixed Media · 2025','Textile and oil on canvas, 180×240cm. Part of the exhibition Arrival, showing at the Serpentine Gallery London. The piece depicts a family memory of migration through layered fabric and gesture.')">
+				<div class="gallery-piece-bg g15 h-xl">◎</div>
+				<div class="gallery-piece-overlay">
+					<p class="piece-artist">Zara Okonkwo</p>
+					<h3 class="piece-title">Arrival</h3>
+					<p class="piece-meta">Painting · 2025</p>
+					<span class="piece-tag">Mixed Media</span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<footer>
+		<div class="footer-logo">VIBRATIONS</div>
+		<ul class="footer-links">
+			<li><a href="../artists/index.html">Artists</a></li>
+			<li><a href="index.html">Gallery</a></li>
+			<li><a href="../about/index.html">About</a></li>
+			<li><a href="https://instagram.com" target="_blank">Instagram ↗</a></li>
+		</ul>
+		<p class="footer-copy">© 2026 VIBRATIONS Collective. All rights reserved.</p>
+	</footer>
+
+	<script>
+		const cursor = document.getElementById('cursor');
+		document.addEventListener('mousemove', e => {
+			cursor.style.left = e.clientX + 'px';
+			cursor.style.top = e.clientY + 'px';
+		});
+		document.querySelectorAll('a, button, .gallery-piece').forEach(el => {
+			el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+			el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+		});
+
+		const reveals = document.querySelectorAll('.reveal');
+		const observer = new IntersectionObserver(entries => {
+			entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+		}, { threshold: 0.05 });
+		reveals.forEach(el => observer.observe(el));
+
+		function filterGallery(medium, btn) {
+			document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			document.querySelectorAll('.gallery-piece').forEach(piece => {
+				if (medium === 'all') {
+					piece.classList.remove('hidden');
+				} else {
+					const m = piece.dataset.medium || '';
+					piece.classList.toggle('hidden', !m.includes(medium));
+				}
+			});
+		}
+
+		function setView(cols, btn) {
+			document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			const grid = document.getElementById('galleryGrid');
+			grid.className = 'gallery-masonry';
+			if (cols === 2) grid.classList.add('two-col');
+			if (cols === 4) grid.classList.add('four-col');
+		}
+
+		function openLightbox(icon, num, artist, title, meta, desc) {
+			document.getElementById('lbVisual').textContent = icon;
+			document.getElementById('lbNum').textContent = num;
+			document.getElementById('lbArtist').textContent = artist + ' · ' + meta;
+			document.getElementById('lbTitle').textContent = title;
+			document.getElementById('lbDesc').textContent = desc;
+			document.getElementById('lightbox').classList.add('open');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function closeLightbox(e) {
+			if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close') || e.target.textContent.includes('Close')) {
+				document.getElementById('lightbox').classList.remove('open');
+				document.body.style.overflow = '';
+			}
+		}
+
+		document.addEventListener('keydown', e => {
+			if (e.key === 'Escape') closeLightbox();
+		});
+	</script>
+</body>
+</html>

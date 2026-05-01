@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Artists — VIBRATIONS Collective</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+		body {
+			background: var(--ink);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+			pointer-events: none;
+			z-index: 9999;
+			opacity: 0.5;
+		}
+
+		nav {
+			position: fixed;
+			top: 0; left: 0; right: 0;
+			z-index: 100;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 3rem;
+			mix-blend-mode: difference;
+		}
+
+		.nav-logo {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 2rem;
+			letter-spacing: 0.1em;
+			color: var(--cream);
+			text-decoration: none;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 2.5rem;
+			list-style: none;
+		}
+
+		.nav-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			transition: opacity 0.2s;
+		}
+
+		.nav-links a:hover, .nav-links a.active { opacity: 0.5; }
+
+		/* CURSOR */
+		.cursor {
+			position: fixed;
+			width: 12px;
+			height: 12px;
+			background: var(--acid-yellow);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+			mix-blend-mode: exclusion;
+		}
+		.cursor.expanded { width: 40px; height: 40px; }
+
+		/* PAGE HEADER */
+		.page-header {
+			padding: 12rem 3rem 5rem;
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+			align-items: flex-end;
+		}
+
+	
+
+		.page-tag {
+			font-size: 0.65rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: var(--acid-yellow);
+			margin-bottom: 1.5rem;
+		}
+
+		.page-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(5rem, 10vw, 10rem);
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+		}
+
+		.page-title em {
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+			color: var(--acid-yellow);
+		}
+
+		.page-header-right {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			gap: 2rem;
+		}
+
+		.page-desc {
+			font-size: 0.82rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.55);
+			max-width: 42ch;
+		}
+
+		/* FILTER BAR */
+		.filter-bar {
+			padding: 2rem 3rem;
+			display: flex;
+			gap: 0.75rem;
+			flex-wrap: wrap;
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+			align-items: center;
+		}
+
+		.filter-label {
+			font-size: 0.6rem;
+			letter-spacing: 0.25em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-right: 0.5rem;
+		}
+
+		.filter-btn {
+			padding: 0.4rem 1rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			background: none;
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			font-size: 0.6rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			cursor: crosshair;
+			transition: all 0.2s;
+		}
+
+		.filter-btn:hover, .filter-btn.active {
+			background: var(--acid-yellow);
+			border-color: var(--acid-yellow);
+			color: var(--ink);
+		}
+
+		/* ARTISTS GRID */
+		.artists-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1px;
+			background: rgba(245,240,232,0.08);
+		}
+
+		.artist-card {
+			background: var(--ink);
+			position: relative;
+			overflow: hidden;
+			cursor: crosshair;
+			transition: background 0.3s;
+		}
+
+		.artist-card:hover { background: rgba(245,240,232,0.03); }
+
+		.artist-card-visual {
+			aspect-ratio: 4/3;
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 10rem;
+			color: rgba(255,255,255,0.1);
+			transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.artist-card:hover .artist-card-visual { transform: scale(1.03); }
+
+		.c-coral { background: linear-gradient(135deg, var(--coral) 0%, #c93d1f 100%); }
+		.c-cerulean { background: linear-gradient(135deg, var(--cerulean) 0%, #0040b0 100%); }
+		.c-mint { background: linear-gradient(135deg, var(--mint) 0%, #00a873 100%); }
+		.c-violet { background: linear-gradient(135deg, var(--violet) 0%, #5a0bcc 100%); }
+		.c-rose { background: linear-gradient(135deg, var(--rose) 0%, #c9006a 100%); }
+		.c-orange { background: linear-gradient(135deg, var(--orange) 0%, #cc5500 100%); }
+		.c-teal { background: linear-gradient(135deg, var(--teal) 0%, #008888 100%); }
+		.c-yellow { background: linear-gradient(135deg, var(--acid-yellow) 0%, #b0c900 100%); }
+		.c-multi { background: linear-gradient(135deg, var(--violet) 0%, var(--coral) 50%, var(--acid-yellow) 100%); }
+		.c-multi2 { background: linear-gradient(135deg, var(--cerulean) 0%, var(--mint) 100%); }
+		.c-multi3 { background: linear-gradient(135deg, var(--rose) 0%, var(--orange) 100%); }
+		.c-multi4 { background: linear-gradient(135deg, var(--teal) 0%, var(--cerulean) 100%); }
+
+		.artist-card-num {
+			position: absolute;
+			top: 1.5rem;
+			right: 1.5rem;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 4rem;
+			color: rgba(255,255,255,0.18);
+			line-height: 1;
+		}
+
+		.artist-card-body {
+			padding: 2rem 2rem 2.5rem;
+		}
+
+		.artist-card-discipline {
+			font-size: 0.6rem;
+			letter-spacing: 0.25em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-bottom: 0.6rem;
+		}
+
+		.artist-card-name {
+			font-family: 'DM Serif Display', serif;
+			font-size: 1.9rem;
+			line-height: 1.1;
+			margin-bottom: 0.6rem;
+		}
+
+		.artist-card-location {
+			font-size: 0.65rem;
+			opacity: 0.4;
+			margin-bottom: 1rem;
+			letter-spacing: 0.05em;
+		}
+
+		.artist-card-bio {
+			font-size: 0.75rem;
+			line-height: 1.8;
+			color: rgba(245,240,232,0.5);
+			margin-bottom: 1.5rem;
+		}
+
+		.artist-card-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.tag {
+			padding: 0.3rem 0.75rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			font-size: 0.55rem;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			transition: all 0.2s;
+		}
+
+		.artist-card:hover .tag { border-color: var(--acid-yellow); color: var(--acid-yellow); }
+
+		.artist-card-link {
+			display: inline-block;
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: var(--cream);
+			text-decoration: none;
+			border-bottom: 1px solid rgba(245,240,232,0.3);
+			padding-bottom: 0.2rem;
+			transition: border-color 0.2s, color 0.2s;
+		}
+
+		.artist-card-link:hover { color: var(--acid-yellow); border-color: var(--acid-yellow); }
+
+		/* MARQUEE */
+		.marquee-strip {
+			background: var(--acid-yellow);
+			color: var(--ink);
+			padding: 0.9rem 0;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.marquee-inner {
+			display: inline-block;
+			animation: marquee 20s linear infinite;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.4rem;
+			letter-spacing: 0.05em;
+		}
+
+		.marquee-inner span { margin: 0 3rem; }
+		.marquee-inner .dot { color: var(--coral); margin: 0 1rem; }
+
+		/* CALL TO ACTION */
+		.cta-band {
+			padding: 7rem 3rem;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+			align-items: center;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.cta-band h2 {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(3rem, 6vw, 6rem);
+			line-height: 1;
+		}
+
+		.cta-band h2 em {
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+			color: var(--acid-yellow);
+		}
+
+		.cta-right {
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.cta-right p {
+			font-size: 0.82rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.55);
+		}
+
+		.btn-primary {
+			display: inline-block;
+			padding: 1rem 2.5rem;
+			background: var(--acid-yellow);
+			color: var(--ink);
+			text-decoration: none;
+			font-family: 'Space Mono', monospace;
+			font-size: 0.7rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			font-weight: 700;
+			transition: transform 0.2s, background 0.2s;
+			align-self: flex-start;
+		}
+
+		.btn-primary:hover {
+			background: var(--coral);
+			color: var(--cream);
+			transform: translate(-3px, -3px);
+		}
+
+		/* FOOTER */
+		footer {
+			border-top: 1px solid rgba(245,240,232,0.1);
+			padding: 3rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.footer-logo {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.8rem;
+			letter-spacing: 0.1em;
+		}
+
+		.footer-links {
+			display: flex;
+			gap: 2rem;
+			list-style: none;
+		}
+
+		.footer-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			transition: opacity 0.2s;
+		}
+
+		.footer-links a:hover { opacity: 1; }
+		.footer-copy { font-size: 0.65rem; opacity: 0.3; letter-spacing: 0.05em; }
+
+		/* ANIMATIONS */
+		@keyframes fadeUp {
+			from { opacity: 0; transform: translateY(30px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@keyframes marquee {
+			from { transform: translateX(0); }
+			to { transform: translateX(-50%); }
+		}
+
+		.reveal {
+			opacity: 0;
+			transform: translateY(40px);
+			transition: opacity 0.8s, transform 0.8s;
+		}
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		.page-header { animation: fadeUp 0.8s 0.2s both; }
+
+		/* Hidden state for filtering */
+		.artist-card.hidden {
+			display: none;
+		}
+
+		@media (max-width: 900px) {
+			.artists-grid { grid-template-columns: 1fr 1fr; }
+			.page-header { grid-template-columns: 1fr; }
+			.cta-band { grid-template-columns: 1fr; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+
+		@media (max-width: 600px) {
+			.artists-grid { grid-template-columns: 1fr; }
+		}
+	</style>
+</head>
+<body>
+
+	<div class="cursor" id="cursor"></div>
+
+	<nav>
+		<a href="../index.html" class="nav-logo">VIBRATIONS</a>
+		<ul class="nav-links">
+			<li><a href="index.html" class="active">Artists</a></li>
+			<li><a href="../gallery/index.html">Gallery</a></li>
+			<li><a href="../disciplines/index.html">Disciplines</a></li>
+			<li><a href="../about/index.html">About</a></li>
+			<li><a href="../index.html#contact">Contact</a></li>
+		</ul>
+	</nav>
+
+	<!-- PAGE HEADER -->
+	<header class="page-header">
+		<div class="page-header-left">
+			<p class="page-tag">— The Collective</p>
+			<h1 class="page-title">OUR<br><em>ARTISTS</em></h1>
+		</div>
+		<div class="page-header-right">
+			<p class="page-desc">48 independent artists from 12 countries, each pushing their discipline into uncharted territory. Browse by medium or scroll to discover the full collective.</p>
+		</div>
+	</header>
+
+	<!-- FILTER BAR -->
+	<div class="filter-bar">
+		<span class="filter-label">Filter by:</span>
+		<button class="filter-btn active" onclick="filterArtists('all', this)">All (48)</button>
+		<button class="filter-btn" onclick="filterArtists('illustration', this)">Illustration</button>
+		<button class="filter-btn" onclick="filterArtists('photography', this)">Photography</button>
+		<button class="filter-btn" onclick="filterArtists('motion', this)">Motion Design</button>
+		<button class="filter-btn" onclick="filterArtists('typography', this)">Typography</button>
+		<button class="filter-btn" onclick="filterArtists('3d', this)">3D / Digital</button>
+		<button class="filter-btn" onclick="filterArtists('painting', this)">Painting</button>
+	</div>
+
+	<!-- MARQUEE -->
+	<div class="marquee-strip">
+		<div class="marquee-inner">
+			<span>48 Artists</span><span class="dot">◆</span>
+			<span>12 Countries</span><span class="dot">◆</span>
+			<span>6 Disciplines</span><span class="dot">◆</span>
+			<span>Bold Voices</span><span class="dot">◆</span>
+			<span>Unconventional Visions</span><span class="dot">◆</span>
+			<span>48 Artists</span><span class="dot">◆</span>
+			<span>12 Countries</span><span class="dot">◆</span>
+			<span>6 Disciplines</span><span class="dot">◆</span>
+			<span>Bold Voices</span><span class="dot">◆</span>
+			<span>Unconventional Visions</span><span class="dot">◆</span>
+		</div>
+	</div>
+
+	<!-- ARTISTS GRID -->
+	<div class="artists-grid" id="artistsGrid">
+
+		<div class="artist-card reveal" data-discipline="illustration">
+			<div class="artist-card-visual c-coral">
+				M
+				<div class="artist-card-num">01</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Illustrator & Printmaker</p>
+				<h2 class="artist-card-name">Mara Soleil</h2>
+				<p class="artist-card-location">📍 Berlin, Germany</p>
+				<p class="artist-card-bio">Risograph prints blurring folklore and futurism. Editorial work in The New Yorker, Wired, and publications across Europe.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Illustration</span>
+					<span class="tag">Risograph</span>
+					<span class="tag">Editorial</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="motion 3d">
+			<div class="artist-card-visual c-cerulean">
+				J
+				<div class="artist-card-num">02</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Motion Designer & 3D Artist</p>
+				<h2 class="artist-card-name">Jin Raku</h2>
+				<p class="artist-card-location">📍 Los Angeles, USA</p>
+				<p class="artist-card-bio">Surreal 3D worlds in chrome and neon. Award-winning brand films for Nike, Spotify, and Apple.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Motion Design</span>
+					<span class="tag">3D Art</span>
+					<span class="tag">Blender</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="photography">
+			<div class="artist-card-visual c-mint">
+				S
+				<div class="artist-card-num">03</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Photographer & Visual Artist</p>
+				<h2 class="artist-card-name">Sofía Vane</h2>
+				<p class="artist-card-location">📍 São Paulo, Brazil</p>
+				<p class="artist-card-bio">Documenting the quiet ruptures of everyday life. Exhibited in São Paulo, Paris, and New York. Published in Aperture.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Photography</span>
+					<span class="tag">Documentary</span>
+					<span class="tag">Film</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="typography">
+			<div class="artist-card-visual c-violet">
+				K
+				<div class="artist-card-num">04</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Type Designer & Graphic Artist</p>
+				<h2 class="artist-card-name">Kael Drift</h2>
+				<p class="artist-card-location">📍 London, UK</p>
+				<p class="artist-card-bio">Experimental type designer behind three commercial typefaces and the visual identities of the decade's most recognized independent brands.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Typography</span>
+					<span class="tag">Branding</span>
+					<span class="tag">Identity</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="painting illustration">
+			<div class="artist-card-visual c-rose">
+				A
+				<div class="artist-card-num">05</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Painter & Mixed Media Artist</p>
+				<h2 class="artist-card-name">Aiko Nara</h2>
+				<p class="artist-card-location">📍 Tokyo, Japan</p>
+				<p class="artist-card-bio">Large-scale paintings merging traditional Japanese aesthetics with contemporary abstraction. Museum collections across Asia and Europe.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Painting</span>
+					<span class="tag">Mixed Media</span>
+					<span class="tag">Abstract</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="3d motion">
+			<div class="artist-card-visual c-orange">
+				D
+				<div class="artist-card-num">06</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">3D Sculptor & Installation Artist</p>
+				<h2 class="artist-card-name">Dario Vex</h2>
+				<p class="artist-card-location">📍 Milan, Italy</p>
+				<p class="artist-card-bio">Generative 3D sculptures exploring the boundary between digital and physical. Permanent installations in galleries across Europe.</p>
+				<div class="artist-card-tags">
+					<span class="tag">3D Art</span>
+					<span class="tag">Sculpture</span>
+					<span class="tag">Generative</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="photography">
+			<div class="artist-card-visual c-teal">
+				R
+				<div class="artist-card-num">07</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Fashion & Portrait Photographer</p>
+				<h2 class="artist-card-name">Rana Osei</h2>
+				<p class="artist-card-location">📍 Accra, Ghana</p>
+				<p class="artist-card-bio">Redefining African fashion photography with a bold, color-saturated language. Published in Vogue Africa and i-D Magazine.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Photography</span>
+					<span class="tag">Fashion</span>
+					<span class="tag">Portrait</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="illustration">
+			<div class="artist-card-visual c-yellow">
+				L
+				<div class="artist-card-num">08</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Illustrator & Concept Artist</p>
+				<h2 class="artist-card-name">Lena Vasquez</h2>
+				<p class="artist-card-location">📍 Mexico City, Mexico</p>
+				<p class="artist-card-bio">Concept art for major animation studios blended with deeply personal illustration projects rooted in Latin American mythology.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Illustration</span>
+					<span class="tag">Concept Art</span>
+					<span class="tag">Animation</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="typography illustration">
+			<div class="artist-card-visual c-multi">
+				P
+				<div class="artist-card-num">09</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Lettering Artist & Muralist</p>
+				<h2 class="artist-card-name">Priya Mohan</h2>
+				<p class="artist-card-location">📍 Mumbai, India</p>
+				<p class="artist-card-bio">Hand-lettering and large-scale murals merging Devanagari and Latin scripts. Public art commissions on 4 continents.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Lettering</span>
+					<span class="tag">Murals</span>
+					<span class="tag">Typography</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="motion">
+			<div class="artist-card-visual c-multi2">
+				T
+				<div class="artist-card-num">10</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Motion Director & Animator</p>
+				<h2 class="artist-card-name">Theo Blanc</h2>
+				<p class="artist-card-location">📍 Paris, France</p>
+				<p class="artist-card-bio">Director of title sequences for international film and television. Faculty at École des Arts Décoratifs and creative director of Pulse Studio.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Motion</span>
+					<span class="tag">Animation</span>
+					<span class="tag">Direction</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="painting">
+			<div class="artist-card-visual c-multi3">
+				Z
+				<div class="artist-card-num">11</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Painter & Printmaker</p>
+				<h2 class="artist-card-name">Zara Okonkwo</h2>
+				<p class="artist-card-location">📍 Lagos, Nigeria</p>
+				<p class="artist-card-bio">Oil and textile paintings exploring displacement, memory, and belonging. Recipient of the 2024 Turner Prize shortlist and exhibited at the Venice Biennale.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Painting</span>
+					<span class="tag">Textile</span>
+					<span class="tag">Oil</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+		<div class="artist-card reveal" data-discipline="photography 3d">
+			<div class="artist-card-visual c-multi4">
+				H
+				<div class="artist-card-num">12</div>
+			</div>
+			<div class="artist-card-body">
+				<p class="artist-card-discipline">Photographer & Digital Artist</p>
+				<h2 class="artist-card-name">Hana Seo</h2>
+				<p class="artist-card-location">📍 Seoul, South Korea</p>
+				<p class="artist-card-bio">Merging computational photography with hand-crafted narratives. Her work questions the nature of digital memory in the age of AI.</p>
+				<div class="artist-card-tags">
+					<span class="tag">Photography</span>
+					<span class="tag">Digital Art</span>
+					<span class="tag">AI</span>
+				</div>
+				<a href="#" class="artist-card-link">View Portfolio →</a>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- CTA -->
+	<div class="cta-band reveal">
+		<h2>JOIN THE<br><em>COLLECTIVE</em></h2>
+		<div class="cta-right">
+			<p>We're always looking for bold, original voices. Whether you're an established name or an emerging talent, we want to see your work.</p>
+			<a href="../index.html#contact" class="btn-primary">Apply Now →</a>
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<footer>
+		<div class="footer-logo">VIBRATIONS</div>
+		<ul class="footer-links">
+			<li><a href="index.html">Artists</a></li>
+			<li><a href="../gallery/index.html">Gallery</a></li>
+			<li><a href="../about/index.html">About</a></li>
+			<li><a href="https://instagram.com" target="_blank">Instagram ↗</a></li>
+		</ul>
+		<p class="footer-copy">© 2026 VIBRATIONS Collective. All rights reserved.</p>
+	</footer>
+
+	<script>
+		const cursor = document.getElementById('cursor');
+		document.addEventListener('mousemove', e => {
+			cursor.style.left = e.clientX + 'px';
+			cursor.style.top = e.clientY + 'px';
+		});
+		document.querySelectorAll('a, button, .artist-card').forEach(el => {
+			el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+			el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+		});
+
+		const reveals = document.querySelectorAll('.reveal');
+		const observer = new IntersectionObserver(entries => {
+			entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+		}, { threshold: 0.05 });
+		reveals.forEach(el => observer.observe(el));
+
+		function filterArtists(discipline, btn) {
+			document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			document.querySelectorAll('.artist-card').forEach(card => {
+				if (discipline === 'all') {
+					card.classList.remove('hidden');
+				} else {
+					const d = card.dataset.discipline || '';
+					card.classList.toggle('hidden', !d.includes(discipline));
+				}
+			});
+		}
+	</script>
+</body>
+</html>
