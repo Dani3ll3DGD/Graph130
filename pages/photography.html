@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Photography — VIBRATIONS</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+			--page-accent: var(--cerulean);
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+
+		body {
+			background: var(--ink);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+			pointer-events: none;
+			z-index: 9999;
+			opacity: 0.5;
+		}
+
+		nav {
+			position: fixed;
+			top: 0; left: 0; right: 0;
+			z-index: 100;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 3rem;
+			mix-blend-mode: difference;
+		}
+		.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.1em; color: var(--cream); text-decoration: none; }
+		.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+		.nav-links a { color: var(--cream); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; transition: opacity 0.2s; }
+		.nav-links a:hover { opacity: 0.5; }
+
+		/* HERO — full bleed filmstrip feel */
+		.discipline-hero {
+			min-height: 100vh;
+			display: grid;
+			grid-template-columns: 55% 1fr;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-left {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 8rem 3rem 5rem;
+			position: relative;
+			z-index: 2;
+		}
+
+		.breadcrumb { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cerulean); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+		.breadcrumb a { color: rgba(245,240,232,0.4); text-decoration: none; }
+		.breadcrumb a:hover { color: var(--cream); }
+
+		.hero-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(5rem, 11vw, 10rem);
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+			margin-bottom: 2rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.5s forwards;
+		}
+		.hero-title .accent { display: block; color: var(--cerulean); font-style: italic; font-family: 'DM Serif Display', serif; }
+
+		.hero-desc { font-size: 0.82rem; line-height: 1.9; max-width: 38ch; color: rgba(245,240,232,0.6); opacity: 0; animation: fadeUp 0.8s 0.7s forwards; margin-bottom: 3rem; }
+
+		.hero-stats { display: flex; gap: 3rem; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+		.hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1; color: var(--cerulean); }
+		.hero-stat-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; }
+
+		/* Filmstrip right panel */
+		.hero-right {
+			position: relative;
+			overflow: hidden;
+			background: #050508;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.filmstrip {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		.film-frame {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 5rem;
+			color: rgba(255,255,255,0.06);
+			border-bottom: 2px solid #111;
+			position: relative;
+			opacity: 0;
+			transition: transform 0.4s ease;
+		}
+
+		.film-frame:hover { transform: scaleX(1.02); }
+
+		.film-frame::before, .film-frame::after {
+			content: '■ ■ ■';
+			position: absolute;
+			font-size: 0.4rem;
+			letter-spacing: 0.3em;
+			color: rgba(255,255,255,0.15);
+			top: 50%;
+			transform: translateY(-50%);
+		}
+		.film-frame::before { left: 0.5rem; }
+		.film-frame::after { right: 0.5rem; }
+
+		.film-frame:nth-child(1) { background: linear-gradient(135deg, var(--cerulean), var(--teal)); animation: fadeIn 0.5s 0.2s forwards; }
+		.film-frame:nth-child(2) { background: linear-gradient(135deg, #0f3d99, var(--cerulean)); animation: fadeIn 0.5s 0.35s forwards; }
+		.film-frame:nth-child(3) { background: linear-gradient(135deg, var(--teal), #0a2060); animation: fadeIn 0.5s 0.5s forwards; }
+		.film-frame:nth-child(4) { background: linear-gradient(135deg, var(--cerulean), var(--violet)); animation: fadeIn 0.5s 0.65s forwards; }
+
+		/* MARQUEE */
+		.marquee-strip { background: var(--cerulean); color: var(--cream); padding: 0.9rem 0; overflow: hidden; white-space: nowrap; }
+		.marquee-inner { display: inline-block; animation: marquee 20s linear infinite; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; }
+		.marquee-inner span { margin: 0 3rem; }
+		.marquee-inner .dot { color: rgba(255,255,255,0.3); margin: 0 1rem; }
+
+		/* FILTER */
+		.filter-bar { padding: 3rem; display: flex; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid rgba(245,240,232,0.1); }
+		.filter-btn { padding: 0.5rem 1.2rem; border: 1px solid rgba(245,240,232,0.2); background: transparent; color: var(--cream); font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: crosshair; transition: all 0.2s; }
+		.filter-btn:hover, .filter-btn.active { border-color: var(--cerulean); color: var(--cerulean); }
+
+		/* ARTISTS */
+		.artists-section { padding: 6rem 3rem; }
+		.section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+		.section-label { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cerulean); margin-bottom: 1rem; }
+		.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 5rem); line-height: 1; }
+
+		.artists-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(245,240,232,0.08); }
+		.artist-card { background: var(--ink); position: relative; overflow: hidden; transition: background 0.3s; }
+		.artist-card:hover { background: rgba(245,240,232,0.03); }
+
+		.artist-card-img { aspect-ratio: 3/2; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 7rem; color: rgba(255,255,255,0.1); position: relative; overflow: hidden; transition: transform 0.5s ease; }
+		.artist-card:hover .artist-card-img { transform: scale(1.04); }
+
+		.c1 { background: linear-gradient(135deg, var(--cerulean), var(--teal)); }
+		.c2 { background: linear-gradient(135deg, #0f3d99, var(--cerulean)); }
+		.c3 { background: linear-gradient(135deg, var(--teal), var(--cerulean)); }
+		.c4 { background: linear-gradient(135deg, var(--cerulean), var(--violet)); }
+		.c5 { background: linear-gradient(135deg, var(--violet), var(--cerulean)); }
+		.c6 { background: linear-gradient(135deg, #0a2060, var(--teal)); }
+
+		.artist-card-body { padding: 2rem; }
+		.card-name { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 0.25rem; }
+		.card-medium { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; margin-bottom: 1rem; }
+		.card-bio { font-size: 0.75rem; line-height: 1.8; color: rgba(245,240,232,0.55); margin-bottom: 1.5rem; }
+		.card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+		.tag { padding: 0.3rem 0.8rem; border: 1px solid rgba(245,240,232,0.15); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; }
+		.tag:hover { border-color: var(--cerulean); color: var(--cerulean); }
+		.card-link { display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cerulean); text-decoration: none; border-bottom: 1px solid var(--cerulean); padding-bottom: 2px; transition: opacity 0.2s; }
+		.card-link:hover { opacity: 0.6; }
+
+		/* GALLERY — asymmetric photo wall */
+		.photo-wall-section { padding: 6rem 3rem; border-top: 1px solid rgba(245,240,232,0.1); }
+
+		.photo-wall {
+			display: grid;
+			grid-template-columns: 2fr 1fr 1fr;
+			grid-template-rows: auto auto;
+			gap: 1rem;
+			margin-top: 4rem;
+		}
+
+		.photo-item {
+			position: relative;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		.photo-item.feature { grid-row: span 2; }
+
+		.photo-item-bg {
+			width: 100%;
+			height: 100%;
+			min-height: 220px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 6rem;
+			color: rgba(255,255,255,0.08);
+			transition: transform 0.5s ease;
+		}
+		.photo-item.feature .photo-item-bg { min-height: 460px; }
+		.photo-item:hover .photo-item-bg { transform: scale(1.06); }
+
+		.p1 { background: linear-gradient(135deg, var(--cerulean), var(--teal)); }
+		.p2 { background: linear-gradient(135deg, #0f3d99, var(--cerulean)); }
+		.p3 { background: linear-gradient(135deg, var(--teal), #0a2060); }
+		.p4 { background: linear-gradient(135deg, var(--cerulean), var(--violet)); }
+		.p5 { background: linear-gradient(135deg, var(--violet), var(--teal)); }
+
+		.photo-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; }
+		.photo-item:hover .photo-overlay { opacity: 1; }
+		.photo-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 0.2rem; }
+		.photo-artist { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
+
+		/* SUBMIT CTA */
+		.submit-cta { margin: 6rem 3rem; padding: 5rem; background: var(--cerulean); color: var(--cream); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4rem; }
+		.cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 5rem); line-height: 1; margin-bottom: 1rem; }
+		.cta-desc { font-size: 0.82rem; line-height: 1.8; max-width: 45ch; opacity: 0.75; }
+		.btn-dark { display: inline-block; padding: 1.2rem 3rem; background: var(--ink); color: var(--cream); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
+		.btn-dark:hover { background: var(--cream); color: var(--ink); transform: translate(-3px,-3px); box-shadow: 3px 3px 0 rgba(255,255,255,0.3); }
+
+		footer { border-top: 1px solid rgba(245,240,232,0.1); padding: 3rem; display: flex; justify-content: space-between; align-items: center; }
+		.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; }
+		.footer-links { display: flex; gap: 2rem; list-style: none; }
+		.footer-links a { color: var(--cream); text-decoration: none; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; transition: opacity 0.2s; }
+		.footer-links a:hover { opacity: 1; }
+		.footer-copy { font-size: 0.65rem; opacity: 0.3; }
+
+		.cursor { position: fixed; width: 12px; height: 12px; background: var(--cerulean); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.1s, width 0.2s, height 0.2s; mix-blend-mode: exclusion; }
+		.cursor.expanded { width: 40px; height: 40px; }
+
+		.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+		@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+		@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+		@media (max-width: 900px) {
+			.discipline-hero { grid-template-columns: 1fr; }
+			.hero-right { min-height: 35vh; }
+			.filmstrip { flex-direction: row; }
+			.film-frame { border-bottom: none; border-right: 2px solid #111; }
+			.hero-left { padding: 7rem 2rem 3rem; }
+			.artists-grid { grid-template-columns: 1fr 1fr; }
+			.photo-wall { grid-template-columns: 1fr 1fr; }
+			.photo-item.feature { grid-row: span 1; }
+			.submit-cta { grid-template-columns: 1fr; gap: 2rem; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+	</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+	<a href="index.html" class="nav-logo">VIBRATIONS</a>
+	<ul class="nav-links">
+		<li><a href="index.html#artists">Artists</a></li>
+		<li><a href="index.html#gallery">Gallery</a></li>
+		<li><a href="index.html#disciplines">Disciplines</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+</nav>
+
+<section class="discipline-hero">
+	<div class="hero-left">
+		<p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Photography</p>
+		<h1 class="hero-title">
+			<span class="accent">Photography</span>
+		</h1>
+		<p class="hero-desc">
+			Unflinching eyes and deliberate frames. Our photographers work across documentary, fine art, fashion, and portrait — capturing truth in light and shadow.
+		</p>
+		<div class="hero-stats">
+			<div><div class="hero-stat-num">11</div><div class="hero-stat-label">Artists</div></div>
+			<div><div class="hero-stat-num">120+</div><div class="hero-stat-label">Images</div></div>
+			<div><div class="hero-stat-num">4</div><div class="hero-stat-label">Series</div></div>
+		</div>
+	</div>
+	<div class="hero-right">
+		<div class="filmstrip">
+			<div class="film-frame">◈</div>
+			<div class="film-frame">◉</div>
+			<div class="film-frame">✦</div>
+			<div class="film-frame">◬</div>
+		</div>
+	</div>
+</section>
+
+<div class="marquee-strip">
+	<div class="marquee-inner">
+		<span>Documentary</span><span class="dot">◆</span>
+		<span>Fine Art</span><span class="dot">◆</span>
+		<span>Portrait</span><span class="dot">◆</span>
+		<span>Fashion</span><span class="dot">◆</span>
+		<span>Street</span><span class="dot">◆</span>
+		<span>Landscape</span><span class="dot">◆</span>
+		<span>Film Photography</span><span class="dot">◆</span>
+		<span>Documentary</span><span class="dot">◆</span>
+		<span>Fine Art</span><span class="dot">◆</span>
+		<span>Portrait</span><span class="dot">◆</span>
+		<span>Fashion</span><span class="dot">◆</span>
+		<span>Street</span><span class="dot">◆</span>
+		<span>Landscape</span><span class="dot">◆</span>
+		<span>Film Photography</span><span class="dot">◆</span>
+	</div>
+</div>
+
+<div class="filter-bar reveal">
+	<button class="filter-btn active">All</button>
+	<button class="filter-btn">Documentary</button>
+	<button class="filter-btn">Portrait</button>
+	<button class="filter-btn">Fine Art</button>
+	<button class="filter-btn">Fashion</button>
+	<button class="filter-btn">Street</button>
+	<button class="filter-btn">Film</button>
+</div>
+
+<section class="artists-section">
+	<div class="section-header reveal">
+		<div>
+			<p class="section-label">Meet the Artists</p>
+			<h2 class="section-title">PHOTO<br>COLLECTIVE</h2>
+		</div>
+	</div>
+	<div class="artists-grid reveal">
+		<div class="artist-card">
+			<div class="artist-card-img c1">L</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Documentary Photographer</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags"><span class="tag">Documentary</span><span class="tag">Social</span><span class="tag">Black & White</span></div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c2">P</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Portrait & Fashion</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags"><span class="tag">Portrait</span><span class="tag">Fashion</span><span class="tag">Studio</span></div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c3">V</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Fine Art Photographer</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags"><span class="tag">Fine Art</span><span class="tag">Long Exposure</span><span class="tag">Conceptual</span></div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c4">S</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Street Photographer</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags"><span class="tag">Street</span><span class="tag">Urban</span><span class="tag">35mm</span></div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c5">F</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Film & Darkroom</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags"><span class="tag">Film</span><span class="tag">Darkroom</span><span class="tag">Experimental</span></div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c6">J</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Landscape & Nature</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags"><span class="tag">Landscape</span><span class="tag">Nature</span><span class="tag">Large Format</span></div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="photo-wall-section">
+	<div class="section-header reveal">
+		<div>
+			<p class="section-label">Selected Images</p>
+			<h2 class="section-title">THE<br>ARCHIVE</h2>
+		</div>
+		<a href="#" style="display:inline-block;padding:0.85rem 2rem;border:1px solid var(--cream);color:var(--cream);text-decoration:none;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.2s;" onmouseover="this.style.background='var(--cream)';this.style.color='var(--ink)'" onmouseout="this.style.background='transparent';this.style.color='var(--cream)'">View All →</a>
+	</div>
+	<div class="photo-wall reveal">
+		<div class="photo-item feature">
+			<div class="photo-item-bg p1">◈</div>
+			<div class="photo-overlay"><div class="photo-title">Through the Frame</div><div class="photo-artist">PLACE NAME</div></div>
+		</div>
+		<div class="photo-item">
+			<div class="photo-item-bg p2">✦</div>
+			<div class="photo-overlay"><div class="photo-title">Dusk, Seattle</div><div class="photo-artist">PLACE NAME</div></div>
+		</div>
+		<div class="photo-item">
+			<div class="photo-item-bg p3">◉</div>
+			<div class="photo-overlay"><div class="photo-title">Solitude</div><div class="photo-artist">PLACE NAME</div></div>
+		</div>
+		<div class="photo-item">
+			<div class="photo-item-bg p4">◬</div>
+			<div class="photo-overlay"><div class="photo-title">Market Morning</div><div class="photo-artist">PLACE NAME</div></div>
+		</div>
+		<div class="photo-item">
+			<div class="photo-item-bg p5">✧</div>
+			<div class="photo-overlay"><div class="photo-title">Last Light</div><div class="photo-artist">PLACE NAME</div></div>
+		</div>
+	</div>
+</section>
+
+<div class="submit-cta reveal">
+	<div>
+	</div>
+</div>
+
+<footer>
+	<div class="footer-logo">VIBRATIONS</div>
+	<ul class="footer-links">
+		<li><a href="index.html#artists">Artists</a></li>
+		<li><a href="index.html#gallery">Gallery</a></li>
+		<li><a href="index.html#disciplines">Disciplines</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+	<p class="footer-copy">© 2026 VIBRATIONS Collective. All rights reserved.</p>
+</footer>
+
+<script>
+	const cursor = document.getElementById('cursor');
+	document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+	document.querySelectorAll('a, button, .artist-card, .photo-item').forEach(el => {
+		el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+		el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+	});
+	const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+	document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+	document.querySelectorAll('.filter-btn').forEach(btn => {
+		btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Writing — VIBRATIONS</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+		body { background: var(--ink); color: var(--cream); font-family: 'Space Mono', monospace; overflow-x: hidden; cursor: crosshair; }
+
+		body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.5; }
+
+		nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 3rem; mix-blend-mode: difference; }
+		.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.1em; color: var(--cream); text-decoration: none; }
+		.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+		.nav-links a { color: var(--cream); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; transition: opacity 0.2s; }
+		.nav-links a:hover { opacity: 0.5; }
+
+		/* HERO — editorial, text-heavy feel */
+		.discipline-hero {
+			min-height: 100vh;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 8rem 3rem 5rem; position: relative; z-index: 2; }
+
+		.breadcrumb { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--acid-yellow); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+		.breadcrumb a { color: rgba(245,240,232,0.4); text-decoration: none; }
+		.breadcrumb a:hover { color: var(--cream); }
+
+		.hero-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(5rem, 11vw, 10rem);
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+			margin-bottom: 2rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.5s forwards;
+		}
+		.hero-title .accent { display: block; color: var(--acid-yellow); font-style: italic; font-family: 'DM Serif Display', serif; }
+		.hero-desc { font-size: 0.82rem; line-height: 1.9; max-width: 38ch; color: rgba(245,240,232,0.6); opacity: 0; animation: fadeUp 0.8s 0.7s forwards; margin-bottom: 3rem; }
+		.hero-stats { display: flex; gap: 3rem; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+		.hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1; color: var(--acid-yellow); }
+		.hero-stat-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; }
+
+		/* Right panel — editorial column layout */
+		.hero-right {
+			position: relative;
+			overflow: hidden;
+			background: #080806;
+			padding: 9rem 3rem 4rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			gap: 2rem;
+		}
+
+		.hero-pull-quote {
+			font-family: 'DM Serif Display', serif;
+			font-size: clamp(1.5rem, 3vw, 2.5rem);
+			line-height: 1.3;
+			color: var(--acid-yellow);
+			opacity: 0;
+			animation: fadeUp 0.8s 0.8s forwards;
+			position: relative;
+		}
+
+		.hero-pull-quote::before {
+			content: '"';
+			font-size: 8rem;
+			line-height: 0;
+			position: absolute;
+			top: 1.5rem;
+			left: -1rem;
+			color: rgba(232, 255, 71, 0.15);
+			font-family: 'DM Serif Display', serif;
+		}
+
+		.hero-attribution {
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			opacity: 0;
+			animation: fadeUp 0.8s 1s forwards;
+		}
+
+		.text-columns {
+			columns: 2;
+			column-gap: 1.5rem;
+			font-size: 0.7rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.35);
+			opacity: 0;
+			animation: fadeUp 0.8s 0.6s forwards;
+		}
+
+		/* MARQUEE */
+		.marquee-strip { background: var(--acid-yellow); color: var(--ink); padding: 0.9rem 0; overflow: hidden; white-space: nowrap; }
+		.marquee-inner { display: inline-block; animation: marquee 20s linear infinite; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; }
+		.marquee-inner span { margin: 0 3rem; }
+		.marquee-inner .dot { color: var(--ink); opacity: 0.3; margin: 0 1rem; }
+
+		.filter-bar { padding: 3rem; display: flex; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid rgba(245,240,232,0.1); }
+		.filter-btn { padding: 0.5rem 1.2rem; border: 1px solid rgba(245,240,232,0.2); background: transparent; color: var(--cream); font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: crosshair; transition: all 0.2s; }
+		.filter-btn:hover, .filter-btn.active { border-color: var(--acid-yellow); color: var(--acid-yellow); }
+
+		/* WRITERS */
+		.artists-section { padding: 6rem 3rem; }
+		.section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+		.section-label { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--acid-yellow); margin-bottom: 1rem; }
+		.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 5rem); line-height: 1; }
+
+		/* Writers in an editorial list layout */
+		.writers-list { display: flex; flex-direction: column; gap: 1px; background: rgba(245,240,232,0.08); }
+
+		.writer-row {
+			background: var(--ink);
+			display: grid;
+			grid-template-columns: 80px 1fr 1fr auto;
+			align-items: center;
+			padding: 2.5rem 3rem;
+			gap: 3rem;
+			transition: background 0.3s;
+			position: relative;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		.writer-row::before {
+			content: '';
+			position: absolute;
+			left: 0; top: 0; bottom: 0;
+			width: 3px;
+			background: var(--acid-yellow);
+			transform: scaleY(0);
+			transform-origin: bottom;
+			transition: transform 0.3s ease;
+		}
+		.writer-row:hover::before { transform: scaleY(1); }
+		.writer-row:hover { background: rgba(245,240,232,0.03); }
+
+		.writer-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: rgba(245,240,232,0.15); }
+		.writer-name { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 0.25rem; }
+		.writer-genre { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; }
+		.writer-bio { font-size: 0.75rem; line-height: 1.8; color: rgba(245,240,232,0.5); max-width: 40ch; }
+
+		.writer-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: flex-end; }
+		.tag { padding: 0.3rem 0.8rem; border: 1px solid rgba(245,240,232,0.15); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; }
+		.tag:hover { border-color: var(--acid-yellow); color: var(--acid-yellow); }
+
+		/* EXCERPTS */
+		.excerpts-section { padding: 6rem 3rem; border-top: 1px solid rgba(245,240,232,0.1); }
+
+		.excerpts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(245,240,232,0.08); margin-top: 4rem; }
+
+		.excerpt-card {
+			background: var(--ink);
+			padding: 3.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+			transition: background 0.3s;
+			cursor: pointer;
+			position: relative;
+			overflow: hidden;
+		}
+		.excerpt-card:hover { background: rgba(245,240,232,0.03); }
+
+		.excerpt-genre { font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--acid-yellow); }
+		.excerpt-title { font-family: 'DM Serif Display', serif; font-size: 1.8rem; line-height: 1.2; }
+		.excerpt-author { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; }
+
+		.excerpt-text {
+			font-size: 0.82rem;
+			line-height: 2;
+			color: rgba(245,240,232,0.6);
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+			border-left: 2px solid rgba(232, 255, 71, 0.3);
+			padding-left: 1.5rem;
+		}
+
+		.excerpt-link { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid-yellow); text-decoration: none; align-self: flex-start; border-bottom: 1px solid var(--acid-yellow); padding-bottom: 2px; transition: opacity 0.2s; }
+		.excerpt-link:hover { opacity: 0.6; }
+
+		/* STATS */
+		.reading-stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(245,240,232,0.1); border-bottom: 1px solid rgba(245,240,232,0.1); }
+		.stat-item { padding: 4rem 3rem; border-right: 1px solid rgba(245,240,232,0.1); position: relative; overflow: hidden; transition: background 0.3s; }
+		.stat-item:last-child { border-right: none; }
+		.stat-item:hover { background: rgba(245,240,232,0.04); }
+		.stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1; color: var(--acid-yellow); margin-bottom: 0.5rem; }
+		.stat-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; }
+
+		.submit-cta { margin: 6rem 3rem; padding: 5rem; background: var(--acid-yellow); color: var(--ink); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4rem; }
+		.cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 5rem); line-height: 1; margin-bottom: 1rem; }
+		.cta-desc { font-size: 0.82rem; line-height: 1.8; max-width: 45ch; opacity: 0.7; }
+		.btn-dark { display: inline-block; padding: 1.2rem 3rem; background: var(--ink); color: var(--cream); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
+		.btn-dark:hover { background: var(--cream); color: var(--ink); transform: translate(-3px,-3px); box-shadow: 3px 3px 0 rgba(0,0,0,0.3); }
+
+		footer { border-top: 1px solid rgba(245,240,232,0.1); padding: 3rem; display: flex; justify-content: space-between; align-items: center; }
+		.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; }
+		.footer-links { display: flex; gap: 2rem; list-style: none; }
+		.footer-links a { color: var(--cream); text-decoration: none; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; transition: opacity 0.2s; }
+		.footer-links a:hover { opacity: 1; }
+		.footer-copy { font-size: 0.65rem; opacity: 0.3; }
+
+		.cursor { position: fixed; width: 12px; height: 12px; background: var(--acid-yellow); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.1s, width 0.2s, height 0.2s; mix-blend-mode: exclusion; }
+		.cursor.expanded { width: 40px; height: 40px; }
+		.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+		@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+		@media (max-width: 900px) {
+			.discipline-hero { grid-template-columns: 1fr; }
+			.hero-right { min-height: 40vh; padding: 4rem 2rem; }
+			.text-columns { columns: 1; }
+			.hero-left { padding: 7rem 2rem 3rem; }
+			.writer-row { grid-template-columns: 60px 1fr; }
+			.writer-bio { display: none; }
+			.writer-tags { display: none; }
+			.excerpts-grid { grid-template-columns: 1fr; }
+			.reading-stats { grid-template-columns: 1fr 1fr; }
+			.stat-item { border-right: none; border-bottom: 1px solid rgba(245,240,232,0.1); }
+			.submit-cta { grid-template-columns: 1fr; gap: 2rem; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+	</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+	<a href="index.html" class="nav-logo">VIBRATIONS</a>
+	<ul class="nav-links">
+		<li><a href="index.html#artists">Artists</a></li>
+		<li><a href="index.html#gallery">Gallery</a></li>
+		<li><a href="index.html#disciplines">Disciplines</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+</nav>
+
+<section class="discipline-hero">
+	<div class="hero-left">
+		<p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Writing</p>
+		<h1 class="hero-title">
+			THE
+			<span class="accent">Written</span>
+			WORD
+		</h1>
+		<p class="hero-desc">
+			Fiction, poetry, essays, and experimental forms. Our writers use language as their medium — sculpting thought into something that endures on the page.
+		</p>
+		<div class="hero-stats">
+			<div><div class="hero-stat-num">10</div><div class="hero-stat-label">Writers</div></div>
+			<div><div class="hero-stat-num">35+</div><div class="hero-stat-label">Works</div></div>
+			<div><div class="hero-stat-num">3</div><div class="hero-stat-label">Anthologies</div></div>
+		</div>
+	</div>
+	<div class="hero-right">
+		<div class="text-columns">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+		</div>
+		<div>
+			<div class="hero-pull-quote">
+				Words are the only nets we have to catch the light.
+			</div>
+		</div>
+		<div class="hero-attribution">— VIBRATIONS Collective</div>
+	</div>
+</section>
+
+<div class="marquee-strip">
+	<div class="marquee-inner">
+		<span>Fiction</span><span class="dot">◆</span>
+		<span>Poetry</span><span class="dot">◆</span>
+		<span>Essay</span><span class="dot">◆</span>
+		<span>Memoir</span><span class="dot">◆</span>
+		<span>Experimental</span><span class="dot">◆</span>
+		<span>Criticism</span><span class="dot">◆</span>
+		<span>Flash Fiction</span><span class="dot">◆</span>
+		<span>Fiction</span><span class="dot">◆</span>
+		<span>Poetry</span><span class="dot">◆</span>
+		<span>Essay</span><span class="dot">◆</span>
+		<span>Memoir</span><span class="dot">◆</span>
+		<span>Experimental</span><span class="dot">◆</span>
+		<span>Criticism</span><span class="dot">◆</span>
+		<span>Flash Fiction</span><span class="dot">◆</span>
+	</div>
+</div>
+
+<div class="filter-bar reveal">
+	<button class="filter-btn active">All</button>
+	<button class="filter-btn">Fiction</button>
+	<button class="filter-btn">Poetry</button>
+	<button class="filter-btn">Essay</button>
+	<button class="filter-btn">Memoir</button>
+	<button class="filter-btn">Experimental</button>
+	<button class="filter-btn">Criticism</button>
+</div>
+
+<!-- WRITERS -->
+<section class="artists-section">
+	<div class="section-header reveal">
+		<div>
+			<p class="section-label">Meet the Writers</p>
+			<h2 class="section-title">WORD<br>COLLECTIVE</h2>
+		</div>
+	</div>
+
+	<div class="writers-list reveal">
+		<div class="writer-row">
+			<div class="writer-num">01</div>
+			<div class="writer-info">
+				<div class="writer-name">PLACE NAME</div>
+				<div class="writer-genre">Fiction & Short Stories</div>
+			</div>
+			<div class="writer-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</div>
+			<div class="writer-tags"><span class="tag">Fiction</span><span class="tag">Short Form</span><span class="tag">Surreal</span></div>
+		</div>
+		<div class="writer-row">
+			<div class="writer-num">02</div>
+			<div class="writer-info">
+				<div class="writer-name">PLACE NAME</div>
+				<div class="writer-genre">Poet & Essayist</div>
+			</div>
+			<div class="writer-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</div>
+			<div class="writer-tags"><span class="tag">Poetry</span><span class="tag">Essay</span><span class="tag">Lyric</span></div>
+		</div>
+		<div class="writer-row">
+			<div class="writer-num">03</div>
+			<div class="writer-info">
+				<div class="writer-name">PLACE NAME</div>
+				<div class="writer-genre">Memoirist & Cultural Critic</div>
+			</div>
+			<div class="writer-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</div>
+			<div class="writer-tags"><span class="tag">Memoir</span><span class="tag">Criticism</span><span class="tag">Essay</span></div>
+		</div>
+		<div class="writer-row">
+			<div class="writer-num">04</div>
+			<div class="writer-info">
+				<div class="writer-name">PLACE NAME</div>
+				<div class="writer-genre">Experimental Writer</div>
+			</div>
+			<div class="writer-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</div>
+			<div class="writer-tags"><span class="tag">Experimental</span><span class="tag">Hybrid</span><span class="tag">Visual</span></div>
+		</div>
+		<div class="writer-row">
+			<div class="writer-num">05</div>
+			<div class="writer-info">
+				<div class="writer-name">PLACE NAME</div>
+				<div class="writer-genre">Flash Fiction & Micro</div>
+			</div>
+			<div class="writer-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</div>
+			<div class="writer-tags"><span class="tag">Flash</span><span class="tag">Micro</span><span class="tag">Speculative</span></div>
+		</div>
+		<div class="writer-row">
+			<div class="writer-num">06</div>
+			<div class="writer-info">
+				<div class="writer-name">PLACE NAME</div>
+				<div class="writer-genre">Novelist & Journalist</div>
+			</div>
+			<div class="writer-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</div>
+			<div class="writer-tags"><span class="tag">Novel</span><span class="tag">Journalism</span><span class="tag">Long Form</span></div>
+		</div>
+	</div>
+</section>
+
+<!-- EXCERPTS -->
+<section class="excerpts-section">
+	<div class="section-header reveal">
+		<div>
+			<p class="section-label">From the Archive</p>
+			<h2 class="section-title">SELECTED<br>READINGS</h2>
+		</div>
+		<a href="#" style="display:inline-block;padding:0.85rem 2rem;border:1px solid var(--cream);color:var(--cream);text-decoration:none;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.2s;" onmouseover="this.style.background='var(--cream)';this.style.color='var(--ink)'" onmouseout="this.style.background='transparent';this.style.color='var(--cream)'">View All Works →</a>
+	</div>
+	<div class="excerpts-grid reveal">
+		<div class="excerpt-card">
+			<div class="excerpt-genre">Short Fiction</div>
+			<div class="excerpt-title">The Glass Hours</div>
+			<div class="excerpt-author">PLACE NAME</div>
+			<p class="excerpt-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+			<a href="#" class="excerpt-link">Read More →</a>
+		</div>
+		<div class="excerpt-card">
+			<div class="excerpt-genre">Poetry</div>
+			<div class="excerpt-title">Small Confessions</div>
+			<div class="excerpt-author">PLACE NAME</div>
+			<p class="excerpt-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+			<a href="#" class="excerpt-link">Read More →</a>
+		</div>
+		<div class="excerpt-card">
+			<div class="excerpt-genre">Essay</div>
+			<div class="excerpt-title">On the Act of Looking</div>
+			<div class="excerpt-author">PLACE NAME</div>
+			<p class="excerpt-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+			<a href="#" class="excerpt-link">Read More →</a>
+		</div>
+		<div class="excerpt-card">
+			<div class="excerpt-genre">Experimental</div>
+			<div class="excerpt-title">Language as Body</div>
+			<div class="excerpt-author">PLACE NAME</div>
+			<p class="excerpt-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+			<a href="#" class="excerpt-link">Read More →</a>
+		</div>
+	</div>
+</section>
+
+<!-- STATS -->
+<div class="reading-stats reveal">
+	<div class="stat-item">
+		<div class="stat-number">10</div>
+		<div class="stat-label">Writers</div>
+	</div>
+	<div class="stat-item">
+		<div class="stat-number">35+</div>
+		<div class="stat-label">Published Works</div>
+	</div>
+	<div class="stat-item">
+		<div class="stat-number">3</div>
+		<div class="stat-label">Anthologies</div>
+	</div>
+	<div class="stat-item">
+		<div class="stat-number">6</div>
+		<div class="stat-label">Genres</div>
+	</div>
+</div>
+
+<div class="submit-cta reveal">
+	<div>
+		
+	</div>
+	
+</div>
+
+<footer>
+	<div class="footer-logo">VIBRATIONS</div>
+	<ul class="footer-links">
+		<li><a href="index.html#artists">Artists</a></li>
+		<li><a href="index.html#gallery">Gallery</a></li>
+		<li><a href="index.html#disciplines">Disciplines</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+	<p class="footer-copy">© 2026 VIBRATIONS Collective. All rights reserved.</p>
+</footer>
+
+<script>
+	const cursor = document.getElementById('cursor');
+	document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+	document.querySelectorAll('a, button, .writer-row, .excerpt-card').forEach(el => {
+		el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+		el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+	});
+	const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+	document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+	document.querySelectorAll('.filter-btn').forEach(btn => {
+		btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
+	});
+</script>
+</body>
+</html>

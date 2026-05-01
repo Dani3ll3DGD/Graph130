@@ -7,9 +7,6 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 	<style>
-		/* =============================================
-		   CSS VARIABLES & RESET
-		   ============================================= */
 		:root {
 			--ink: #0a0a0f;
 			--cream: #f5f0e8;
@@ -24,9 +21,7 @@
 		}
 
 		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 		html { scroll-behavior: smooth; }
-
 		body {
 			background: var(--ink);
 			color: var(--cream);
@@ -35,9 +30,6 @@
 			cursor: crosshair;
 		}
 
-		/* =============================================
-		   NOISE TEXTURE OVERLAY
-		   ============================================= */
 		body::before {
 			content: '';
 			position: fixed;
@@ -48,9 +40,6 @@
 			opacity: 0.5;
 		}
 
-		/* =============================================
-		   NAVIGATION
-		   ============================================= */
 		nav {
 			position: fixed;
 			top: 0; left: 0; right: 0;
@@ -63,7 +52,7 @@
 		}
 
 		.nav-logo {
-			font-family: 'Sigmar', sans-serif;
+			font-family: 'Bebas Neue', sans-serif;
 			font-size: 2rem;
 			letter-spacing: 0.1em;
 			color: var(--cream);
@@ -87,9 +76,7 @@
 
 		.nav-links a:hover { opacity: 0.5; }
 
-		/* =============================================
-		   HERO SECTION
-		   ============================================= */
+		/* HERO */
 		#hero {
 			min-height: 100vh;
 			display: grid;
@@ -127,9 +114,7 @@
 			animation: fadeUp 0.8s 0.5s forwards;
 		}
 
-		.hero-title span {
-			display: block;
-		}
+		.hero-title span { display: block; }
 
 		.hero-title .accent {
 			color: var(--acid-yellow);
@@ -217,9 +202,7 @@
 			opacity: 0.7;
 		}
 
-		/* =============================================
-		   MARQUEE STRIP
-		   ============================================= */
+		/* MARQUEE */
 		.marquee-strip {
 			background: var(--acid-yellow);
 			color: var(--ink);
@@ -236,18 +219,10 @@
 			letter-spacing: 0.05em;
 		}
 
-		.marquee-inner span {
-			margin: 0 3rem;
-		}
+		.marquee-inner span { margin: 0 3rem; }
+		.marquee-inner .dot { color: var(--coral); margin: 0 1rem; }
 
-		.marquee-inner .dot {
-			color: var(--coral);
-			margin: 0 1rem;
-		}
-
-		/* =============================================
-		   FEATURED ARTIST - SPOTLIGHT
-		   ============================================= */
+		/* SECTION LABELS */
 		.section-label {
 			font-size: 0.6rem;
 			letter-spacing: 0.35em;
@@ -256,6 +231,7 @@
 			margin-bottom: 1rem;
 		}
 
+		/* SPOTLIGHT */
 		.spotlight {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
@@ -277,7 +253,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-family: 'Poppins', sans-serif;
+			font-family: 'Bebas Neue', sans-serif;
 			font-size: 20vw;
 			font-weight: 900;
 			user-select: none;
@@ -304,7 +280,7 @@
 		}
 
 		.artist-num {
-			font-family: 'Sigmar', sans-serif;
+			font-family: 'Bebas Neue', sans-serif;
 			font-size: 5rem;
 			line-height: 1;
 			color: rgba(255,255,255,0.2);
@@ -359,11 +335,7 @@
 			transition: all 0.2s;
 		}
 
-		.tag:hover {
-			border-color: var(--acid-yellow);
-			color: var(--acid-yellow);
-		}
-
+		.tag:hover { border-color: var(--acid-yellow); color: var(--acid-yellow); }
 		.artist-1 .tag:hover { border-color: var(--coral); color: var(--coral); }
 		.artist-2 .tag:hover { border-color: var(--cerulean); color: var(--cerulean); }
 		.artist-3 .tag:hover { border-color: var(--mint); color: var(--mint); }
@@ -387,9 +359,41 @@
 			color: var(--ink);
 		}
 
-		/* =============================================
-		   GALLERY GRID
-		   ============================================= */
+		/* STATS */
+		.stats-bar {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			border-top: 1px solid rgba(245,240,232,0.1);
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.stat-item {
+			padding: 4rem 3rem;
+			border-right: 1px solid rgba(245,240,232,0.1);
+			position: relative;
+			overflow: hidden;
+			transition: background 0.3s;
+		}
+
+		.stat-item:last-child { border-right: none; }
+		.stat-item:hover { background: rgba(245,240,232,0.04); }
+
+		.stat-number {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 5rem;
+			line-height: 1;
+			color: var(--acid-yellow);
+			margin-bottom: 0.5rem;
+		}
+
+		.stat-label {
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.5;
+		}
+
+		/* GALLERY */
 		#gallery {
 			padding: 8rem 3rem;
 			border-top: 1px solid rgba(245,240,232,0.1);
@@ -411,7 +415,6 @@
 		.gallery-grid {
 			display: grid;
 			grid-template-columns: repeat(4, 1fr);
-			grid-template-rows: auto;
 			gap: 1rem;
 		}
 
@@ -479,46 +482,7 @@
 			opacity: 0.7;
 		}
 
-		/* =============================================
-		   STATS BAR
-		   ============================================= */
-		.stats-bar {
-			display: grid;
-			grid-template-columns: repeat(4, 1fr);
-			border-top: 1px solid rgba(245,240,232,0.1);
-			border-bottom: 1px solid rgba(245,240,232,0.1);
-		}
-
-		.stat-item {
-			padding: 4rem 3rem;
-			border-right: 1px solid rgba(245,240,232,0.1);
-			position: relative;
-			overflow: hidden;
-			transition: background 0.3s;
-		}
-
-		.stat-item:last-child { border-right: none; }
-
-		.stat-item:hover { background: rgba(245,240,232,0.04); }
-
-		.stat-number {
-			font-family: 'Bebas Neue', sans-serif;
-			font-size: 5rem;
-			line-height: 1;
-			color: var(--acid-yellow);
-			margin-bottom: 0.5rem;
-		}
-
-		.stat-label {
-			font-size: 0.65rem;
-			letter-spacing: 0.2em;
-			text-transform: uppercase;
-			opacity: 0.5;
-		}
-
-		/* =============================================
-		   DISCIPLINES SECTION
-		   ============================================= */
+		/* DISCIPLINES */
 		#disciplines {
 			padding: 8rem 3rem;
 			border-top: 1px solid rgba(245,240,232,0.1);
@@ -561,10 +525,7 @@
 		.discipline-card:hover::before { transform: scaleX(1); }
 		.discipline-card:hover { background: rgba(245,240,232,0.03); }
 
-		.discipline-icon {
-			font-size: 2.5rem;
-			margin-bottom: 1.5rem;
-		}
+		.discipline-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
 
 		.discipline-name {
 			font-family: 'DM Serif Display', serif;
@@ -586,9 +547,7 @@
 			color: rgba(245,240,232,0.5);
 		}
 
-		/* =============================================
-		   CONTACT SECTION
-		   ============================================= */
+		/* CONTACT */
 		#contact {
 			padding: 8rem 3rem;
 			display: grid;
@@ -598,7 +557,7 @@
 		}
 
 		.contact-left h2 {
-			font-family: 'Sigmar', sans-serif;
+			font-family: 'Bebas Neue', sans-serif;
 			font-size: clamp(3rem, 6vw, 6rem);
 			line-height: 1;
 			margin-bottom: 2rem;
@@ -618,7 +577,6 @@
 		}
 
 		.contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
-
 		.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
 		.form-group label {
@@ -634,7 +592,7 @@
 			background: rgba(245,240,232,0.04);
 			border: 1px solid rgba(245,240,232,0.12);
 			color: var(--cream);
-			font-family: 'Sigmar', monospace;
+			font-family: 'Space Mono', monospace;
 			font-size: 0.82rem;
 			padding: 0.9rem 1rem;
 			outline: none;
@@ -644,12 +602,9 @@
 
 		.form-group input:focus,
 		.form-group textarea:focus,
-		.form-group select:focus {
-			border-color: var(--acid-yellow);
-		}
+		.form-group select:focus { border-color: var(--acid-yellow); }
 
 		.form-group textarea { resize: vertical; min-height: 120px; }
-
 		.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 		.form-submit {
@@ -657,7 +612,7 @@
 			background: var(--acid-yellow);
 			color: var(--ink);
 			border: none;
-			font-family: 'SIGMAR', monospace;
+			font-family: 'Space Mono', monospace;
 			font-size: 0.7rem;
 			letter-spacing: 0.15em;
 			text-transform: uppercase;
@@ -674,9 +629,18 @@
 			box-shadow: 3px 3px 0 var(--cream);
 		}
 
-		/* =============================================
-		   FOOTER
-		   ============================================= */
+		/* Success message */
+		.form-success {
+			display: none;
+			padding: 2rem;
+			border: 1px solid var(--mint);
+			color: var(--mint);
+			font-size: 0.8rem;
+			line-height: 1.8;
+			letter-spacing: 0.05em;
+		}
+
+		/* FOOTER */
 		footer {
 			border-top: 1px solid rgba(245,240,232,0.1);
 			padding: 3rem;
@@ -686,7 +650,7 @@
 		}
 
 		.footer-logo {
-			font-family: 'POPPINS', sans-serif;
+			font-family: 'Bebas Neue', sans-serif;
 			font-size: 1.8rem;
 			letter-spacing: 0.1em;
 		}
@@ -715,9 +679,7 @@
 			letter-spacing: 0.05em;
 		}
 
-		/* =============================================
-		   SCROLL INDICATOR
-		   ============================================= */
+		/* SCROLL INDICATOR */
 		.scroll-indicator {
 			position: fixed;
 			right: 2rem;
@@ -743,9 +705,23 @@
 			transform: scale(1.5);
 		}
 
-		/* =============================================
-		   ANIMATIONS
-		   ============================================= */
+		/* CURSOR */
+		.cursor {
+			position: fixed;
+			width: 12px;
+			height: 12px;
+			background: var(--acid-yellow);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+			mix-blend-mode: exclusion;
+		}
+
+		.cursor.expanded { width: 40px; height: 40px; }
+
+		/* ANIMATIONS */
 		@keyframes fadeUp {
 			from { opacity: 0; transform: translateY(30px); }
 			to { opacity: 1; transform: translateY(0); }
@@ -767,35 +743,8 @@
 			transition: opacity 0.8s, transform 0.8s;
 		}
 
-		.reveal.visible {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		.reveal.visible { opacity: 1; transform: translateY(0); }
 
-		/* =============================================
-		   CUSTOM CURSOR
-		   ============================================= */
-		.cursor {
-			position: fixed;
-			width: 12px;
-			height: 12px;
-			background: var(--acid-yellow);
-			border-radius: 50%;
-			pointer-events: none;
-			z-index: 9998;
-			transform: translate(-50%, -50%);
-			transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-			mix-blend-mode: exclusion;
-		}
-
-		.cursor.expanded {
-			width: 40px;
-			height: 40px;
-		}
-
-		/* =============================================
-		   RESPONSIVE
-		   ============================================= */
 		@media (max-width: 900px) {
 			#hero { grid-template-columns: 1fr; min-height: auto; }
 			.hero-right { min-height: 40vh; }
@@ -819,10 +768,8 @@
 </head>
 <body>
 
-	<!-- Custom cursor -->
 	<div class="cursor" id="cursor"></div>
 
-	<!-- Scroll indicators -->
 	<div class="scroll-indicator">
 		<div class="scroll-dot active" data-section="hero"></div>
 		<div class="scroll-dot" data-section="artists"></div>
@@ -831,20 +778,17 @@
 		<div class="scroll-dot" data-section="contact"></div>
 	</div>
 
-	<!-- Navigation -->
 	<nav>
-		<a href="#hero" class="nav-logo">VIBRATIONS</a>
+		<a href="index.html" class="nav-logo">VIBRATIONS</a>
 		<ul class="nav-links">
 			<li><a href="#artists">Artists</a></li>
-			<li><a href="#gallery">Gallery</a></li>
+			<li><a href="gallery/index.html">Gallery</a></li>
 			<li><a href="#disciplines">Disciplines</a></li>
 			<li><a href="#contact">Contact</a></li>
 		</ul>
 	</nav>
 
-	<!-- ==========================================
-	     HERO
-	     ========================================== -->
+	<!-- HERO -->
 	<section id="hero">
 		<div class="hero-left">
 			<p class="hero-tag">— The Artist Collective</p>
@@ -854,7 +798,7 @@
 				<span>LIVES</span>
 			</h1>
 			<p class="hero-subtitle">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				A curated collective of 48 independent artists pushing the boundaries of illustration, photography, motion, type, and beyond. We amplify bold voices and unconventional visions.
 			</p>
 			<div class="hero-cta">
 				<a href="#artists" class="btn-primary">Explore Artists</a>
@@ -874,7 +818,7 @@
 		</div>
 	</section>
 
-	<!-- Marquee strip -->
+	<!-- MARQUEE -->
 	<div class="marquee-strip">
 		<div class="marquee-inner">
 			<span>Illustration</span><span class="dot">◆</span>
@@ -898,12 +842,9 @@
 		</div>
 	</div>
 
-	<!-- ==========================================
-	     ARTISTS SPOTLIGHT
-	     ========================================== -->
+	<!-- ARTISTS SPOTLIGHT -->
 	<div id="artists">
 
-		<!-- Artist 1 -->
 		<section class="spotlight artist-1 reveal">
 			<div class="spotlight-image">
 				<div class="spotlight-image-bg">M</div>
@@ -913,10 +854,10 @@
 			</div>
 			<div class="spotlight-content">
 				<p class="section-label">Featured Artist</p>
-				<h2 class="artist-name">PLACE NAME</h2>
-				<p class="artist-discipline">Illustrator & Printmaker </p>
+				<h2 class="artist-name">Mara Soleil</h2>
+				<p class="artist-discipline">Illustrator & Printmaker</p>
 				<p class="artist-bio">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+					Berlin-based illustrator whose risograph prints blur the line between folklore and futurism. Her editorial work has appeared in The New Yorker, Wired, and numerous independent publications across Europe.
 				</p>
 				<div class="artist-tags">
 					<span class="tag">Illustration</span>
@@ -924,11 +865,10 @@
 					<span class="tag">Printmaking</span>
 					<span class="tag">Editorial</span>
 				</div>
-				<a href="#" class="btn-outline">View Portfolio</a>
+				<a href="artists/mara-soleil.html" class="btn-outline">View Portfolio</a>
 			</div>
 		</section>
 
-		<!-- Artist 2 -->
 		<section class="spotlight reverse artist-2 reveal">
 			<div class="spotlight-image">
 				<div class="spotlight-image-bg">J</div>
@@ -938,10 +878,10 @@
 			</div>
 			<div class="spotlight-content">
 				<p class="section-label">Featured Artist</p>
-				<h2 class="artist-name">PLACE NAME</h2>
-				<p class="artist-discipline">Motion Designer & 3D Artist </p>
+				<h2 class="artist-name">Jin Raku</h2>
+				<p class="artist-discipline">Motion Designer & 3D Artist</p>
 				<p class="artist-bio">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+					Tokyo-born, Los Angeles-based motion designer crafting surreal 3D worlds that feel like fever dreams in chrome and neon. Director of award-winning brand films for Nike, Spotify, and Apple.
 				</p>
 				<div class="artist-tags">
 					<span class="tag">Motion Design</span>
@@ -949,11 +889,10 @@
 					<span class="tag">Blender</span>
 					<span class="tag">After Effects</span>
 				</div>
-				<a href="#" class="btn-outline">View Portfolio</a>
+				<a href="artists/jin-raku.html" class="btn-outline">View Portfolio</a>
 			</div>
 		</section>
 
-		<!-- Artist 3 -->
 		<section class="spotlight artist-3 reveal">
 			<div class="spotlight-image">
 				<div class="spotlight-image-bg">S</div>
@@ -963,10 +902,10 @@
 			</div>
 			<div class="spotlight-content">
 				<p class="section-label">Featured Artist</p>
-				<h2 class="artist-name">PLACE NAME</h2>
-				<p class="artist-discipline">Photographer & Visual Artist </p>
+				<h2 class="artist-name">Sofía Vane</h2>
+				<p class="artist-discipline">Photographer & Visual Artist</p>
 				<p class="artist-bio">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+					Documentary and fine art photographer capturing the quiet ruptures of everyday life. Her long-form projects have been exhibited in São Paulo, Paris, and New York, and published in Aperture magazine.
 				</p>
 				<div class="artist-tags">
 					<span class="tag">Photography</span>
@@ -974,11 +913,10 @@
 					<span class="tag">Film</span>
 					<span class="tag">Installation</span>
 				</div>
-				<a href="#" class="btn-outline">View Portfolio</a>
+				<a href="artists/sofia-vane.html" class="btn-outline">View Portfolio</a>
 			</div>
 		</section>
 
-		<!-- Artist 4 -->
 		<section class="spotlight reverse artist-4 reveal">
 			<div class="spotlight-image">
 				<div class="spotlight-image-bg">K</div>
@@ -988,10 +926,10 @@
 			</div>
 			<div class="spotlight-content">
 				<p class="section-label">Featured Artist</p>
-				<h2 class="artist-name">PLACE NAME</h2>
-				<p class="artist-discipline">Type Designer & Graphic Artist </p>
+				<h2 class="artist-name">Kael Drift</h2>
+				<p class="artist-discipline">Type Designer & Graphic Artist</p>
 				<p class="artist-bio">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+					Experimental type designer and visual identity architect. Creator of three commercial typefaces and the design language behind some of the most recognized independent brands of the decade.
 				</p>
 				<div class="artist-tags">
 					<span class="tag">Typography</span>
@@ -999,130 +937,124 @@
 					<span class="tag">Branding</span>
 					<span class="tag">Identity</span>
 				</div>
-				<a href="#" class="btn-outline">View Portfolio</a>
+				<a href="artists/kael-drift.html" class="btn-outline">View Portfolio</a>
 			</div>
 		</section>
 
 	</div>
 
-	<!-- ==========================================
-	     STATS
-	     ========================================== -->
+	<!-- STATS -->
 	<div class="stats-bar reveal">
 		<div class="stat-item">
 			<div class="stat-number">48</div>
 			<div class="stat-label">Artists Featured</div>
 		</div>
 		<div class="stat-item">
-			<div class="stat-number">##</div>
-			<div class="stat-label">PLACEMENT</div>
+			<div class="stat-number">12</div>
+			<div class="stat-label">Countries Represented</div>
 		</div>
 		<div class="stat-item">
 			<div class="stat-number">50+</div>
 			<div class="stat-label">Works in Gallery</div>
 		</div>
 		<div class="stat-item">
-			<div class="stat-number">##</div>
-			<div class="stat-label">PLACEMENT</div>
+			<div class="stat-number">6</div>
+			<div class="stat-label">Disciplines</div>
 		</div>
 	</div>
 
-	<!-- ==========================================
-	     GALLERY
-	     ========================================== -->
+	<!-- GALLERY -->
 	<section id="gallery">
 		<div class="gallery-header reveal">
 			<div>
 				<p class="section-label">Curated Works</p>
 				<h2 class="gallery-title">THE<br>GALLERY</h2>
 			</div>
-			<a href="#" class="btn-outline">View All Works →</a>
+			<a href="gallery/index.html" class="btn-outline">View All Works →</a>
 		</div>
 
 		<div class="gallery-grid reveal">
-			<div class="gallery-item wide">
+			<div class="gallery-item wide" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g1">◈</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Crimson Frequency</div>
+					<div class="gallery-item-artist">Mara Soleil</div>
 				</div>
 			</div>
-			<div class="gallery-item tall">
+			<div class="gallery-item tall" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g3">◉</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Violet Static</div>
+					<div class="gallery-item-artist">Jin Raku</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g2">✦</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Blue Meridian</div>
+					<div class="gallery-item-artist">Sofía Vane</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g6">◬</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Acid Garden</div>
+					<div class="gallery-item-artist">Kael Drift</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g5">⬡</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Ember Wave</div>
+					<div class="gallery-item-artist">Mara Soleil</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g7">◎</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Rose Cipher</div>
+					<div class="gallery-item-artist">Jin Raku</div>
 				</div>
 			</div>
-			<div class="gallery-item wide">
+			<div class="gallery-item wide" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g4">⟁</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Mint Threshold</div>
+					<div class="gallery-item-artist">Sofía Vane</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g9">❋</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Deep Signal</div>
+					<div class="gallery-item-artist">Kael Drift</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g10">◈</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Cerulean Myth</div>
+					<div class="gallery-item-artist">Mara Soleil</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g11">✧</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Fire Archive</div>
+					<div class="gallery-item-artist">Jin Raku</div>
 				</div>
 			</div>
-			<div class="gallery-item">
+			<div class="gallery-item" onclick="window.location='gallery/index.html'">
 				<div class="gallery-item-bg g8">◉</div>
 				<div class="gallery-item-info">
-					<div class="gallery-item-title">TITLE</div>
-					<div class="gallery-item-artist">PLACE NAME</div>
+					<div class="gallery-item-title">Teal Memory</div>
+					<div class="gallery-item-artist">Sofía Vane</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- ==========================================
-	     DISCIPLINES
-	     ========================================== -->
+	<!-- DISCIPLINES -->
 	<section id="disciplines">
 		<div class="reveal">
 			<p class="section-label">What We Showcase</p>
@@ -1131,57 +1063,55 @@
 
 		<div class="disciplines-grid reveal">
 			<div class="discipline-card">
-				<div class="discipline-icon">✏️</div>
-				<h3 class="discipline-name">Illustration</h3>
-				<p class="discipline-count">## Artists</p>
+				<div class="discipline-icon">🖌️</div>
+				<h3 class="discipline-name">Fine Art</h3>
+				<p class="discipline-count">14 Artists</p>
 				<p class="discipline-desc">From editorial ink drawings to digital concept art, our illustrators push the medium into extraordinary new territory.</p>
 			</div>
 			<div class="discipline-card">
 				<div class="discipline-icon">📷</div>
 				<h3 class="discipline-name">Photography</h3>
-				<p class="discipline-count">## Artists</p>
+				<p class="discipline-count">10 Artists</p>
 				<p class="discipline-desc">Documentary, fine art, fashion — our photographers capture the world with unflinching clarity and unexpected beauty.</p>
 			</div>
 			<div class="discipline-card">
 				<div class="discipline-icon">🎬</div>
-				<h3 class="discipline-name">Motion Design</h3>
-				<p class="discipline-count">## Artists</p>
+				<h3 class="discipline-name">Ceramics</h3>
+				<p class="discipline-count">8 Artists</p>
 				<p class="discipline-desc">Title sequences, brand films, data storytelling — motion artists who bring ideas to life through time and movement.</p>
 			</div>
 			<div class="discipline-card">
 				<div class="discipline-icon">🔤</div>
-				<h3 class="discipline-name">Typography</h3>
-				<p class="discipline-count">## Artists</p>
+				<h3 class="discipline-name">Graphic Design</h3>
+				<p class="discipline-count">9 Artists</p>
 				<p class="discipline-desc">Type designers and lettering artists forging new visual languages from the fundamental building blocks of communication.</p>
 			</div>
 			<div class="discipline-card">
-				<div class="discipline-icon">🧊</div>
-				<h3 class="discipline-name">3D & Generative</h3>
-				<p class="discipline-count">## Artists</p>
+				<div class="discipline-icon">✏️</div>
+				<h3 class="discipline-name">Writing</h3>
+				<p class="discipline-count">4 Artists</p>
 				<p class="discipline-desc">Artists working at the frontier of computation, using code, simulation, and 3D tools to generate entirely new visual worlds.</p>
 			</div>
 			<div class="discipline-card">
-				<div class="discipline-icon">🖌️</div>
-				<h3 class="discipline-name">Painting & Print</h3>
-				<p class="discipline-count">## Artists</p>
+				<div class="discipline-icon">🌐</div>
+				<h3 class="discipline-name">Digital Art</h3>
+				<p class="discipline-count">3 Artists</p>
 				<p class="discipline-desc">Physical mark-making in an increasingly digital world — painters, printmakers, and mixed media artists whose hands shape matter.</p>
 			</div>
 		</div>
 	</section>
 
-	<!-- ==========================================
-	     CONTACT
-	     ========================================== -->
+	<!-- CONTACT -->
 	<section id="contact">
 		<div class="contact-left reveal">
 			<p class="section-label">Join the Collective</p>
 			<h2>GET IN<br><em>TOUCH</em></h2>
 			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				We're always looking for bold, original voices. Whether you're an established name or an emerging talent, we want to see your work. Reach out and let's make something together.
 			</p>
 		</div>
 		<div class="reveal">
-			<div class="contact-form">
+			<div class="contact-form" id="contactForm">
 				<div class="form-row">
 					<div class="form-group">
 						<label for="name">Name</label>
@@ -1213,31 +1143,27 @@
 					<label for="message">Message</label>
 					<textarea id="message" placeholder="Tell us about your work and what brings you here..."></textarea>
 				</div>
-				<button class="form-submit" type="button">Send Message →</button>
+				<button class="form-submit" type="button" onclick="submitForm()">Send Message →</button>
+			</div>
+			<div class="form-success" id="formSuccess">
+				✓ &nbsp; Message received. We'll be in touch within 3–5 business days. Keep making bold work.
 			</div>
 		</div>
 	</section>
 
-	<!-- ==========================================
-	     FOOTER
-	     ========================================== -->
+	<!-- FOOTER -->
 	<footer>
 		<div class="footer-logo">VIBRATIONS</div>
 		<ul class="footer-links">
-			<li><a href="#">Artists</a></li>
-			<li><a href="#">Gallery</a></li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Submit Work</a></li>
-			<li><a href="#">Instagram</a></li>
+			<li><a href="#artists">Artists</a></li>
+			<li><a href="gallery/index.html">Gallery</a></li>
+			<li><a href="about/index.html">About</a></li>
+			<li><a href="https://instagram.com" target="_blank">Instagram ↗</a></li>
 		</ul>
-		<p class="footer-copy">© 2026 PRISM Collective. All rights reserved.</p>
+		<p class="footer-copy">© 2026 Vibrations Collective. All rights reserved.</p>
 	</footer>
 
-	<!-- ==========================================
-	     SCRIPTS
-	     ========================================== -->
 	<script>
-		// Custom cursor
 		const cursor = document.getElementById('cursor');
 		document.addEventListener('mousemove', e => {
 			cursor.style.left = e.clientX + 'px';
@@ -1248,7 +1174,6 @@
 			el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
 		});
 
-		// Scroll reveal
 		const reveals = document.querySelectorAll('.reveal');
 		const observer = new IntersectionObserver(entries => {
 			entries.forEach(e => {
@@ -1257,7 +1182,6 @@
 		}, { threshold: 0.1 });
 		reveals.forEach(el => observer.observe(el));
 
-		// Scroll dots
 		const sections = ['hero', 'artists', 'gallery', 'disciplines', 'contact'];
 		const dots = document.querySelectorAll('.scroll-dot');
 		const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
@@ -1270,6 +1194,17 @@
 			});
 			dots.forEach((d, i) => d.classList.toggle('active', i === active));
 		});
+
+		function submitForm() {
+			const name = document.getElementById('name').value.trim();
+			const email = document.getElementById('email').value.trim();
+			if (!name || !email) {
+				alert('Please fill in your name and email before sending.');
+				return;
+			}
+			document.getElementById('contactForm').style.display = 'none';
+			document.getElementById('formSuccess').style.display = 'block';
+		}
 	</script>
 
 </body>

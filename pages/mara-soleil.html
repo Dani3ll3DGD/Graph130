@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Mara Soleil — VIBRATIONS</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+			--accent: var(--coral);
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+		body {
+			background: var(--ink);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+			pointer-events: none;
+			z-index: 9999;
+			opacity: 0.5;
+		}
+
+		.cursor {
+			position: fixed;
+			width: 12px; height: 12px;
+			background: var(--coral);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition: width 0.2s, height 0.2s;
+			mix-blend-mode: exclusion;
+		}
+		.cursor.expanded { width: 40px; height: 40px; }
+
+		nav {
+			position: fixed;
+			top: 0; left: 0; right: 0;
+			z-index: 100;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 3rem;
+			mix-blend-mode: difference;
+		}
+
+		.nav-logo {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 2rem;
+			letter-spacing: 0.1em;
+			color: var(--cream);
+			text-decoration: none;
+		}
+
+		.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+		.nav-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			transition: opacity 0.2s;
+		}
+		.nav-links a:hover { opacity: 0.5; }
+
+		/* HERO */
+		.artist-hero {
+			min-height: 100vh;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.artist-hero-visual {
+			background: var(--coral);
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.artist-hero-letter {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 40vw;
+			color: rgba(0,0,0,0.12);
+			line-height: 1;
+			user-select: none;
+			animation: floatLetter 6s ease-in-out infinite;
+		}
+
+		@keyframes floatLetter {
+			0%, 100% { transform: translateY(0) rotate(-3deg); }
+			50% { transform: translateY(-20px) rotate(2deg); }
+		}
+
+		.artist-hero-badge {
+			position: absolute;
+			top: 2rem; right: 2rem;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 8rem;
+			color: rgba(255,255,255,0.15);
+			line-height: 1;
+		}
+
+		.artist-hero-info {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 8rem 4rem 5rem;
+		}
+
+		.back-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: rgba(245,240,232,0.4);
+			text-decoration: none;
+			margin-bottom: 4rem;
+			transition: color 0.2s;
+		}
+		.back-link:hover { color: var(--coral); }
+
+		.artist-number {
+			font-size: 0.65rem;
+			letter-spacing: 0.35em;
+			text-transform: uppercase;
+			color: var(--coral);
+			margin-bottom: 1rem;
+		}
+
+		.artist-hero-name {
+			font-family: 'DM Serif Display', serif;
+			font-size: clamp(3.5rem, 6vw, 6rem);
+			line-height: 1;
+			margin-bottom: 0.75rem;
+		}
+
+		.artist-hero-role {
+			font-size: 0.7rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			opacity: 0.45;
+			margin-bottom: 2.5rem;
+		}
+
+		.artist-hero-bio {
+			font-size: 0.85rem;
+			line-height: 1.9;
+			color: rgba(245,240,232,0.65);
+			max-width: 44ch;
+			margin-bottom: 3rem;
+		}
+
+		.artist-meta {
+			display: flex;
+			gap: 3rem;
+			padding-top: 2rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		
+		.meta-label {
+			font-size: 0.55rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			opacity: 0.35;
+			margin-bottom: 0.4rem;
+		}
+		.meta-value {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.8rem;
+			color: var(--coral);
+		}
+
+		/* TAGS */
+		.artist-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-bottom: 3rem;
+		}
+
+		.tag {
+			padding: 0.35rem 0.9rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			font-size: 0.6rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			transition: all 0.2s;
+		}
+		.tag:hover { border-color: var(--coral); color: var(--coral); }
+
+		/* WORKS SECTION */
+		.works-section {
+			padding: 8rem 3rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.section-label {
+			font-size: 0.6rem;
+			letter-spacing: 0.35em;
+			text-transform: uppercase;
+			color: var(--coral);
+			margin-bottom: 1rem;
+		}
+
+		.section-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(3rem, 5vw, 5rem);
+			line-height: 1;
+			margin-bottom: 4rem;
+		}
+
+		.works-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.5rem;
+		}
+
+		.work-card {
+			position: relative;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		.work-card.featured {
+			grid-column: span 2;
+		}
+
+		.work-visual {
+			aspect-ratio: 4/3;
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 8rem;
+			color: rgba(255,255,255,0.06);
+			font-family: 'Bebas Neue', sans-serif;
+			transition: transform 0.5s ease;
+		}
+
+		.work-card.featured .work-visual { aspect-ratio: 16/9; }
+		.work-card:hover .work-visual { transform: scale(1.03); }
+
+		.w1 { background: linear-gradient(135deg, #ff5c3a, #ff3d8f); }
+		.w2 { background: linear-gradient(135deg, #ff8c00, #ff5c3a); }
+		.w3 { background: linear-gradient(135deg, #ff3d8f, #8b2fff); }
+		.w4 { background: linear-gradient(135deg, #e8ff47, #00e8a2); }
+		.w5 { background: linear-gradient(135deg, #ff5c3a, #ff8c00); }
+		.w6 { background: linear-gradient(135deg, #8b2fff, #ff3d8f); }
+
+		.work-info {
+			padding: 1.25rem 0 0;
+		}
+
+		.work-title {
+			font-family: 'DM Serif Display', serif;
+			font-size: 1.3rem;
+			margin-bottom: 0.3rem;
+		}
+
+		.work-meta {
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+		}
+
+		/* ABOUT STRIP */
+		.about-strip {
+			padding: 8rem 3rem;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 8rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+			background: rgba(255,92,58,0.04);
+		}
+
+		.about-strip h2 {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(3rem, 5vw, 5rem);
+			line-height: 1;
+			margin-bottom: 2rem;
+		}
+
+		.about-strip p {
+			font-size: 0.82rem;
+			line-height: 2;
+			color: rgba(245,240,232,0.6);
+			margin-bottom: 1.5rem;
+		}
+
+		.awards-list {
+			list-style: none;
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.award-item {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: 1.5rem;
+			align-items: start;
+			padding-bottom: 1.5rem;
+			border-bottom: 1px solid rgba(245,240,232,0.08);
+		}
+
+		.award-year {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.5rem;
+			color: var(--coral);
+			line-height: 1;
+		}
+
+		.award-text { font-size: 0.78rem; line-height: 1.7; }
+		.award-name { margin-bottom: 0.2rem; }
+		.award-org { opacity: 0.4; font-size: 0.65rem; letter-spacing: 0.1em; }
+
+		/* NEXT ARTIST */
+		.next-artist {
+			border-top: 1px solid rgba(245,240,232,0.1);
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			min-height: 30vh;
+			text-decoration: none;
+			color: var(--cream);
+			transition: background 0.3s;
+		}
+
+		.next-artist:hover { background: rgba(245,240,232,0.02); }
+
+		.next-artist-label {
+			padding: 4rem 3rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		.next-label-tag {
+			font-size: 0.6rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-bottom: 1rem;
+		}
+
+		.next-label-name {
+			font-family: 'DM Serif Display', serif;
+			font-size: clamp(2rem, 4vw, 4rem);
+			line-height: 1;
+		}
+
+		.next-label-role {
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-top: 0.5rem;
+		}
+
+		.next-artist-visual {
+			background: var(--cerulean);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 20vw;
+			color: rgba(255,255,255,0.1);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.next-arrow {
+			position: absolute;
+			bottom: 2rem;
+			right: 2rem;
+			font-size: 2rem;
+			opacity: 0.5;
+			transition: transform 0.3s, opacity 0.3s;
+		}
+
+		.next-artist:hover .next-arrow { transform: translate(5px, -5px); opacity: 1; }
+
+		/* FOOTER */
+		footer {
+			border-top: 1px solid rgba(245,240,232,0.1);
+			padding: 3rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; }
+		.footer-links { display: flex; gap: 2rem; list-style: none; }
+		.footer-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			transition: opacity 0.2s;
+		}
+		.footer-links a:hover { opacity: 1; }
+		.footer-copy { font-size: 0.65rem; opacity: 0.3; }
+
+		/* REVEAL */
+		.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		@media (max-width: 900px) {
+			.artist-hero { grid-template-columns: 1fr; }
+			.artist-hero-visual { min-height: 40vh; }
+			.artist-hero-info { padding: 3rem 2rem; }
+			.back-link { margin-bottom: 2rem; }
+			.works-grid { grid-template-columns: 1fr 1fr; }
+			.work-card.featured { grid-column: span 2; }
+			.about-strip { grid-template-columns: 1fr; gap: 4rem; }
+			.next-artist { grid-template-columns: 1fr; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+	</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+	<a href="../index.html" class="nav-logo">VIBRATIONS</a>
+	<ul class="nav-links">
+		<li><a href="../index.html#artists">Artists</a></li>
+		<li><a href="../gallery/index.html">Gallery</a></li>
+		<li><a href="../index.html#disciplines">Disciplines</a></li>
+		<li><a href="../index.html#contact">Contact</a></li>
+	</ul>
+</nav>
+
+<!-- HERO -->
+<section class="artist-hero">
+	<div class="artist-hero-visual">
+		<div class="artist-hero-letter">M</div>
+		<div class="artist-hero-badge">01</div>
+	</div>
+	<div class="artist-hero-info">
+		<a href="../index.html#artists" class="back-link">← Back to Artists</a>
+		<p class="artist-number">— Artist 01</p>
+		<h1 class="artist-hero-name">Mara<br>Soleil</h1>
+		<p class="artist-hero-role">Illustrator & Printmaker</p>
+		<p class="artist-hero-bio">
+			Berlin-based illustrator whose risograph prints blur the line between folklore and futurism. Her editorial work has appeared in The New Yorker, Wired, and numerous independent publications across Europe. With a background in printmaking, she brings a distinctly tactile, layered quality to even her digital output.
+		</p>
+		<div class="artist-tags">
+			<span class="tag">Illustration</span>
+			<span class="tag">Risograph</span>
+			<span class="tag">Printmaking</span>
+			<span class="tag">Editorial</span>
+			<span class="tag">Berlin</span>
+		</div>
+		<div class="artist-meta">
+			<div class="meta-item">
+				<p class="meta-label">Works</p>
+				<p class="meta-value">23</p>
+			</div>
+			<div class="meta-item">
+				<p class="meta-label">Exhibitions</p>
+				<p class="meta-value">11</p>
+			</div>
+			<div class="meta-item">
+				<p class="meta-label">Est.</p>
+				<p class="meta-value">2017</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- WORKS -->
+<section class="works-section">
+	<div class="reveal">
+		<p class="section-label">Selected Works</p>
+		<h2 class="section-title">PORTFOLIO</h2>
+	</div>
+
+	<div class="works-grid reveal">
+		<div class="work-card featured">
+			<div class="work-visual w1">◈</div>
+			<div class="work-info">
+				<h3 class="work-title">Crimson Frequency</h3>
+				<p class="work-meta">Risograph Print · 2024 · Edition of 50</p>
+			</div>
+		</div>
+		<div class="work-card">
+			<div class="work-visual w2">◉</div>
+			<div class="work-info">
+				<h3 class="work-title">Ember Myth</h3>
+				<p class="work-meta">Editorial Illustration · 2024</p>
+			</div>
+		</div>
+		<div class="work-card">
+			<div class="work-visual w3">✦</div>
+			<div class="work-info">
+				<h3 class="work-title">Night Garden</h3>
+				<p class="work-meta">Print Series · 2023</p>
+			</div>
+		</div>
+		<div class="work-card">
+			<div class="work-visual w4">◬</div>
+			<div class="work-info">
+				<h3 class="work-title">Acid Folklore</h3>
+				<p class="work-meta">Mixed Media · 2023</p>
+			</div>
+		</div>
+		<div class="work-card featured">
+			<div class="work-visual w5">⬡</div>
+			<div class="work-info">
+				<h3 class="work-title">Signal & Smoke</h3>
+				<p class="work-meta">Book Cover Series · Penguin · 2022</p>
+			</div>
+		</div>
+		<div class="work-card">
+			<div class="work-visual w6">◎</div>
+			<div class="work-info">
+				<h3 class="work-title">Violet Cartography</h3>
+				<p class="work-meta">Screenprint · 2022</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-strip">
+	<div class="reveal">
+		<h2>ABOUT<br>THE WORK</h2>
+		<p>
+			Mara's practice sits at the intersection of craft and concept. She learned risograph printing in a Berlin collective in 2016, and the medium's limitations — its registration errors, ink bleeds, and restricted palette — became the engine of her aesthetic.
+		</p>
+		<p>
+			Her editorial commissions are defined by bold silhouettes, unexpected color combinations, and narrative density. Clients commission her not just for execution, but for the point of view she brings to every brief.
+		</p>
+		<p>
+			She teaches workshops on risograph and printmaking in Berlin twice a year, and is currently working on her first self-published book.
+		</p>
+	</div>
+	<div class="reveal">
+		<p class="section-label" style="color:var(--coral);">Recognition</p>
+		<h2>AWARDS &<br>PRESS</h2>
+		<ul class="awards-list">
+			<li class="award-item">
+				<span class="award-year">2024</span>
+				<div class="award-text">
+					<p class="award-name">Cover of the Year — The New Yorker Winter Issue</p>
+					<p class="award-org">American Society of Illustrators</p>
+				</div>
+			</li>
+			<li class="award-item">
+				<span class="award-year">2023</span>
+				<div class="award-text">
+					<p class="award-name">Best Emerging Illustrator</p>
+					<p class="award-org">Communication Arts Annual</p>
+				</div>
+			</li>
+			<li class="award-item">
+				<span class="award-year">2022</span>
+				<div class="award-text">
+					<p class="award-name">Resident Artist — Künstlerhaus Bethanien</p>
+					<p class="award-org">Berlin, Germany</p>
+				</div>
+			</li>
+			<li class="award-item">
+				<span class="award-year">2021</span>
+				<div class="award-text">
+					<p class="award-name">Featured in Print Is Dead (Long Live Print) Vol. 4</p>
+					<p class="award-org">Gestalten Publishing</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<!-- NEXT ARTIST -->
+<a href="jin-raku.html" class="next-artist">
+	<div class="next-artist-label">
+		<p class="next-label-tag">Next Artist →</p>
+		<h2 class="next-label-name">Jin Raku</h2>
+		<p class="next-label-role">Motion Designer & 3D Artist</p>
+	</div>
+	<div class="next-artist-visual">J
+		<span class="next-arrow">↗</span>
+	</div>
+</a>
+
+<footer>
+	<div class="footer-logo">VIBRATIONS</div>
+	<ul class="footer-links">
+		<li><a href="../index.html#artists">Artists</a></li>
+		<li><a href="../gallery/index.html">Gallery</a></li>
+		<li><a href="../about/index.html">About</a></li>
+		<li><a href="https://instagram.com" target="_blank">Instagram ↗</a></li>
+	</ul>
+	<p class="footer-copy">© 2026 Vibrations Collective.</p>
+</footer>
+
+<script>
+	const cursor = document.getElementById('cursor');
+	document.addEventListener('mousemove', e => {
+		cursor.style.left = e.clientX + 'px';
+		cursor.style.top = e.clientY + 'px';
+	});
+	document.querySelectorAll('a, button, .work-card').forEach(el => {
+		el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+		el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+	});
+
+	const reveals = document.querySelectorAll('.reveal');
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+	}, { threshold: 0.1 });
+	reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

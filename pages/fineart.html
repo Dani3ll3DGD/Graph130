@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Fine Art — VIBRATIONS</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #0a0a0f;
+			--cream: #f5f0e8;
+			--acid-yellow: #e8ff47;
+			--coral: #ff5c3a;
+			--cerulean: #1a6bff;
+			--mint: #00e8a2;
+			--violet: #8b2fff;
+			--rose: #ff3d8f;
+			--orange: #ff8c00;
+			--teal: #00c9c9;
+			--page-accent: var(--coral);
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+
+		body {
+			background: var(--ink);
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+			pointer-events: none;
+			z-index: 9999;
+			opacity: 0.5;
+		}
+
+		/* NAV */
+		nav {
+			position: fixed;
+			top: 0; left: 0; right: 0;
+			z-index: 100;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 3rem;
+			mix-blend-mode: difference;
+		}
+		.nav-logo {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 2rem;
+			letter-spacing: 0.1em;
+			color: var(--cream);
+			text-decoration: none;
+		}
+		.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+		.nav-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			transition: opacity 0.2s;
+		}
+		.nav-links a:hover { opacity: 0.5; }
+
+		/* HERO */
+		.discipline-hero {
+			min-height: 100vh;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-left {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 8rem 3rem 5rem;
+			position: relative;
+			z-index: 2;
+		}
+
+		.breadcrumb {
+			font-size: 0.6rem;
+			letter-spacing: 0.3em;
+			text-transform: uppercase;
+			color: var(--coral);
+			margin-bottom: 1.5rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.3s forwards;
+		}
+		.breadcrumb a { color: rgba(245,240,232,0.4); text-decoration: none; }
+		.breadcrumb a:hover { color: var(--cream); }
+
+		.hero-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(5rem, 11vw, 10rem);
+			line-height: 0.9;
+			letter-spacing: -0.02em;
+			margin-bottom: 2rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.5s forwards;
+		}
+		.hero-title .accent {
+			display: block;
+			color: var(--coral);
+			font-style: italic;
+			font-family: 'DM Serif Display', serif;
+		}
+
+		.hero-desc {
+			font-size: 0.82rem;
+			line-height: 1.9;
+			max-width: 38ch;
+			color: rgba(245,240,232,0.6);
+			opacity: 0;
+			animation: fadeUp 0.8s 0.7s forwards;
+			margin-bottom: 3rem;
+		}
+
+		.hero-stats {
+			display: flex;
+			gap: 3rem;
+			opacity: 0;
+			animation: fadeUp 0.8s 0.9s forwards;
+		}
+		.hero-stat-num {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 3rem;
+			line-height: 1;
+			color: var(--coral);
+		}
+		.hero-stat-label {
+			font-size: 0.55rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+		}
+
+		.hero-right {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-art-grid {
+			position: absolute;
+			inset: 0;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+			gap: 3px;
+		}
+
+		.art-cell {
+			opacity: 0;
+			transform: scale(0.9);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 4rem;
+			font-family: 'Bebas Neue', sans-serif;
+			color: rgba(255,255,255,0.08);
+			transition: transform 0.4s ease;
+		}
+
+		.art-cell:hover { transform: scale(1.05); }
+
+		.art-cell:nth-child(1) { background: var(--coral); animation: scaleIn 0.5s 0.1s forwards; }
+		.art-cell:nth-child(2) { background: #c43f22; animation: scaleIn 0.5s 0.2s forwards; }
+		.art-cell:nth-child(3) { background: #a83318; animation: scaleIn 0.5s 0.3s forwards; }
+		.art-cell:nth-child(4) { background: #e04a28; animation: scaleIn 0.5s 0.15s forwards; }
+		.art-cell:nth-child(5) { background: var(--orange); animation: scaleIn 0.5s 0.25s forwards; }
+		.art-cell:nth-child(6) { background: #8a2510; animation: scaleIn 0.5s 0.35s forwards; }
+
+		/* MARQUEE */
+		.marquee-strip {
+			background: var(--coral);
+			color: var(--ink);
+			padding: 0.9rem 0;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		.marquee-inner {
+			display: inline-block;
+			animation: marquee 20s linear infinite;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 1.4rem;
+			letter-spacing: 0.05em;
+		}
+		.marquee-inner span { margin: 0 3rem; }
+		.marquee-inner .dot { color: var(--ink); opacity: 0.4; margin: 0 1rem; }
+
+		/* FILTER BAR */
+		.filter-bar {
+			padding: 3rem;
+			display: flex;
+			gap: 1rem;
+			flex-wrap: wrap;
+			border-bottom: 1px solid rgba(245,240,232,0.1);
+		}
+		.filter-btn {
+			padding: 0.5rem 1.2rem;
+			border: 1px solid rgba(245,240,232,0.2);
+			background: transparent;
+			color: var(--cream);
+			font-family: 'Space Mono', monospace;
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			cursor: crosshair;
+			transition: all 0.2s;
+		}
+		.filter-btn:hover, .filter-btn.active {
+			border-color: var(--coral);
+			color: var(--coral);
+		}
+
+		/* ARTISTS GRID */
+		.artists-section {
+			padding: 6rem 3rem;
+		}
+
+		.section-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			margin-bottom: 4rem;
+		}
+		.section-label {
+			font-size: 0.6rem;
+			letter-spacing: 0.35em;
+			text-transform: uppercase;
+			color: var(--coral);
+			margin-bottom: 1rem;
+		}
+		.section-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(3rem, 5vw, 5rem);
+			line-height: 1;
+		}
+
+		.artists-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1px;
+			background: rgba(245,240,232,0.08);
+		}
+
+		.artist-card {
+			background: var(--ink);
+			position: relative;
+			overflow: hidden;
+			transition: background 0.3s;
+		}
+		.artist-card:hover { background: rgba(245,240,232,0.03); }
+
+		.artist-card-img {
+			aspect-ratio: 4/3;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 7rem;
+			color: rgba(255,255,255,0.1);
+			position: relative;
+			overflow: hidden;
+			transition: transform 0.5s ease;
+		}
+		.artist-card:hover .artist-card-img { transform: scale(1.04); }
+
+		.c1 { background: linear-gradient(135deg, var(--coral), var(--orange)); }
+		.c2 { background: linear-gradient(135deg, #8a2510, var(--coral)); }
+		.c3 { background: linear-gradient(135deg, var(--orange), #c43f22); }
+		.c4 { background: linear-gradient(135deg, var(--rose), var(--coral)); }
+		.c5 { background: linear-gradient(135deg, var(--coral), var(--rose)); }
+		.c6 { background: linear-gradient(135deg, #c43f22, var(--orange)); }
+
+		.artist-card-body { padding: 2rem; }
+		.card-name {
+			font-family: 'DM Serif Display', serif;
+			font-size: 1.5rem;
+			margin-bottom: 0.25rem;
+		}
+		.card-medium {
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			margin-bottom: 1rem;
+		}
+		.card-bio {
+			font-size: 0.75rem;
+			line-height: 1.8;
+			color: rgba(245,240,232,0.55);
+			margin-bottom: 1.5rem;
+		}
+		.card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+		.tag {
+			padding: 0.3rem 0.8rem;
+			border: 1px solid rgba(245,240,232,0.15);
+			font-size: 0.55rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			transition: all 0.2s;
+		}
+		.tag:hover { border-color: var(--coral); color: var(--coral); }
+
+		.card-link {
+			display: inline-block;
+			font-size: 0.6rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			color: var(--coral);
+			text-decoration: none;
+			border-bottom: 1px solid var(--coral);
+			padding-bottom: 2px;
+			transition: opacity 0.2s;
+		}
+		.card-link:hover { opacity: 0.6; }
+
+		/* FEATURED WORK */
+		.featured-section {
+			padding: 6rem 3rem;
+			border-top: 1px solid rgba(245,240,232,0.1);
+		}
+
+		.works-masonry {
+			columns: 3;
+			column-gap: 1rem;
+			margin-top: 4rem;
+		}
+
+		.work-item {
+			break-inside: avoid;
+			margin-bottom: 1rem;
+			position: relative;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		.work-item-bg {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: 5rem;
+			color: rgba(255,255,255,0.08);
+			transition: transform 0.5s ease;
+		}
+		.work-item:hover .work-item-bg { transform: scale(1.05); }
+
+		.w1 { height: 280px; background: linear-gradient(135deg, var(--coral), var(--rose)); }
+		.w2 { height: 200px; background: linear-gradient(160deg, var(--orange), var(--coral)); }
+		.w3 { height: 340px; background: linear-gradient(120deg, #8a2510, var(--coral)); }
+		.w4 { height: 220px; background: linear-gradient(135deg, var(--rose), var(--orange)); }
+		.w5 { height: 300px; background: linear-gradient(150deg, var(--coral), var(--orange)); }
+		.w6 { height: 180px; background: linear-gradient(135deg, var(--orange), var(--rose)); }
+		.w7 { height: 260px; background: linear-gradient(120deg, var(--coral), #8a2510); }
+		.w8 { height: 320px; background: linear-gradient(150deg, var(--rose), var(--coral)); }
+		.w9 { height: 200px; background: linear-gradient(135deg, #c43f22, var(--orange)); }
+
+		.work-overlay {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 1.5rem;
+			background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+		.work-item:hover .work-overlay { opacity: 1; }
+		.work-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 0.2rem; }
+		.work-artist { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
+
+		/* SUBMIT CTA */
+		.submit-cta {
+			margin: 6rem 3rem;
+			padding: 5rem;
+			background: var(--coral);
+			color: var(--ink);
+			display: grid;
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			gap: 4rem;
+		}
+
+		.cta-title {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(2.5rem, 5vw, 5rem);
+			line-height: 1;
+			margin-bottom: 1rem;
+		}
+		.cta-desc {
+			font-size: 0.82rem;
+			line-height: 1.8;
+			max-width: 45ch;
+			opacity: 0.75;
+		}
+
+		.btn-dark {
+			display: inline-block;
+			padding: 1.2rem 3rem;
+			background: var(--ink);
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			white-space: nowrap;
+			transition: all 0.2s;
+		}
+		.btn-dark:hover {
+			background: var(--cream);
+			color: var(--ink);
+			transform: translate(-3px,-3px);
+			box-shadow: 3px 3px 0 var(--ink);
+		}
+
+		/* FOOTER */
+		footer {
+			border-top: 1px solid rgba(245,240,232,0.1);
+			padding: 3rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; }
+		.footer-links { display: flex; gap: 2rem; list-style: none; }
+		.footer-links a {
+			color: var(--cream);
+			text-decoration: none;
+			font-size: 0.65rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+			opacity: 0.4;
+			transition: opacity 0.2s;
+		}
+		.footer-links a:hover { opacity: 1; }
+		.footer-copy { font-size: 0.65rem; opacity: 0.3; }
+
+		/* CURSOR */
+		.cursor {
+			position: fixed;
+			width: 12px; height: 12px;
+			background: var(--coral);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition: transform 0.1s, width 0.2s, height 0.2s;
+			mix-blend-mode: exclusion;
+		}
+		.cursor.expanded { width: 40px; height: 40px; }
+
+		/* REVEAL */
+		.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		@keyframes fadeUp {
+			from { opacity: 0; transform: translateY(30px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		@keyframes scaleIn {
+			from { opacity: 0; transform: scale(0.9); }
+			to { opacity: 1; transform: scale(1); }
+		}
+		@keyframes marquee {
+			from { transform: translateX(0); }
+			to { transform: translateX(-50%); }
+		}
+
+		@media (max-width: 900px) {
+			.discipline-hero { grid-template-columns: 1fr; }
+			.hero-right { min-height: 40vh; }
+			.hero-left { padding: 7rem 2rem 3rem; }
+			.artists-grid { grid-template-columns: 1fr 1fr; }
+			.works-masonry { columns: 2; }
+			.submit-cta { grid-template-columns: 1fr; gap: 2rem; }
+			nav { padding: 1.5rem 2rem; }
+			.nav-links { display: none; }
+			footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+		}
+	</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+	<a href="index.html" class="nav-logo">VIBRATIONS</a>
+	<ul class="nav-links">
+		<li><a href="index.html#artists">Artists</a></li>
+		<li><a href="index.html#gallery">Gallery</a></li>
+		<li><a href="index.html#disciplines">Disciplines</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+</nav>
+
+<!-- HERO -->
+<section class="discipline-hero">
+	<div class="hero-left">
+		<p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Fine Art</p>
+		<h1 class="hero-title">
+			FINE
+			<span class="accent">Art</span>
+		</h1>
+		<p class="hero-desc">
+			Where canvas meets concept. Our fine artists work across oil, acrylic, mixed media, and everything in between — producing work that challenges perception and endures.
+		</p>
+		<div class="hero-stats">
+			<div>
+				<div class="hero-stat-num">14</div>
+				<div class="hero-stat-label">Artists</div>
+			</div>
+			<div>
+				<div class="hero-stat-num">80+</div>
+				<div class="hero-stat-label">Works</div>
+			</div>
+			<div>
+				<div class="hero-stat-num">6</div>
+				<div class="hero-stat-label">Exhibitions</div>
+			</div>
+		</div>
+	</div>
+	<div class="hero-right">
+		<div class="hero-art-grid">
+			<div class="art-cell">✦</div>
+			<div class="art-cell">◈</div>
+			<div class="art-cell">◉</div>
+			<div class="art-cell">❋</div>
+			<div class="art-cell">◬</div>
+			<div class="art-cell">✧</div>
+		</div>
+	</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+	<div class="marquee-inner">
+		<span>Oil Painting</span><span class="dot">◆</span>
+		<span>Acrylic</span><span class="dot">◆</span>
+		<span>Mixed Media</span><span class="dot">◆</span>
+		<span>Collage</span><span class="dot">◆</span>
+		<span>Watercolor</span><span class="dot">◆</span>
+		<span>Encaustic</span><span class="dot">◆</span>
+		<span>Gouache</span><span class="dot">◆</span>
+		<span>Oil Painting</span><span class="dot">◆</span>
+		<span>Acrylic</span><span class="dot">◆</span>
+		<span>Mixed Media</span><span class="dot">◆</span>
+		<span>Collage</span><span class="dot">◆</span>
+		<span>Watercolor</span><span class="dot">◆</span>
+		<span>Encaustic</span><span class="dot">◆</span>
+		<span>Gouache</span><span class="dot">◆</span>
+	</div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar reveal">
+	<button class="filter-btn active">All</button>
+	<button class="filter-btn">Oil & Acrylic</button>
+	<button class="filter-btn">Watercolor</button>
+	<button class="filter-btn">Mixed Media</button>
+	<button class="filter-btn">Collage</button>
+	<button class="filter-btn">Abstract</button>
+	<button class="filter-btn">Figurative</button>
+</div>
+
+<!-- ARTISTS -->
+<section class="artists-section">
+	<div class="section-header reveal">
+		<div>
+			<p class="section-label">Meet the Artists</p>
+			<h2 class="section-title">FINE ART<br>COLLECTIVE</h2>
+		</div>
+	</div>
+
+	<div class="artists-grid reveal">
+		<div class="artist-card">
+			<div class="artist-card-img c1">M</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Oil Painter & Mixed Media</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags">
+					<span class="tag">Oil</span>
+					<span class="tag">Abstract</span>
+					<span class="tag">Large Scale</span>
+				</div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c2">R</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Watercolor & Gouache</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags">
+					<span class="tag">Watercolor</span>
+					<span class="tag">Figurative</span>
+					<span class="tag">Botanical</span>
+				</div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c3">T</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Collage & Mixed Media</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags">
+					<span class="tag">Collage</span>
+					<span class="tag">Found Objects</span>
+					<span class="tag">Assemblage</span>
+				</div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c4">A</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Acrylic Painter</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags">
+					<span class="tag">Acrylic</span>
+					<span class="tag">Color Field</span>
+					<span class="tag">Texture</span>
+				</div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c5">N</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Encaustic & Wax Work</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags">
+					<span class="tag">Encaustic</span>
+					<span class="tag">Layering</span>
+					<span class="tag">Experimental</span>
+				</div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+		<div class="artist-card">
+			<div class="artist-card-img c6">D</div>
+			<div class="artist-card-body">
+				<h3 class="card-name">PLACE NAME</h3>
+				<p class="card-medium">Portraitist & Oil Painter</p>
+				<p class="card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+				<div class="card-tags">
+					<span class="tag">Portrait</span>
+					<span class="tag">Oil</span>
+					<span class="tag">Realism</span>
+				</div>
+				<a href="#" class="card-link">View Portfolio →</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- FEATURED WORKS -->
+<section class="featured-section">
+	<div class="section-header reveal">
+		<div>
+			<p class="section-label">Selected Works</p>
+			<h2 class="section-title">THE<br>COLLECTION</h2>
+		</div>
+		<a href="#" style="display:inline-block;padding:0.85rem 2rem;border:1px solid var(--cream);color:var(--cream);text-decoration:none;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.2s;" onmouseover="this.style.background='var(--cream)';this.style.color='var(--ink)'" onmouseout="this.style.background='transparent';this.style.color='var(--cream)'">View All Works →</a>
+	</div>
+
+	<div class="works-masonry reveal">
+		<div class="work-item">
+			<div class="work-item-bg w1">◈</div>
+			<div class="work-overlay">
+				<div class="work-title">Untitled Study</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w2">✦</div>
+			<div class="work-overlay">
+				<div class="work-title">Composition No. 7</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w3">❋</div>
+			<div class="work-overlay">
+				<div class="work-title">Refraction</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w4">◉</div>
+			<div class="work-overlay">
+				<div class="work-title">The Weight of Red</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w5">◬</div>
+			<div class="work-overlay">
+				<div class="work-title">Burning Ground</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w6">✧</div>
+			<div class="work-overlay">
+				<div class="work-title">Soft Horizon</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w7">⬡</div>
+			<div class="work-overlay">
+				<div class="work-title">Vessel</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w8">◈</div>
+			<div class="work-overlay">
+				<div class="work-title">Interior Light</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+		<div class="work-item">
+			<div class="work-item-bg w9">◉</div>
+			<div class="work-overlay">
+				<div class="work-title">Field Study II</div>
+				<div class="work-artist">PLACE NAME</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- SUBMIT CTA -->
+<div class="submit-cta reveal">
+	<div>
+	</div>
+</div>
+
+<footer>
+	<div class="footer-logo">VIBRATIONS</div>
+	<ul class="footer-links">
+		<li><a href="index.html#artists">Artists</a></li>
+		<li><a href="index.html#gallery">Gallery</a></li>
+		<li><a href="index.html#disciplines">Disciplines</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+	<p class="footer-copy">© 2026 VIBRATIONS Collective. All rights reserved.</p>
+</footer>
+
+<script>
+	const cursor = document.getElementById('cursor');
+	document.addEventListener('mousemove', e => {
+		cursor.style.left = e.clientX + 'px';
+		cursor.style.top = e.clientY + 'px';
+	});
+	document.querySelectorAll('a, button, .artist-card, .work-item').forEach(el => {
+		el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+		el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+	});
+
+	const reveals = document.querySelectorAll('.reveal');
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+	}, { threshold: 0.1 });
+	reveals.forEach(el => observer.observe(el));
+
+	document.querySelectorAll('.filter-btn').forEach(btn => {
+		btn.addEventListener('click', () => {
+			document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+		});
+	});
+</script>
+</body>
+</html>
